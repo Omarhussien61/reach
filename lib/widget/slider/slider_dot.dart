@@ -3,7 +3,7 @@ import 'package:flutter_pos/model/product_model.dart';
 
 class SliderDot extends StatelessWidget {
   final int _current;
-  final List<Photo> images;
+  final List<PhotoProduct> images;
   SliderDot(this._current, this.images);
 
   @override

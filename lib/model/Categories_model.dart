@@ -1,4 +1,6 @@
-import 'package:flutter_pos/model/ads.dart';
+
+
+import 'package:flutter_pos/model/product_model.dart';
 
 class Categories_model {
   int statusCode;
@@ -41,7 +43,7 @@ class Categories_item {
   int count_cats;
   String catName;
   List<Categories_item> categories;
-  Photo photo;
+  PhotoProduct photo;
   bool Check=false;
   String createdAt;
 
@@ -70,7 +72,7 @@ class Categories_item {
         categories.add(new Categories_item.fromJson(v));
       });
     }
-    photo = json['photo'] != null ? new Photo.fromJson(json['photo']) : null;
+    photo = json['photo'] != null ? new PhotoProduct.fromJson(json['photo']) : null;
     createdAt = json['created_at'];
   }
 

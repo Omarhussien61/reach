@@ -49,7 +49,7 @@ class Ticket {
   String orderCreatedAt;
   String vendorEmail;
   String createdAt;
-  Photo attachment;
+  PhotoProduct attachment;
 
 
   Ticket({this.id, this.ticketNo, this.title, this.ticketpriorityId, this.priority, this.message, this.status, this.categoryId, this.categoryName, this.userId, this.userName, this.userEmail, this.userPhone, this.vendorId, this.vendorName, this.orderId, this.comments, this.Case, this.reply, this.orderNumber, this.orderCreatedAt, this.vendorEmail, this.createdAt});
@@ -85,7 +85,7 @@ orderNumber = json['order_number'];
 orderCreatedAt = json['order_created_at'];
 vendorEmail = json['vendor_email'];
 createdAt = json['created_at'];
-attachment = json['attachment'] != null?Photo.fromJson(json['attachment']):null;
+attachment = json['attachment'] != null?PhotoProduct.fromJson(json['attachment']):null;
 }
 
 Map<String, dynamic> toJson() {

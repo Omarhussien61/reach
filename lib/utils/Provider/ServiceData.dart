@@ -26,40 +26,49 @@ class Provider_Data with ChangeNotifier {
     });
   }
    getData(int cartypeId,BuildContext context) {
-    API(context, Check: false)
-        .get('ahmed/new/products?cartype_id=$cartypeId&per_page=6')
-        .then((value) {
-      if (value != null) {
-          product = Product_model.fromJson(value).data;
-      }
-    });
-    API(context)
-        .get('most/viewed/products?cartype_id=$cartypeId')
-        .then((value) {
-      print(value);
-      if (value != null) {
-        productMostView = ProductMostView.fromJson(value).data;
-      }
-    });
-    API(context)
-        .get('ahmed/best/seller/products?cartype_id=$cartypeId&per_page=6')
-        .then((value) {
-      if (value != null) {
-          productMostSale = Product_model.fromJson(value).data;
-      }
-    });
-    API(context).get('home/allcategories/navbars/$cartypeId').then((value) {
-      if (value != null) {
-        print(value);
-          Mostcategories = Categories_model.fromJson(value).data;
-      }
-    });
-    API(context).get('home/allcategories').then((value) {
-      if (value != null) {
-        categories = Categories_model.fromJson(value).data;
-      }
-    });
-    notifyListeners();
+     Mostcategories=[
+       Categories_item(name: "الادوية",photo: PhotoProduct(image:"https://taypharmacies.com/wp-content/uploads/2022/12/panadol-extra-400x400-1.png" )),
+       Categories_item(name: "الادوية",photo: PhotoProduct(image:"https://taypharmacies.com/wp-content/uploads/2023/01/panadol-400x400-1.png" )),
+       Categories_item(name: "العناية بالبشرة",photo: PhotoProduct(image:"https://taypharmacies.com/wp-content/uploads/2022/04/106467-1.png" )),
+     ];
+     product=[
+       Product(name: "سيرفيللو اوميجا  3 & فيتامين بي كومبلكس   ",price: "160 جنية",action_price: 149.0,avgValuations:4.5,photo: [PhotoProduct(image:"https://taypharmacies.com/wp-content/uploads/2022/10/Centrum-304512-1047x800.png" )])
+     ];
+     notifyListeners();
+    //
+    //  API(context, Check: false)
+    //     .get('ahmed/new/products?cartype_id=$cartypeId&per_page=6')
+    //     .then((value) {
+    //   if (value != null) {
+    //       product = Product_model.fromJson(value).data;
+    //   }
+    // });
+    // API(context)
+    //     .get('most/viewed/products?cartype_id=$cartypeId')
+    //     .then((value) {
+    //   print(value);
+    //   if (value != null) {
+    //     productMostView = ProductMostView.fromJson(value).data;
+    //   }
+    // });
+    // API(context)
+    //     .get('ahmed/best/seller/products?cartype_id=$cartypeId&per_page=6')
+    //     .then((value) {
+    //   if (value != null) {
+    //       productMostSale = Product_model.fromJson(value).data;
+    //   }
+    // });
+    // API(context).get('home/allcategories/navbars/$cartypeId').then((value) {
+    //   if (value != null) {
+    //     print(value);
+    //       Mostcategories = Categories_model.fromJson(value).data;
+    //   }
+    // });
+    // API(context).get('home/allcategories').then((value) {
+    //   if (value != null) {
+    //     categories = Categories_model.fromJson(value).data;
+    //   }
+    // });
   }
    getWishlist(BuildContext context) {
     API(context).get('user/get/wishlist').then((value) {

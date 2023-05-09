@@ -105,7 +105,8 @@ class _HomeState extends State<Home> {
       ads=Ads(carousel: [Carousel(adUrl: 'https://img.freepik.com/free-vector/cosmetics-beauty-product-bottles-advertising-banner_33099-1799.jpg')]);
     });
     _controller = PersistentTabController(initialIndex: 0);
-
+    Provider.of<Provider_Data>(context, listen: false)
+        .getData(1, context);
     API(context).get('car/types/list').then((value) {
       if (value != null) {
         setState(() {
@@ -130,9 +131,7 @@ class _HomeState extends State<Home> {
         });
       }
     });
-    Provider.of<Provider_Data>(context, listen: false)
-        .getData(cartypeId, context);
-    Provider.of<Provider_Data>(context, listen: false).getShipping(context);
+
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -146,66 +145,67 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: _scaffoldKey,
       // drawer: HiddenMenu(),
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        navBarHeight: 60,
-        margin: EdgeInsets.only(bottom: 10),
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        // Default is Colors.white.
-        handleAndroidBackButtonPress: true,
-        // Default is true.
-        resizeToAvoidBottomInset: true,
-        // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true,
-        // Default is true.
-        hideNavigationBarWhenKeyboardShows: true,
-        // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Colors.black12, width: 1),
-          colorBehindNavBar: Colors.white,
-        ),
-        popAllScreensOnTapOfSelectedTab: true,
-
-        selectedTabScreenContext: (v) {
-          if (_controller.index == 2) {
-            provider_Data.getCart(context);
-          }
-          // if (_controller.index == 0) {
-          //     _scrollController.animateTo(
-          //         _scrollController.position.minScrollExtent,
-          //         duration: const Duration(milliseconds: 400),
-          //         curve: Curves.fastOutSlowIn);
-          //          }
-        },
-        onItemSelected: (i) {
-          if (i == 0) {
-            _scrollController.animateTo(
-                _scrollController.position.minScrollExtent,
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.fastOutSlowIn);
-          }
-        },
-        popActionScreens: PopActionScreensType.once,
-        itemAnimationProperties: ItemAnimationProperties(
-          // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-
-        screenTransitionAnimation: ScreenTransitionAnimation(
-          // Screen transition animation on change of selected tab.
-          animateTabTransition: false,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle:
-            NavBarStyle.style6, // Choose the nav bar style with this property.
-      ),
+      body: HomePage()
+      // PersistentTabView(
+      //   context,
+      //   controller: _controller,
+      //   screens: _buildScreens(),
+      //   items: _navBarsItems(),
+      //   navBarHeight: 60,
+      //   margin: EdgeInsets.only(bottom: 10),
+      //   confineInSafeArea: true,
+      //   backgroundColor: Colors.white,
+      //   // Default is Colors.white.
+      //   handleAndroidBackButtonPress: true,
+      //   // Default is true.
+      //   resizeToAvoidBottomInset: true,
+      //   // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+      //   stateManagement: true,
+      //   // Default is true.
+      //   hideNavigationBarWhenKeyboardShows: true,
+      //   // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+      //   decoration: NavBarDecoration(
+      //     borderRadius: BorderRadius.circular(10.0),
+      //     border: Border.all(color: Colors.black12, width: 1),
+      //     colorBehindNavBar: Colors.white,
+      //   ),
+      //   popAllScreensOnTapOfSelectedTab: true,
+      //
+      //   selectedTabScreenContext: (v) {
+      //     if (_controller.index == 2) {
+      //       provider_Data.getCart(context);
+      //     }
+      //     // if (_controller.index == 0) {
+      //     //     _scrollController.animateTo(
+      //     //         _scrollController.position.minScrollExtent,
+      //     //         duration: const Duration(milliseconds: 400),
+      //     //         curve: Curves.fastOutSlowIn);
+      //     //          }
+      //   },
+      //   onItemSelected: (i) {
+      //     if (i == 0) {
+      //       _scrollController.animateTo(
+      //           _scrollController.position.minScrollExtent,
+      //           duration: const Duration(milliseconds: 400),
+      //           curve: Curves.fastOutSlowIn);
+      //     }
+      //   },
+      //   popActionScreens: PopActionScreensType.once,
+      //   itemAnimationProperties: ItemAnimationProperties(
+      //     // Navigation Bar's items animation properties.
+      //     duration: Duration(milliseconds: 200),
+      //     curve: Curves.ease,
+      //   ),
+      //
+      //   screenTransitionAnimation: ScreenTransitionAnimation(
+      //     // Screen transition animation on change of selected tab.
+      //     animateTabTransition: false,
+      //     curve: Curves.ease,
+      //     duration: Duration(milliseconds: 200),
+      //   ),
+      //   navBarStyle:
+      //       NavBarStyle.style6, // Choose the nav bar style with this property.
+      // ),
     );
   }
 
@@ -229,8 +229,8 @@ class _HomeState extends State<Home> {
                       margin: const EdgeInsets.only(left: 10, right: 10),
                       child: MyTextFormField(
                         hintText: 'ما الذي تبحث عنه ؟',
-                        suffixIcon: Icon(Icons.search),
-                        prefix: Icon(Icons.filter_list_outlined),
+                        prefix: Icon(Icons.search),
+                        suffixIcon: Icon(Icons.filter_list_outlined),
 
                         onChange: (value) {},
                       ),
@@ -247,18 +247,16 @@ class _HomeState extends State<Home> {
                             .toList(),
                         options: CarouselOptions(
                             height: ScreenUtil.getHeight(context) / 5,
-                            aspectRatio: 2.0,
+                            aspectRatio: 16/9,
                             viewportFraction: 0.8,
                             initialPage: 0,
                             enableInfiniteScroll: true,
                             reverse: false,
                             autoPlay: true,
                             autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                            Duration(milliseconds: 800),
+                            autoPlayAnimationDuration: Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
-                            //onPageChanged: callbackFunction,
                             scrollDirection: Axis.horizontal,
                             onPageChanged: (index, reason) {
                               setState(() {
@@ -270,95 +268,31 @@ class _HomeState extends State<Home> {
                     ads == null
                         ? Container()
                         : SliderDotAds(_carouselCurrentPage, ads.carousel),
-                    cartype == null
-                        ? Container()
-                        : ResponsiveGridList(
-                            desiredItemWidth:
-                                ScreenUtil.getWidth(context) / 2.4,
-                            minSpacing: 10,
-                            rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            scroll: false,
-                            children: cartype.map((e) {
-                              final selected =
-                                  checkboxType == cartype.indexOf(e);
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    checkboxType = cartype.indexOf(e);
-                                    provider_data.product = null;
-                                    provider_data.productMostView = null;
-                                    provider_data.productMostSale = null;
-                                    provider_data.Mostcategories = null;
-                                  });
-                                  themeColor.setCar_type(e.id);
-                                  themeColor.setCar_index(cartype.indexOf(e));
-                                  print(e.typeName);
-                                  getData(checkboxType == 0 ? 1 : 3);
-                                },
-                                child: Container(
-                                  height: ScreenUtil.getHeight(context) / 7,
-                                  // width: ScreenUtil.getWidth(context) / 2.5,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 3.0,
-                                        color: selected
-                                            ? Colors.orange
-                                            : Colors.black12),
-                                    image: DecorationImage(
-                                        image: CachedNetworkImageProvider(
-                                            "${e.image}"),
-                                        fit: BoxFit.cover),
-                                    borderRadius: themeColor.local == 'ar'
-                                        ? cartype.indexOf(e).isEven
-                                            ? BorderRadius.only(
-                                                topRight: Radius.circular(15.0),
-                                                bottomRight:
-                                                    Radius.circular(15.0))
-                                            : BorderRadius.only(
-                                                topLeft: Radius.circular(15.0),
-                                                bottomLeft:
-                                                    Radius.circular(15.0))
-                                        : cartype.indexOf(e).isEven
-                                            ? BorderRadius.only(
-                                                topLeft: Radius.circular(15.0),
-                                                bottomLeft:
-                                                    Radius.circular(15.0))
-                                            : BorderRadius.only(
-                                                topRight: Radius.circular(15.0),
-                                                bottomRight:
-                                                    Radius.circular(15.0)),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Card(
-                                      color: Colors.black12,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: AutoSizeText(
-                                            "${themeColor.getlocal() == 'ar' ? e.typeName : e.name_en}",
-                                            maxLines: 1,
-                                            maxFontSize: 18,
-                                            minFontSize: 10,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList()),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            "تسوق حسب الاقسام",
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            textDirection:
+                            TextDirection.ltr,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight:
+                                FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
                     provider_data.Mostcategories == null
                         ? Padding(
                             padding: const EdgeInsets.all(24.0),
                             child: Custom_Loading(),
                           )
                         : Container(child: list_category_navbar(themeColor)),
-
-                    SizedBox(
-                      height: 10,
-                    ),
-
                     SizedBox(
                       height: 20,
                     ),
@@ -373,18 +307,14 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  cartype == null
-                                      ? Container()
-                                      : cartype.isEmpty
-                                          ? Container()
-                                          : ProductListTitleBar(
+                                  ProductListTitleBar(
                                               themeColor: themeColor,
                                               title: getTransrlate(
                                                   context, 'offers'),
                                               description: getTransrlate(
                                                   context, 'showAll'),
                                               url:
-                                                  'ahmed/new/products?cartype_id=${cartype[checkboxType].id}&per_page=50',
+                                                  '',
                                             ),
                                   list_product(
                                       themeColor, provider_data.product),
@@ -513,10 +443,10 @@ class _HomeState extends State<Home> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black26),
-                                  color: Colors.white),
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: Colors.black12),
                               child: Padding(
-                                padding: const EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: CachedNetworkImage(
                                   height: ScreenUtil.getHeight(context) / 12,
                                   width: ScreenUtil.getWidth(context) / 3.2,
@@ -532,6 +462,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 10,),
                             AutoSizeText(
                               "${themeColor.getlocal() == 'ar' ? product.name ?? product.nameEn : product.nameEn ?? product.name}",
                               maxLines: 2,

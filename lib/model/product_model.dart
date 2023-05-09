@@ -77,7 +77,7 @@ class Product {
   int cartEnable;
   int wishlistEnable;
   List<Media> media;
-  List<Photo> photo;
+  List<PhotoProduct> photo;
   List<Categories_item> allcategory;
   String serialId;
   int approved;
@@ -90,7 +90,7 @@ class Product {
   int inWishlist;
   int inFavourites;
 
-  Product({this.id, this.name, this.description, this.discount, this.price, this.quantity, this.serialNumber, this.carMadeId, this.carMadeName, this.carModelName, this.cartypeId, this.cartypeName, this.yearFrom, this.yearTo, this.partCategoryId, this.partCategoryName, this.categoryId, this.categoryName, this.vendorId, this.vendorName, this.storeId, this.storeName, this.manufacturerId, this.prodcountryId, this.manufacturerName, this.transmissionId, this.transmissionName, this.producttypeId, this.producttypeName, this.origincountryName, this.noOfOrders, this.holesalePrice, this.countViews, this.avgValuations, this.cartEnable, this.wishlistEnable, this.media, this.photo, this.serialId, this.approved, this.productTags, this.productReviews, this.countProductReviews, this.countAvgValuations, this.timeCreated, this.inCart, this.inWishlist, this.inFavourites});
+  Product({this.id, this.name, this.description, this.discount, this.price, this.quantity, this.serialNumber, this.carMadeId, this.carMadeName, this.carModelName, this.cartypeId, this.cartypeName, this.yearFrom, this.yearTo, this.partCategoryId, this.partCategoryName, this.categoryId, this.categoryName, this.vendorId, this.vendorName, this.storeId, this.storeName, this.manufacturerId, this.prodcountryId, this.manufacturerName, this.transmissionId, this.transmissionName, this.producttypeId, this.producttypeName, this.origincountryName, this.noOfOrders, this.holesalePrice, this.countViews, this.avgValuations, this.cartEnable, this.wishlistEnable, this.media, this.photo, this.serialId, this.approved, this.productTags, this.productReviews, this.countProductReviews, this.countAvgValuations, this.timeCreated, this.inCart, this.inWishlist, this.inFavourites, this.action_price});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -146,8 +146,8 @@ class Product {
       json['media'].forEach((v) { media.add(new Media.fromJson(v)); });
     }
     if (json['photo'] != null) {
-      photo = new List<Photo>();
-      json['photo'].forEach((v) { photo.add(new Photo.fromJson(v)); });
+      photo = new List<PhotoProduct>();
+      json['photo'].forEach((v) { photo.add(new PhotoProduct.fromJson(v)); });
     }
     serialId = json['serial_id'];
     approved = json['approved'];
@@ -370,7 +370,7 @@ class YearFrom {
 }
 
 
-class Photo {
+class PhotoProduct {
   int id;
   String modelType;
   int modelId;
@@ -394,9 +394,9 @@ class Photo {
   String thumbnail;
   String preview;
 
-  Photo({this.id, this.modelType, this.modelId, this.uuid, this.collectionName, this.name, this.fileName, this.mimeType, this.disk, this.conversionsDisk, this.size, this.manipulations, this.customProperties, this.responsiveImages, this.orderColumn, this.createdAt, this.updatedAt, this.image, this.url, this.fullurl, this.thumbnail, this.preview});
+  PhotoProduct({this.id, this.modelType, this.modelId, this.uuid, this.collectionName, this.name, this.fileName, this.mimeType, this.disk, this.conversionsDisk, this.size, this.manipulations, this.customProperties, this.responsiveImages, this.orderColumn, this.createdAt, this.updatedAt, this.image, this.url, this.fullurl, this.thumbnail, this.preview});
 
-  Photo.fromJson(Map<String, dynamic> json) {
+  PhotoProduct.fromJson(Map<String, dynamic> json) {
     modelType = json['model_type'];
     modelId = json['model_id'];
     uuid = json['uuid'];
@@ -670,7 +670,7 @@ class Data {
   int cartEnable;
   int wishlistEnable;
   List<Media> media;
-  List<Photo> photo;
+  List<PhotoProduct> photo;
   String serialId;
   int approved;
   List<ProductTags> productTags;
@@ -729,8 +729,8 @@ class Data {
       json['media'].forEach((v) { media.add(new Media.fromJson(v)); });
     }
     if (json['photo'] != null) {
-      photo = new List<Photo>();
-      json['photo'].forEach((v) { photo.add(new Photo.fromJson(v)); });
+      photo = new List<PhotoProduct>();
+      json['photo'].forEach((v) { photo.add(new PhotoProduct.fromJson(v)); });
     }
     serialId = json['serial_id'];
     approved = json['approved'];

@@ -23,7 +23,7 @@ class Banner_item extends StatelessWidget {
         width: ScreenUtil.getWidth(context)/1,
 
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: CachedNetworkImage(
             imageUrl: item,
             fit: BoxFit.contain,

@@ -8,7 +8,7 @@ import 'package:flutter_pos/widget/slider/slider_dot.dart';
 
 class Photo_Slider extends StatefulWidget {
    Photo_Slider({Key key,this.title,this.photos,}) : super(key: key);
-  List<Photo> photos;
+  List<PhotoProduct> photos;
   String title;
   @override
   _Photo_SliderState createState() => _Photo_SliderState();

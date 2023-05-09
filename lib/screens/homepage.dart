@@ -17,9 +17,11 @@ import 'package:flutter_pos/utils/Provider/provider.dart';
 import 'package:flutter_pos/utils/navigator.dart';
 import 'package:flutter_pos/utils/screen_size.dart';
 import 'package:flutter_pos/service/api.dart';
+import 'package:flutter_pos/widget/SearchOverlay.dart';
 import 'package:flutter_pos/widget/app_bar_custom.dart';
 import 'package:flutter_pos/widget/category/category_card.dart';
 import 'package:flutter_pos/widget/custom_loading.dart';
+import 'package:flutter_pos/widget/custom_textfield.dart';
 import 'package:flutter_pos/widget/product/product_card.dart';
 import 'package:flutter_pos/widget/product/product_list_titlebar.dart';
 import 'package:flutter_pos/widget/slider/Banner.dart';
@@ -44,8 +46,7 @@ class _HomeState extends State<Home> {
   PersistentTabController _controller;
   final navigatorKey = GlobalKey<NavigatorState>();
   List<Widget> _buildScreens() {
-    return [HomePage(), CategoryScreen(), CartScreen() ,Account()];
-
+    return [HomePage(), CategoryScreen(), CartScreen(), Account()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -67,8 +68,7 @@ class _HomeState extends State<Home> {
       PersistentBottomNavBarItem(
         icon: Stack(
           children: [
-            Center(child:
-            Icon(CupertinoIcons.cart)),
+            Center(child: Icon(CupertinoIcons.cart)),
             Center(
                 child: Text(
               data.cart_model != null
@@ -101,6 +101,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    setState(() {
+      ads=Ads(carousel: [Carousel(adUrl: 'https://img.freepik.com/free-vector/cosmetics-beauty-product-bottles-advertising-banner_33099-1799.jpg')]);
+    });
     _controller = PersistentTabController(initialIndex: 0);
 
     API(context).get('car/types/list').then((value) {
@@ -118,16 +121,18 @@ class _HomeState extends State<Home> {
   }
 
   getData(int cartypeId) {
-    API(context).get('site/ads/show/filter?cartype_id=$cartypeId&platform=mobile').then((value) {
-    if (value != null) {
-      setState(() {
-        ads = Ads.fromJson(value['data']);
-      });
-    }
-  });
-    Provider.of<Provider_Data>(context,listen: false).getData(cartypeId,context);
-    Provider.of<Provider_Data>(context,listen: false).getShipping(context);
-
+    API(context)
+        .get('site/ads/show/filter?cartype_id=$cartypeId&platform=mobile')
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          ads = Ads.fromJson(value['data']);
+        });
+      }
+    });
+    Provider.of<Provider_Data>(context, listen: false)
+        .getData(cartypeId, context);
+    Provider.of<Provider_Data>(context, listen: false).getShipping(context);
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -167,7 +172,6 @@ class _HomeState extends State<Home> {
         popAllScreensOnTapOfSelectedTab: true,
 
         selectedTabScreenContext: (v) {
-
           if (_controller.index == 2) {
             provider_Data.getCart(context);
           }
@@ -178,13 +182,14 @@ class _HomeState extends State<Home> {
           //         curve: Curves.fastOutSlowIn);
           //          }
         },
-        onItemSelected: (i){
+        onItemSelected: (i) {
           if (i == 0) {
             _scrollController.animateTo(
                 _scrollController.position.minScrollExtent,
                 duration: const Duration(milliseconds: 400),
                 curve: Curves.fastOutSlowIn);
-          }        },
+          }
+        },
         popActionScreens: PopActionScreensType.once,
         itemAnimationProperties: ItemAnimationProperties(
           // Navigation Bar's items animation properties.
@@ -213,218 +218,23 @@ class _HomeState extends State<Home> {
       child: Column(
         children: [
           AppBarCustom(),
-          // 1 = approved
-          // 2 = rejected
-          // 3 = declined
-          // 4 = pending
-          themeColor.Complete == 1
-              ?  Container()
-              : themeColor.Complete == 2
-              ? Padding(
-            padding: const EdgeInsets.only(top: 22,bottom: 10, right: 10, left: 10),
-            child: InkWell(
-              onTap: () {
-                Nav.route(context, VendorInfo());
-              },
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    "assets/icons/Attention.svg",
-                    color: Colors.orange,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(width: ScreenUtil.getWidth(context)/1.2,
-                    child: Text(
-                      '${getTransrlate(context, 'invalidvendor')}',
-                      style: TextStyle(color: Colors.orange),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ):themeColor.Complete == 3?Center(
-            child: Container(
-              width: ScreenUtil.getWidth(context) / 1.2,
-              child:  Row(
-                crossAxisAlignment:
-                CrossAxisAlignment.center,
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.remove_circle_outline,
-                    color: Colors.red,
-                    size: 35,
-                  ),
-                  SizedBox(width: 10),
-                  SizedBox(
-                    width:
-                    ScreenUtil.getWidth(context) /
-                        1.5,
-                    child: Text(
-                      '${getTransrlate(context, 'rejectvendor')}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20),
-                    ),
-                  ),
-                ],
-              ),
-
-            ),
-          ):themeColor.Complete == 4?Padding(
-                  padding: const EdgeInsets.only(top: 22,bottom: 10, right: 10, left: 10),
-                  child: InkWell(
-                    onTap: () {
-                      Nav.route(context, VendorInfo());
-                    },
-                    child: Row(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.center,
-                      mainAxisAlignment:
-                      MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: Colors.blue,
-                          size: 30,
-                        ),
-                        SizedBox(width: 10),
-                        SizedBox(
-                          width:
-                          ScreenUtil.getWidth(context) /
-                              1.5,
-                          child: Text(
-                            '${getTransrlate(context, 'incompletvendor')}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ) : Container(),
           Expanded(
-            child: RefreshIndicator(color: themeColor.getColor(),
+            child: RefreshIndicator(
+              color: themeColor.getColor(),
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        "منتجات خاصة بـ ",
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        textDirection:
-                        TextDirection.ltr,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight:
-                            FontWeight.w500,
-                            color: Colors.black),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10, right: 10),
+                      child: MyTextFormField(
+                        hintText: 'ما الذي تبحث عنه ؟',
+                        suffixIcon: Icon(Icons.search),
+                        prefix: Icon(Icons.filter_list_outlined),
+
+                        onChange: (value) {},
                       ),
                     ),
-                    cartype == null
-                        ? Container()
-                        : ResponsiveGridList(
-                            desiredItemWidth: ScreenUtil.getWidth(context)/2.4,
-                            minSpacing: 10,
-                            rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            scroll: false,
-                            children: cartype
-                                .map((e) {
-                              final selected=checkboxType==cartype.indexOf(e);
-                             return InkWell(
-                               onTap: () {
-                                 setState(() {
-                                   checkboxType = cartype.indexOf(e);
-                                   provider_data.product = null;
-                                   provider_data.productMostView = null;
-                                   provider_data.productMostSale = null;
-                                   provider_data.Mostcategories = null;
-                                 });
-                                 themeColor.setCar_type(e.id);
-                                 themeColor.setCar_index(cartype.indexOf(e));
-                                 print(e.typeName);
-                                 getData(checkboxType==0?1:3);
-                               },
-                               child: Container(
-                                 height:
-                                 ScreenUtil.getHeight(context) /
-                                     7,
-                                // width: ScreenUtil.getWidth(context) / 2.5,
-                                 decoration: BoxDecoration(
-                                   border: Border.all(
-                                       width: 3.0,
-                                       color: selected
-                                           ? Colors.orange
-                                           : Colors.black12),
-                                   image: DecorationImage(
-                                       image: CachedNetworkImageProvider(
-                                           "${e.image}"),
-                                       fit: BoxFit.cover),
-                                   borderRadius: themeColor.local ==
-                                       'ar'
-                                       ? cartype.indexOf(e).isEven
-                                       ? BorderRadius.only(
-                                       topRight: Radius.circular(
-                                           15.0),
-                                       bottomRight:
-                                       Radius.circular(
-                                           15.0))
-                                       : BorderRadius.only(
-                                       topLeft: Radius.circular(
-                                           15.0),
-                                       bottomLeft:
-                                       Radius.circular(
-                                           15.0))
-                                       : cartype.indexOf(e).isEven
-                                       ? BorderRadius.only(
-                                       topLeft: Radius.circular(
-                                           15.0),
-                                       bottomLeft:
-                                       Radius.circular(
-                                           15.0))
-                                       : BorderRadius.only(
-                                       topRight:
-                                       Radius.circular(15.0),
-                                       bottomRight: Radius.circular(15.0)),
-                                 ),
-                                 child: Align(
-                                   alignment: Alignment.bottomCenter,
-                                   child: Card(
-                                     color: Colors.black12,
-                                     child: Padding(
-                                       padding:
-                                       const EdgeInsets.all(4.0),
-                                       child: AutoSizeText(
-                                           "${themeColor.getlocal()=='ar'? e.typeName:e.name_en}",
-                                           maxLines: 1,
-                                           maxFontSize: 18,
-                                           minFontSize: 10,
-                                           style: TextStyle(
-                                               color: Colors.white,
-                                               fontWeight:
-                                               FontWeight.bold)),
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                             );
-                            })
-                                .toList()),
-                    provider_data.Mostcategories == null
-                        ?  Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Custom_Loading(),
-                    )
-                        : Container(child: list_category_navbar(themeColor)),
                     ads == null
                         ? Container()
                         : Padding(
@@ -432,12 +242,12 @@ class _HomeState extends State<Home> {
                       child: CarouselSlider(
                         items: ads.carousel
                             .map((item) => Banner_item(
-                          item: item.photo.image,
+                          item: item.adUrl,
                         ))
                             .toList(),
                         options: CarouselOptions(
                             height: ScreenUtil.getHeight(context) / 5,
-                            aspectRatio: 16 / 9,
+                            aspectRatio: 2.0,
                             viewportFraction: 0.8,
                             initialPage: 0,
                             enableInfiniteScroll: true,
@@ -457,18 +267,103 @@ class _HomeState extends State<Home> {
                             }),
                       ),
                     ),
+                    ads == null
+                        ? Container()
+                        : SliderDotAds(_carouselCurrentPage, ads.carousel),
+                    cartype == null
+                        ? Container()
+                        : ResponsiveGridList(
+                            desiredItemWidth:
+                                ScreenUtil.getWidth(context) / 2.4,
+                            minSpacing: 10,
+                            rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            scroll: false,
+                            children: cartype.map((e) {
+                              final selected =
+                                  checkboxType == cartype.indexOf(e);
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    checkboxType = cartype.indexOf(e);
+                                    provider_data.product = null;
+                                    provider_data.productMostView = null;
+                                    provider_data.productMostSale = null;
+                                    provider_data.Mostcategories = null;
+                                  });
+                                  themeColor.setCar_type(e.id);
+                                  themeColor.setCar_index(cartype.indexOf(e));
+                                  print(e.typeName);
+                                  getData(checkboxType == 0 ? 1 : 3);
+                                },
+                                child: Container(
+                                  height: ScreenUtil.getHeight(context) / 7,
+                                  // width: ScreenUtil.getWidth(context) / 2.5,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 3.0,
+                                        color: selected
+                                            ? Colors.orange
+                                            : Colors.black12),
+                                    image: DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                            "${e.image}"),
+                                        fit: BoxFit.cover),
+                                    borderRadius: themeColor.local == 'ar'
+                                        ? cartype.indexOf(e).isEven
+                                            ? BorderRadius.only(
+                                                topRight: Radius.circular(15.0),
+                                                bottomRight:
+                                                    Radius.circular(15.0))
+                                            : BorderRadius.only(
+                                                topLeft: Radius.circular(15.0),
+                                                bottomLeft:
+                                                    Radius.circular(15.0))
+                                        : cartype.indexOf(e).isEven
+                                            ? BorderRadius.only(
+                                                topLeft: Radius.circular(15.0),
+                                                bottomLeft:
+                                                    Radius.circular(15.0))
+                                            : BorderRadius.only(
+                                                topRight: Radius.circular(15.0),
+                                                bottomRight:
+                                                    Radius.circular(15.0)),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Card(
+                                      color: Colors.black12,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: AutoSizeText(
+                                            "${themeColor.getlocal() == 'ar' ? e.typeName : e.name_en}",
+                                            maxLines: 1,
+                                            maxFontSize: 18,
+                                            minFontSize: 10,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList()),
+                    provider_data.Mostcategories == null
+                        ? Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Custom_Loading(),
+                          )
+                        : Container(child: list_category_navbar(themeColor)),
+
                     SizedBox(
                       height: 10,
                     ),
-                    ads == null
-                        ? Container()
-                        : SliderDotAds(
-                        _carouselCurrentPage, ads.carousel),
+
                     SizedBox(
                       height: 20,
                     ),
-              provider_data.productMostView == null
-                        ?Container()
+                    provider_data.productMostView == null
+                        ? Container()
                         : Container(child: list_category(themeColor)),
                     provider_data.product == null
                         ? Container()
@@ -478,53 +373,50 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  cartype==null?Container(): cartype.isEmpty?Container(): ProductListTitleBar(
-                                    themeColor: themeColor,
-                                    title: getTransrlate(context, 'offers'),
-                                    description: getTransrlate(context, 'showAll'),
-                                    url:
-                                        'ahmed/new/products?cartype_id=${cartype[checkboxType].id}&per_page=50',
-                                  ),
-                                  list_product(themeColor, provider_data.product),
+                                  cartype == null
+                                      ? Container()
+                                      : cartype.isEmpty
+                                          ? Container()
+                                          : ProductListTitleBar(
+                                              themeColor: themeColor,
+                                              title: getTransrlate(
+                                                  context, 'offers'),
+                                              description: getTransrlate(
+                                                  context, 'showAll'),
+                                              url:
+                                                  'ahmed/new/products?cartype_id=${cartype[checkboxType].id}&per_page=50',
+                                            ),
+                                  list_product(
+                                      themeColor, provider_data.product),
                                 ],
                               ),
-                    ads == null
-                        ? Container()
-                        : ListView.builder(
-                      primary: false,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(1),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: ads.bottom.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Banner_item(item: ads.bottom[index].photo.image),
-                        );
-                      },
-                    ),
+
                     provider_data.productMostSale == null
                         ? Container()
                         : provider_data.productMostSale.isEmpty
                             ? Container()
-                            :cartype==null
-                            ? Container()
-                            :cartype.isEmpty
-                            ? Container()
-                            : Column(
-                                children: [
-                                  ProductListTitleBar(
-                                    themeColor: themeColor,
-                                    title: getTransrlate(context, 'moresale'),
-                                    description: getTransrlate(context, 'showAll'),
-                                    url: 'ahmed/best/seller/products?cartype_id=${cartype[checkboxType].id}&per_page=50',
-                                  ),
-                                  list_product(themeColor,provider_data.productMostSale),
-                                  SizedBox(
-                                    height: 10,
-                                  )
-                                ],
-                              ),
+                            : cartype == null
+                                ? Container()
+                                : cartype.isEmpty
+                                    ? Container()
+                                    : Column(
+                                        children: [
+                                          ProductListTitleBar(
+                                            themeColor: themeColor,
+                                            title: getTransrlate(
+                                                context, 'moresale'),
+                                            description: getTransrlate(
+                                                context, 'showAll'),
+                                            url:
+                                                'ahmed/best/seller/products?cartype_id=${cartype[checkboxType].id}&per_page=50',
+                                          ),
+                                          list_product(themeColor,
+                                              provider_data.productMostSale),
+                                          SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      ),
                     SizedBox(
                       height: 10,
                     )
@@ -532,17 +424,17 @@ class _HomeState extends State<Home> {
                 ),
               ),
               onRefresh: _refreshLocalGallery,
-
             ),
           ),
         ],
       ),
     );
   }
-  Future<Null> _refreshLocalGallery() async{
-    getData(checkboxType==0?1:3);
 
+  Future<Null> _refreshLocalGallery() async {
+    getData(checkboxType == 0 ? 1 : 3);
   }
+
   Widget list_category(
     Provider_control themeColor,
   ) {
@@ -551,16 +443,15 @@ class _HomeState extends State<Home> {
     return provider_data.productMostView.isEmpty
         ? Container()
         : Column(
-          children: [
-            Text(
-                "${getTransrlate(context, 'DescOpportunities')}",
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                )),
-            Center(
+            children: [
+              Text("${getTransrlate(context, 'DescOpportunities')}",
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Center(
                 child: ResponsiveGridList(
                   scroll: false,
                   desiredItemWidth: 100,
@@ -577,9 +468,10 @@ class _HomeState extends State<Home> {
                       .toList(),
                 ),
               ),
-          ],
-        );
+            ],
+          );
   }
+
   Widget list_category_navbar(
     Provider_control themeColor,
   ) {
@@ -593,89 +485,91 @@ class _HomeState extends State<Home> {
               desiredItemWidth: 100,
               rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
               minSpacing: 10,
-              children: provider_data.Mostcategories
-                  .map((product) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Container(
-                          margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 2),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Nav.route(
-                                  context,
-                                  Products_Page(
-                                    id: product.id,
-                                    name: "${ themeColor.getlocal()=='ar'? product.name??product.nameEn :product.nameEn??product.name}",
-                                    Url: 'ahmed/allcategories/products/${product.id}?cartype_id=${themeColor.car_type}',
-                                    Istryers: product.id==1711||product.id==682,
-                                    Category: true,
-                                    Category_id: product.id,
-                                  ));
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black26),
-                                      color: Colors.white),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CachedNetworkImage(
-                                      height: ScreenUtil.getHeight(context) / 12,
-                                      width: ScreenUtil.getWidth(context) / 3.2,
-                                      imageUrl: (product.photo == null)
-                                          ? 'http://arabimagefoundation.com/images/defaultImage.png'
-                                          : product.photo.image,
-                                      errorWidget: (context, url, error) => Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Image.asset(
-                                          'assets/images/alt_img_category.png',
-                                        ),
-                                      ),
+              children: provider_data.Mostcategories.map((product) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Container(
+                      margin:
+                          EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Nav.route(
+                              context,
+                              Products_Page(
+                                id: product.id,
+                                name:
+                                    "${themeColor.getlocal() == 'ar' ? product.name ?? product.nameEn : product.nameEn ?? product.name}",
+                                Url:
+                                    'ahmed/allcategories/products/${product.id}?cartype_id=${themeColor.car_type}',
+                                Istryers:
+                                    product.id == 1711 || product.id == 682,
+                                Category: true,
+                                Category_id: product.id,
+                              ));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black26),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: CachedNetworkImage(
+                                  height: ScreenUtil.getHeight(context) / 12,
+                                  width: ScreenUtil.getWidth(context) / 3.2,
+                                  imageUrl: (product.photo == null)
+                                      ? 'http://arabimagefoundation.com/images/defaultImage.png'
+                                      : product.photo.image,
+                                  errorWidget: (context, url, error) => Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Image.asset(
+                                      'assets/images/alt_img_category.png',
                                     ),
                                   ),
                                 ),
-                                AutoSizeText(
-                                  "${ themeColor.getlocal()=='ar'? product.name??product.nameEn :product.nameEn??product.name}",
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-                          ),
+                            AutoSizeText(
+                              "${themeColor.getlocal() == 'ar' ? product.name ?? product.nameEn : product.nameEn ?? product.name}",
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )
+                          ],
                         ),
-                      ))
-                  .toList(),
+                      ),
+                    ),
+                  )).toList(),
             ),
           );
   }
-  Widget list_product(Provider_control themeColor,
-      List<Product> product) {
+
+  Widget list_product(Provider_control themeColor, List<Product> product) {
     return product.isEmpty
         ? Container()
         : ResponsiveGridList(
-      scroll: false,
-
-      desiredItemWidth: 150,
-      minSpacing: 10,
-
-      children: product.map((e) => Center(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 8, bottom: 8),
-          child: ProductCard(
-            themeColor: themeColor,
-            product:e,
-          ),
-        ),
-      )).toList(),
+            scroll: false,
+            desiredItemWidth: 150,
+            minSpacing: 10,
+            children: product
+                .map((e) => Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8, bottom: 8),
+                        child: ProductCard(
+                          themeColor: themeColor,
+                          product: e,
+                        ),
+                      ),
+                    ))
+                .toList(),
           );
   }
 }

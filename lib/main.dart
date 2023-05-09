@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    getIntial();
+  //  getIntial();
     _locale=Provider.of<Provider_control>(context, listen: false).local==null?null: Locale(Provider.of<Provider_control>(context, listen: false).local, "");
     super.initState();
   }

@@ -180,11 +180,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          FlatButton(
-            minWidth: ScreenUtil.getWidth(context),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(1.0),
-                side: BorderSide(color: Colors.black26)),
+          TextButton(
+            style:getStyleButton( Colors.orange),
+
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(

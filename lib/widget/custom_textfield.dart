@@ -70,7 +70,7 @@ class MyTextFormField extends StatelessWidget {
             decoration: InputDecoration(
               fillColor: Colors.white,
               prefixIcon: prefix,
-            //  hintText: hintText,
+              hintText: hintText,
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(1.0),

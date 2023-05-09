@@ -69,23 +69,66 @@ class _RegisterFormState extends State<RegisterForm> {
                   },
                 ),
                 MyTextFormField(
-                  labelText: getTransrlate(context, 'Email'),
-                  hintText: getTransrlate(context, 'Email'),
-                  isEmail: true,
+                  labelText: getTransrlate(context, 'City'),
+                  hintText: getTransrlate(context, 'City'),
                   validator: (String value) {
                     if (value.isEmpty) {
                       return getTransrlate(context, 'requiredempty');
-                    } else if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
-                        .hasMatch(value)) {
-                      return getTransrlate(context, 'invalidemail');
+                    } else if (value.length <= 2) {
+                      return "${getTransrlate(context, 'requiredlength')}";
                     }
-                    _formKey.currentState.save();
                     return null;
                   },
                   onSaved: (String value) {
-                    model.email = value;
+                    model.Name = value;
                   },
                 ),
+                MyTextFormField(
+                  labelText: getTransrlate(context, 'district'),
+                  hintText: getTransrlate(context, 'district'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return getTransrlate(context, 'requiredempty');
+                    } else if (value.length <= 2) {
+                      return "${getTransrlate(context, 'requiredlength')}";
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    model.Name = value;
+                  },
+                ),
+                MyTextFormField(
+                  labelText: getTransrlate(context, 'Addres'),
+                  hintText: getTransrlate(context, 'Addres'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return getTransrlate(context, 'requiredempty');
+                    } else if (value.length <= 2) {
+                      return "${getTransrlate(context, 'requiredlength')}";
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    model.Name = value;
+                  },
+                ),
+                MyTextFormField(
+                  labelText: getTransrlate(context, 'phone'),
+                  hintText: getTransrlate(context, 'phone'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return getTransrlate(context, 'requiredempty');
+                    } else if (value.length <= 2) {
+                      return "${getTransrlate(context, 'requiredlength')}";
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    model.Name = value;
+                  },
+                ),
+
                 MyTextFormField(
                   labelText: getTransrlate(context, 'password'),
                   hintText: getTransrlate(context, 'password'),
@@ -156,11 +199,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   height: 40,
                   width: ScreenUtil.getWidth(context),
                   margin: EdgeInsets.only(top: 12, bottom: 0),
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(1.0),
-                    ),
-                    color: Colors.orange,
+                  child: TextButton(
+                    style:getStyleButton( Colors.orange),
+
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();

@@ -1656,12 +1656,10 @@ class _VendorInfoState extends State<VendorInfo> {
                                     ),
                                     Center(
                                       child: loading
-                                          ? FlatButton(
-                                              minWidth:
-                                                  ScreenUtil.getWidth(context) /
-                                                      2.5,
-                                              color: Colors.orange,
-                                              child: Padding(
+                                          ? TextButton(
+                                        style:getStyleButton( Colors.orange),
+
+                                        child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Container(

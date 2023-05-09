@@ -35,8 +35,6 @@ dependencies:
   plugin_platform_interface: ^2.0.0
   share: ^2.0.4
   jiffy: ^4.1.0
-  sentry_flutter: ^5.1.0
-  sentry: ^5.1.0
   file_picker: ^3.0.3
   device_preview: ^0.7.3
   onesignal_flutter: ^3.2.3

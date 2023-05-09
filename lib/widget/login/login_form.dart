@@ -113,11 +113,8 @@ class _LoginFormState extends State<LoginForm> {
                     height: 42,
                     width: ScreenUtil.getWidth(context),
                     margin: EdgeInsets.only(top: 25, bottom: 12),
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(1.0),
-                      ),
-                      color: Colors.orange,
+                    child: OutlinedButton(
+                      style:getStyleButton( Colors.orange),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();

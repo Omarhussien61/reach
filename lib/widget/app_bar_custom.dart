@@ -27,9 +27,10 @@ class _AppBarCustomState extends State<AppBarCustom> {
   Widget build(BuildContext context) {
     final themeColor = Provider.of<Provider_control>(context);
     return Container(
-      height: ScreenUtil.getHeight(context) / 7,
-      color: themeColor.getColor(),
-      padding: const EdgeInsets.only(top: 35),
+
+      height: ScreenUtil.getHeight(context) / 12,
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(9)),
+      margin: const EdgeInsets.only(top: 50,left: 10,right: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,6 +45,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
             ),
             color: Color(0xffE4E4E4),
           ),
+          SizedBox(width: 20,),
           widget.title!=null?
           Container(
            width: ScreenUtil.getWidth(context) / 4,
@@ -68,38 +70,26 @@ class _AppBarCustomState extends State<AppBarCustom> {
               ),
             ),
           ),
-          InkWell(
-            onTap: () {
-              Nav.route(context, MyCars(themeColor.getcar_index()));
+          Expanded(child: SizedBox(height: 10,)),
+          IconButton(
+            onPressed: () {
+              showDialog(context: context, builder: (_) => SearchOverlay());
             },
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(CupertinoIcons.car_detailed,color: Colors.white,),
-                  SizedBox(
-                    width:5 ,
-                  ),
-                  Text(
-                    "${themeColor.car_model.isEmpty?themeColor.getlocal() == 'ar' ?'إختر المركبة':'Select Car':themeColor.getCar_made()}",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
+            icon: Icon(
+              Icons.account_circle,
+              size: 40,
             ),
+            color: Colors.grey,
           ),
           IconButton(
             onPressed: () {
               showDialog(context: context, builder: (_) => SearchOverlay());
             },
             icon: Icon(
-              Icons.search,
-              size: 30,
+              Icons.shopping_cart,
+              size: 40,
             ),
-            color: Color(0xffE4E4E4),
+            color: Colors.grey,
           ),
         ],
       ),

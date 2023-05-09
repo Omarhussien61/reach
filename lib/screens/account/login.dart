@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_pos/screens/account/register_page.dart';
+import 'package:flutter_pos/screens/account/signUP_page.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
 import 'package:flutter_pos/utils/local/LanguageTranslated.dart';
 import 'package:flutter_pos/utils/navigator.dart';
@@ -20,32 +21,22 @@ class _LoginPageState extends State<LoginPage> {
     final themeColor = Provider.of<Provider_control>(context);
 
     return Scaffold(
-
-        appBar: AppBar(
-          title: InkWell(
-            onTap: (){
-              Phoenix.rebirth(context);
-            },
-            child: Image.asset(
-              'assets/images/logo.png',
-              height: ScreenUtil.getHeight(context) / 10,
-              width: ScreenUtil.getWidth(context) / 4,
-              fit: BoxFit.contain,
-              //color: themeColor.getColor(),
-            ),
-          ) ,
-          leading: Container(),
-        ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  height: ScreenUtil.getHeight(context)/2.5,
+                  child: Image.asset(
+                    'assets/images/remedy.png',
+                  ),
+                ),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical : 30,horizontal: 30),
+                    padding: const EdgeInsets.symmetric(vertical : 2,horizontal: 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,39 +58,40 @@ class _LoginPageState extends State<LoginPage> {
   }
   Widget routeLoginWidget(Provider_control themeColor, BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(right: 20, left: 20, bottom: 12),
+      padding: EdgeInsets.only(right: 20, left: 20, bottom: 2),
       child: Column(
         children: <Widget>[
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical : 25),
+              padding: const EdgeInsets.symmetric(vertical : 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(height: 1,width: ScreenUtil.getWidth(context)/4,color: Colors.black12,),
-                  Container(child: Text(getTransrlate(context, 'RegisterNew'),style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),)),
+                  Container(child: Text(getTransrlate(context, 'or'),style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),)),
                   Container(height: 1,width: ScreenUtil.getWidth(context)/4,color: Colors.black12,)
                 ],
               ),
             ),
           ),
-          FlatButton(minWidth: ScreenUtil.getWidth(context),
-            shape: RoundedRectangleBorder(
-              borderRadius:  BorderRadius.circular(1.0),
-              side: BorderSide(color: Colors.black26)
-            ),
-            child: Text(
-              getTransrlate(context, 'AreadyAccount'),
-              style: TextStyle(
-                fontSize: 14,
-                color: themeColor.getColor(),
-                fontWeight: FontWeight.w500,
+          Container(
+            height: 42,
+            width: ScreenUtil.getWidth(context),
+            child: OutlinedButton(
+            style:getStyleButton( Colors.black),
+              child: Text(
+                getTransrlate(context, 'AreadyAccount'),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              onPressed: () {
+                Nav.routeReplacement(context, SignUpPage());
+              },
             ),
-            onPressed: () {
-              Nav.routeReplacement(context, RegisterPage());
-            },
           )
         ],
       ),

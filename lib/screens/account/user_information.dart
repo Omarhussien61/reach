@@ -368,9 +368,9 @@ print(userModal.birthdate);
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(right: 10.0),
-                child:  loading?FlatButton(
-                  minWidth: ScreenUtil.getWidth(context) / 2.5,
-                  color: Colors.orange,
+                child:  loading?TextButton(
+                  style:getStyleButton( Colors.orange),
+
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:Container(

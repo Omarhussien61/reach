@@ -34,24 +34,16 @@ class _SignUpPageState extends State<SignUpPage> {
         statusBarColor: themeColor.getColor(),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          title: Image.asset(
-            'assets/images/logo.png',
-            height: ScreenUtil.getHeight(context) / 10,
-            width: ScreenUtil.getWidth(context) / 4,
-            fit: BoxFit.contain,
-            //color: themeColor.getColor(),
-          ),
-        ),
         // resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              SizedBox(height: 30,),
               Center(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,10 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               RegisterForm(),
-              SizedBox(
-                height: 50,
-              )
-
+              routeLoginWidget(themeColor, context),
               //SocialRegisterButtons(themeColor: themeColor)
             ],
           ),
@@ -93,85 +82,41 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget routeLoginWidget(Provider_control themeColor, BuildContext context) {
     return Container(
       padding: EdgeInsets.only(right: 36, left: 48),
-      child: Column(
-        children: <Widget>[
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 1,
-                    width: ScreenUtil.getWidth(context) / 4,
-                    color: Colors.black12,
-                  ),
-                  Text(
-                    getTransrlate(context, 'or'),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    height: 1,
-                    width: ScreenUtil.getWidth(context) / 4,
-                    color: Colors.black12,
-                  )
-                ],
-              ),
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 1,
-                    width: ScreenUtil.getWidth(context) / 4.5,
-                    color: Colors.black12,
-                  ),
-                  Text(
-                    getTransrlate(context, 'haveanaccount'),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    height: 1,
-                    width: ScreenUtil.getWidth(context) / 4.5,
-                    color: Colors.black12,
-                  )
-                ],
-              ),
-            ),
-          ),
-          FlatButton(
-            minWidth: ScreenUtil.getWidth(context),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(1.0),
-                side: BorderSide(color: Colors.black26)),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                getTransrlate(context, 'login'),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                getTransrlate(context, 'haveanaccount'),
                 style: TextStyle(
-                  fontSize: 14,
-                  color: themeColor.getColor(),
-                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            onPressed: () {
-              Nav.routeReplacement(context, LoginPage());
-            },
-          )
-        ],
+              TextButton(
+
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    getTransrlate(context, 'login'),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color:themeColor.getColor(),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Nav.routeReplacement(context, LoginPage());
+                },
+              )
+
+            ],
+          ),
+        ),
       ),
     );
   }

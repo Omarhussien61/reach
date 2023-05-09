@@ -176,11 +176,9 @@ class _RegisterFormVendorState extends State<RegisterFormVendor> {
                   height: 40,
                   width: ScreenUtil.getWidth(context),
                   margin: EdgeInsets.only(top: 12, bottom: 0),
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(1.0),
-                    ),
-                    color: Colors.orange,
+                  child: TextButton(
+                    style:getStyleButton( Colors.orange),
+
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();

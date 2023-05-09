@@ -1,7 +1,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.lacasa.trkar">
+    package="com.code.reach">
     <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
         <!-- If your app opens https URLs -->
@@ -21,8 +21,7 @@
         </intent>
     </queries>
     <application
-        android:name="io.flutter.app.FlutterApplication"
-        android:label="Trkar"
+        android:label="Reach - ريتش"
         android:icon="@mipmap/ic_launcher">
 
         <activity

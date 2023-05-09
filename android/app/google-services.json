@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:169403208942:android:85d8f10747f8bc7ff60fff",
         "android_client_info": {
-          "package_name": "com.lacasa.trkar"
+          "package_name": "com.code.reach"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "169403208942-7gv02mq0e97jbn2h05nivdtl9ctgaffh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.lacasa.trkar",
+            "package_name": "com.code.reach",
             "certificate_hash": "ac940e189486a6f824444409c27b94e4b3ea5b59"
           }
         },

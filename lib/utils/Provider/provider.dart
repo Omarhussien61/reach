@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class Provider_control with ChangeNotifier {
-  Color _themeData = Color(0xff424242);
+  Color _themeData = Color(0xffFE8A00);
   String local;
   String car_model='' ;
   String car_title ;

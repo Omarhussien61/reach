@@ -248,9 +248,9 @@ class _Wish_ListState extends State<Wish_List> {
                     ),
                   ),
                 ):
-                loading?FlatButton(
-                  minWidth: ScreenUtil.getWidth(context) / 4,
-                  color: Colors.orange,
+                loading?TextButton(
+                  style:getStyleButton( Colors.orange),
+
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:Container(

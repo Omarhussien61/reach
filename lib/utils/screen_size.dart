@@ -21,3 +21,8 @@ class ScreenUtil {
     return MediaQuery.of(context).size.width / divided;
   }
 }
+getStyleButton(color){
+  return  TextButton.styleFrom(
+  backgroundColor: color,
+  );
+}

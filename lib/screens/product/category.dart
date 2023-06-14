@@ -182,7 +182,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             padding: const EdgeInsets.all(3.0),
                             child: CachedNetworkImage(
                               imageUrl:
-                              '${e.photo != null ? e.photo.image : ''}',
+                              '${e.photo != null ? e.photo : ''}',
                               errorWidget: (context, url, error) =>
                                   Image.asset(
                                     'assets/images/alt_img_category.png',

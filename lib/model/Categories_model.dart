@@ -13,13 +13,13 @@ class Categories_model {
   Categories_model.fromJson(Map<String, dynamic> json) {
    // statusCode = json['status_code'];
     //message = json['message'];
-    if (json['data'] != null) {
+    if (json['results'] != null) {
       data = new List<Categories_item>();
-      json['data'].forEach((v) {
+      json['results'].forEach((v) {
         data.add(new Categories_item.fromJson(v));
       });
     }
-    total = json['total'];
+    total = json['count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,7 +43,7 @@ class Categories_item {
   int count_cats;
   String catName;
   List<Categories_item> categories;
-  PhotoProduct photo;
+  String photo;
   bool Check=false;
   String createdAt;
 
@@ -72,7 +72,7 @@ class Categories_item {
         categories.add(new Categories_item.fromJson(v));
       });
     }
-    photo = json['photo'] != null ? new PhotoProduct.fromJson(json['photo']) : null;
+    photo = json['image'] ;
     createdAt = json['created_at'];
   }
 

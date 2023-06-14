@@ -119,7 +119,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              CachedNetworkImage(imageUrl: '${e.photo!=null?e.photo.image:' '}',height: 50,width: 50,fit: BoxFit.contain,
+                              CachedNetworkImage(imageUrl: '${e.photo!=null?e.photo:' '}',height: 50,width: 50,fit: BoxFit.contain,
                               errorWidget: (context, url, error) =>Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Image.asset('assets/images/alt_img_category.png',),

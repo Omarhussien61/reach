@@ -154,7 +154,7 @@ class _Wish_ListState extends State<Wish_List> {
                                 builder: (_) =>
                                     ResultOverlay(value['message']));
                            data.getWishlist(context);
-                            data.getData(themeColor.car_type,context);
+                            data.getData(context);
 
                           } else {
                             showDialog(

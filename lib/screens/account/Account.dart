@@ -79,14 +79,22 @@ class _AccountState extends State<Account> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: AutoSizeText(
-                    name == null
-                        ? getTransrlate(context, 'gust')
-                        : "${getTransrlate(context, 'gust')} : ${name}",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AutoSizeText(
+                        name == null
+                            ? getTransrlate(context, 'gust')
+                            : "${getTransrlate(context, 'gust')} : ${name}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(onPressed: (){
+                        Navigator.of(context).pop();
+                      }, icon: Icon(Icons.close))
+                    ],
                   ),
                 ),
                 token != null
@@ -491,62 +499,7 @@ class _AccountState extends State<Account> {
                             ),
                           ),
                         ),
-                        Center(
-                          child: Container(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    width: ScreenUtil.getWidth(context) / 3.1,
-                                    child: TextButton(
-                                        onPressed: () {
-                                          _launchURL(
-                                              'https://frontend.lacasacode.dev/sell/why');
-                                        },
-                                        child: AutoSizeText(
-                                          getTransrlate(
-                                              context, 'sellonTurkar'),
-                                          maxLines: 1,
-                                          minFontSize: 11,
-                                          style: TextStyle(color: Colors.black),
-                                        ))),
-                                token != null
-                                    ? Container()
-                                    : Container(
-                                        width:
-                                            ScreenUtil.getWidth(context) / 3.1,
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Nav.route(
-                                                  context, RegisterPage());
-                                            },
-                                            child: AutoSizeText(
-                                              getTransrlate(
-                                                  context, 'Registerseller'),
-                                              maxLines: 1,
-                                              minFontSize: 10,
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ))),
-                                Container(
-                                    width: ScreenUtil.getWidth(context) / 3.1,
-                                    child: TextButton(
-                                        onPressed: () {
-                                          _launchURL(
-                                              'https://frontend.lacasacode.dev/sell/how-to');
-                                        },
-                                        child: AutoSizeText(
-                                          getTransrlate(
-                                              context, 'HowtosellTurkar'),
-                                          maxLines: 1,
-                                          minFontSize: 10,
-                                          style: TextStyle(color: Colors.black),
-                                        ))),
-                              ],
-                            ),
-                          ),
-                        ),
+
                         Align(
                           alignment: Alignment.center,
                           child: Padding(

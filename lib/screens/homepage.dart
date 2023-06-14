@@ -101,33 +101,23 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    setState(() {
-      ads=Ads(carousel: [Carousel(adUrl: 'https://img.freepik.com/free-vector/cosmetics-beauty-product-bottles-advertising-banner_33099-1799.jpg')]);
-    });
-    _controller = PersistentTabController(initialIndex: 0);
-    Provider.of<Provider_Data>(context, listen: false)
-        .getData(1, context);
-    API(context).get('car/types/list').then((value) {
-      if (value != null) {
-        setState(() {
-          cartype = Car_type.fromJson(value).data;
-        });
-        getData(1);
-      }
-    });
+    Provider.of<Provider_Data>(context, listen: false).getData( context);
+    getData();
+
     SharedPreferences.getInstance().then((value) {
       complete = value.getInt('complete');
     });
     super.initState();
   }
 
-  getData(int cartypeId) {
+  getData() {
     API(context)
-        .get('site/ads/show/filter?cartype_id=$cartypeId&platform=mobile')
+        .get('adshome')
         .then((value) {
+
       if (value != null) {
         setState(() {
-          ads = Ads.fromJson(value['data']);
+          ads = Ads.fromJson(value);
         });
       }
     });
@@ -242,7 +232,7 @@ class _HomeState extends State<Home> {
                       child: CarouselSlider(
                         items: ads.carousel
                             .map((item) => Banner_item(
-                          item: item.adUrl,
+                          item: item.photo,
                         ))
                             .toList(),
                         options: CarouselOptions(
@@ -362,7 +352,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<Null> _refreshLocalGallery() async {
-    getData(checkboxType == 0 ? 1 : 3);
+    getData();
   }
 
   Widget list_category(
@@ -452,7 +442,7 @@ class _HomeState extends State<Home> {
                                   width: ScreenUtil.getWidth(context) / 3.2,
                                   imageUrl: (product.photo == null)
                                       ? 'http://arabimagefoundation.com/images/defaultImage.png'
-                                      : product.photo.image,
+                                      : product.photo,
                                   errorWidget: (context, url, error) => Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Image.asset(

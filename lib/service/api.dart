@@ -40,10 +40,11 @@ class API {
       http.Response response = await http.get(full_url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
+        //'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
         'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
       });
       print(full_url);
+
       return getAction(response);
     } catch (exception, stackTrace) {
       showDialog(
@@ -180,12 +181,17 @@ class API {
               erorr: response.body.toString()
             ));
       } else if (response.statusCode == 401) {
-        Nav.routeReplacement(context, LoginPage());
+       // Nav.routeReplacement(context, LoginPage());
       } else {
-        return jsonDecode(response.body);
-      }
+        var myDataString = utf8.decode(response.bodyBytes);
+        ///obtain json from string
+        var myDataJson = jsonDecode(myDataString);
+        return myDataJson;      }
     } else {
-      return jsonDecode(response.body);
+      var myDataString = utf8.decode(response.bodyBytes);
+      ///obtain json from string
+      var myDataJson = jsonDecode(myDataString);
+      return myDataJson;
     }
   }
 }

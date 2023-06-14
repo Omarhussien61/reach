@@ -30,9 +30,9 @@ class Ads {
   Ads({this.carousel, this.bottom, this.middle});
 
   Ads.fromJson(Map<String, dynamic> json) {
-    if (json['carousel'] != null) {
+    if (json['results'] != null) {
       carousel = new List<Carousel>();
-      json['carousel'].forEach((v) {
+      json['results'].forEach((v) {
         carousel.add(new Carousel.fromJson(v));
       });
     }
@@ -73,7 +73,7 @@ class Carousel {
   int status;
   int cartypeId;
   String platform;
-  Photo photo;
+  String photo;
 
   Carousel(
       {this.id,
@@ -87,13 +87,13 @@ class Carousel {
 
   Carousel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    adName = json['ad_name'];
+    adName = json['name'];
     adPosition = json['ad_position'];
     adUrl = json['ad_url'];
     status = json['status'];
     cartypeId = json['cartype_id'];
     platform = json['platform'];
-    photo = json['photo'] != null ? new Photo.fromJson(json['photo']) : null;
+    photo = json['image'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -105,9 +105,7 @@ class Carousel {
     data['status'] = this.status;
     data['cartype_id'] = this.cartypeId;
     data['platform'] = this.platform;
-    if (this.photo != null) {
-      data['photo'] = this.photo.toJson();
-    }
+
     return data;
   }
 }

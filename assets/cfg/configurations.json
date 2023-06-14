@@ -1,4 +1,4 @@
 {
-  "base_url": "https://development.lacasacode.dev/",
-  "api_base_url": "https://development.lacasacode.dev/api/v1/"
+  "base_url": "https://reach0.pythonanywhere.com/",
+  "api_base_url": "https://reach0.pythonanywhere.com/store/"
 }

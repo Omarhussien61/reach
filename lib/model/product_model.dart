@@ -10,9 +10,9 @@ class Product_model {
   Product_model.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     message = json['message'];
-    if (json['data'] != null) {
+    if (json['results'] != null) {
       data = new List<Product>();
-      json['data'].forEach((v) { data.add(new Product.fromJson(v)); });
+      json['results'].forEach((v) { data.add(new Product.fromJson(v)); });
     }
   }
 

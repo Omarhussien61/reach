@@ -13,6 +13,10 @@ class Product_model {
     if (json['results'] != null) {
       data = new List<Product>();
       json['results'].forEach((v) { data.add(new Product.fromJson(v)); });
+    }else
+    if (json['data'] != null) {
+      data = new List<Product>();
+      json['data'].forEach((v) { data.add(new Product.fromJson(v)); });
     }
   }
 
@@ -98,8 +102,9 @@ class Product {
     nameEN = json['name_en'];
     description = json['description'];
     description_en = json['description_en'];
-    discount = json['discount'].toString();
+    discount = json['discount']??'0';
     price = "${json['public_price']}";
+    action_price = json['public_price'];
     quantity = json['quantity'];
     serialNumber = json['serial_number'];
     tyres_belong = json['tyres_belong'];

@@ -96,9 +96,7 @@ class _ProductListState extends State<ProductList> {
                     height: 100,
                     width: ScreenUtil.getWidth(context) / 4.5,
                     child: CachedNetworkImage(
-                      imageUrl: (widget.product.photo.isEmpty)
-                          ? 'http://arabimagefoundation.com/images/defaultImage.png'
-                          : widget.product.photo[0].image,
+                      imageUrl: widget.product.partCategoryName??'',
                       errorWidget: (context, url, error) => Icon(
                         Icons.image,
                         color: Colors.black12,
@@ -152,23 +150,23 @@ class _ProductListState extends State<ProductList> {
                           SizedBox(
                             height: 5,
                           ),
-                          RatingBar.builder(
-                            ignoreGestures: true,
-                            initialRating:
-                                widget.product.avgValuations.toDouble(),
-                            itemSize: 14.0,
-                            minRating: 0.5,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.orange,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
+                          // RatingBar.builder(
+                          //   ignoreGestures: true,
+                          //   initialRating:
+                          //       widget.product.avgValuations.toDouble(),
+                          //   itemSize: 14.0,
+                          //   minRating: 0.5,
+                          //   direction: Axis.horizontal,
+                          //   allowHalfRating: true,
+                          //   itemCount: 5,
+                          //   itemBuilder: (context, _) => Icon(
+                          //     Icons.star,
+                          //     color: Colors.orange,
+                          //   ),
+                          //   onRatingUpdate: (rating) {
+                          //     print(rating);
+                          //   },
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[

@@ -220,8 +220,15 @@ class _HomeState extends State<Home> {
                       child: MyTextFormField(
                         hintText: 'ما الذي تبحث عنه ؟',
                         prefix: Icon(Icons.search),
-                        suffixIcon: Icon(Icons.filter_list_outlined),
-
+                        suffixIcon:IconButton(icon: Icon(Icons.filter_list_outlined),onPressed: (){
+                          Nav.route(
+                              context,
+                              Products_Page(
+                                Url:
+                                'filter',
+                                Category: true,
+                              ));
+                        },),
                         onChange: (value) {},
                       ),
                     ),
@@ -422,7 +429,7 @@ class _HomeState extends State<Home> {
                                 name:
                                     "${themeColor.getlocal() == 'ar' ? product.name ?? product.nameEn : product.nameEn ?? product.name}",
                                 Url:
-                                    'ahmed/allcategories/products/${product.id}?cartype_id=${themeColor.car_type}',
+                                    'categories/${product.id}',
                                 Istryers:
                                     product.id == 1711 || product.id == 682,
                                 Category: true,

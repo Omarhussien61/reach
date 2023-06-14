@@ -82,6 +82,7 @@ class _ProductCardState extends State<ProductCard> {
                   color: Colors.white,
                   width: ScreenUtil.getWidth(context) / 2.1,
                   padding: EdgeInsets.only(left: 3, top: 10, right: 3,bottom: 10),
+                  margin: EdgeInsets.only(left: 3, top: 10, right: 3,bottom: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

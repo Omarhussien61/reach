@@ -62,7 +62,7 @@ class _ProductPageState extends State<ProductPage> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               height: ScreenUtil.getHeight(context) / 2.5,
-              child: CachedNetworkImage(imageUrl: widget.product.photo[0].image),
+              child: CachedNetworkImage(imageUrl: widget.product.partCategoryName),
             ),
           ),
           Container(child: Row(

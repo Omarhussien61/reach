@@ -27,82 +27,85 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) {
     final themeColor = Provider.of<Provider_control>(context);
-    return Container(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
 
-      height: ScreenUtil.getHeight(context) / 12,
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(9)),
-      margin: const EdgeInsets.only(top: 50,left: 10,right: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-         !widget.isback? IconButton(
-            onPressed: () {
-              Nav.route(context, Account());
-            },
-            icon: Icon(
-              Icons.menu,
-              size: 30,
-              color: Colors.black,
+        height: ScreenUtil.getHeight(context) / 12,
+        decoration: BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(9)),
+        margin: const EdgeInsets.only(top: 50,left: 10,right: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+           !widget.isback? IconButton(
+              onPressed: () {
+                Nav.route(context, Account());
+              },
+              icon: Icon(
+                Icons.menu,
+                size: 30,
+                color: Colors.black,
+              ),
+              color: Color(0xffE4E4E4),
+            ):IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                size: 20,
+              ),
+             color: Colors.black,
             ),
-            color: Color(0xffE4E4E4),
-          ):IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-            ),
-           color: Colors.black,
-          ),
-          SizedBox(width: 20,),
-          widget.title!=null?
-          Container(
-           width: ScreenUtil.getWidth(context) / 4,
-           child: AutoSizeText(
-             '${widget.title}',
-             maxLines: 2,
-             maxFontSize: 15,
-             minFontSize: 10,
-             overflow: TextOverflow.ellipsis,
-             style: TextStyle(color: Colors.white),
-           ),
-         ) :Center(
-            child: InkWell(
-              onTap: (){
-                Phoenix.rebirth(context);
-                },
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: ScreenUtil.getHeight(context) / 10,
-                width: ScreenUtil.getWidth(context) / 4,
-                fit: BoxFit.contain,
+            SizedBox(width: 20,),
+            widget.title!=null?
+            Container(
+             width: ScreenUtil.getWidth(context) / 4,
+             child: AutoSizeText(
+               '${widget.title}',
+               maxLines: 2,
+               maxFontSize: 15,
+               minFontSize: 10,
+               overflow: TextOverflow.ellipsis,
+               style: TextStyle(color: Colors.white),
+             ),
+           ) :Center(
+              child: InkWell(
+                onTap: (){
+                  Phoenix.rebirth(context);
+                  },
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  height: ScreenUtil.getHeight(context) / 10,
+                  width: ScreenUtil.getWidth(context) / 4,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ),
-          Expanded(child: SizedBox(height: 10,)),
-          IconButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => SearchOverlay());
-            },
-            icon: Icon(
-              Icons.account_circle,
-              size: 40,
+            Expanded(child: SizedBox(height: 10,)),
+            IconButton(
+              onPressed: () {
+                showDialog(context: context, builder: (_) => SearchOverlay());
+              },
+              icon: Icon(
+                Icons.account_circle,
+                size: 40,
+              ),
+              color: Colors.black,
             ),
-            color: Colors.black,
-          ),
-          IconButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => SearchOverlay());
-            },
-            icon: Icon(
-              Icons.shopping_cart,
-              size: 40,
+            IconButton(
+              onPressed: () {
+                showDialog(context: context, builder: (_) => SearchOverlay());
+              },
+              icon: Icon(
+                Icons.shopping_cart,
+                size: 40,
+              ),
+              color: Colors.black,
             ),
-            color: Colors.black,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

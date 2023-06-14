@@ -4,14 +4,14 @@ import 'package:flutter_pos/utils/local/LanguageTranslated.dart';
 
 class Sortdialog extends StatefulWidget {
   Sortdialog({Key key, this.character}) : super(key: key);
-  String character="ASC&ordered_by=price";
+  String character="ordering=-public_price";
 
   @override
   _SortdialogState createState() => _SortdialogState();
 }
 
 class _SortdialogState extends State<Sortdialog> {
-  List characters = ["ASC&ordered_by=price", "DESC&ordered_by=price"];
+  List characters = ["ordering=public_price", "ordering=-public_price"];
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -47,7 +47,7 @@ class _SortdialogState extends State<Sortdialog> {
                       icon:
                           Icon(Icons.close, size: 35, color: Color(0xff7B7B7B)),
                       onPressed: () {
-                        Navigator.pop(context, 'ASC&ordered_by=price');
+                        Navigator.pop(context, 'ordering=public_price');
                       })
                 ],
               ),
@@ -63,7 +63,7 @@ class _SortdialogState extends State<Sortdialog> {
               onChanged: (String value) {
                 setState(() {
                   widget.character = value;
-                  Navigator.pop(context, "${value??'ASC&ordered_by=price'}");
+                  Navigator.pop(context, "${value??'ordering=-public_price'}");
                 });
               },
             ),

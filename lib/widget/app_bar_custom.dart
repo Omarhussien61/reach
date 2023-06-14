@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_pos/screens/MyCars/myCars.dart';
+import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/homepage.dart';
 import 'package:flutter_pos/screens/splash_screen.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
@@ -35,7 +36,17 @@ class _AppBarCustomState extends State<AppBarCustom> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-         !widget.isback?Container(): IconButton(
+         !widget.isback? IconButton(
+            onPressed: () {
+              Nav.route(context, Account());
+            },
+            icon: Icon(
+              Icons.menu,
+              size: 30,
+              color: Colors.black,
+            ),
+            color: Color(0xffE4E4E4),
+          ):IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
@@ -43,7 +54,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
               Icons.arrow_back_ios,
               size: 20,
             ),
-            color: Color(0xffE4E4E4),
+           color: Colors.black,
           ),
           SizedBox(width: 20,),
           widget.title!=null?
@@ -79,7 +90,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
               Icons.account_circle,
               size: 40,
             ),
-            color: Colors.grey,
+            color: Colors.black,
           ),
           IconButton(
             onPressed: () {
@@ -89,7 +100,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
               Icons.shopping_cart,
               size: 40,
             ),
-            color: Colors.grey,
+            color: Colors.black,
           ),
         ],
       ),

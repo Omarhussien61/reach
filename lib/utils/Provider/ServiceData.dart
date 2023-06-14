@@ -27,7 +27,7 @@ class Provider_Data with ChangeNotifier {
   }
    getData(BuildContext context) {
       API(context,)
-         .get('samples_offers')
+         .get('samples_discount')
          .then((value) {
        if (value != null) {
            product = Product_model.fromJson(value).data;
@@ -40,9 +40,7 @@ class Provider_Data with ChangeNotifier {
        }
      });
 
-     product=[
-       Product(name: "سيرفيللو اوميجا  3 & فيتامين بي كومبلكس   ",price: "160 جنية",action_price: 149.0,avgValuations:4.5,photo: [PhotoProduct(image:"https://taypharmacies.com/wp-content/uploads/2022/10/Centrum-304512-1047x800.png" )])
-     ];
+
      //notifyListeners();
     //
     //  API(context, Check: false)

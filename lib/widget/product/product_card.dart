@@ -71,9 +71,7 @@ class _ProductCardState extends State<ProductCard> {
                 CachedNetworkImage(
                   width: ScreenUtil.getWidth(context) / 2,
                   height: ScreenUtil.getHeight(context) / 5,
-                  imageUrl: (widget.product.photo.isEmpty)
-                      ? 'http://arabimagefoundation.com/images/defaultImage.png'
-                      : widget.product.photo[0].image,
+                  imageUrl: widget.product.partCategoryName??'',
                   fit: BoxFit.contain,
                   errorWidget: (context, url, error) => Icon(
                     Icons.image,

@@ -99,8 +99,7 @@ class Product {
     description = json['description'];
     description_en = json['description_en'];
     discount = json['discount'].toString();
-    price = json['price'];
-    action_price = double.parse(json['actual_price']?.toString());
+    price = "${json['public_price']}";
     quantity = json['quantity'];
     serialNumber = json['serial_number'];
     tyres_belong = json['tyres_belong'];
@@ -119,7 +118,7 @@ class Product {
     yearFrom = json['year_from'] != null ? new YearFrom.fromJson(json['year_from']) : null;
     yearTo = json['year_to'] != null ? new YearFrom.fromJson(json['year_to']) : null;
     partCategoryId = json['part_category_id'];
-    partCategoryName = json['part_category_name'];
+    partCategoryName = json['image'];
     categoryId = json['category_id'];
     categoryName = json['category_name'] != null ?json['category_name'].runtimeType==String?json['category_name']: new Category_Name.fromJson(json['category_name']) : null;
     vendorId = json['vendor_id'];
@@ -138,7 +137,7 @@ class Product {
     noOfOrders = json['no_of_orders'];
     holesalePrice = json['holesale_price'].toString();
     countViews = json['count_views'];
-    avgValuations = double.parse(json['avg_valuations'].toString());
+    //avgValuations = double.parse(json['avg_valuations'].toString());
     cartEnable = json['cart_enable'];
     wishlistEnable = json['wishlist_enable'];
     if (json['media'] != null) {

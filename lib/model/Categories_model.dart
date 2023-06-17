@@ -18,8 +18,12 @@ class Categories_model {
       json['results'].forEach((v) {
         data.add(new Categories_item.fromJson(v));
       });
+    } else  if (json['data'] != null) {
+      data = new List<Categories_item>();
+      json['data'].forEach((v) {
+        data.add(new Categories_item.fromJson(v));
+      });
     }
-    total = json['count'];
   }
 
   Map<String, dynamic> toJson() {

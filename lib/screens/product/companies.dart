@@ -20,14 +20,14 @@ import 'package:flutter_pos/widget/no_found_product.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key key}) : super(key: key);
+class CompaniesScreen extends StatefulWidget {
+  const CompaniesScreen({Key key}) : super(key: key);
 
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  _CompaniesScreenState createState() => _CompaniesScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _CompaniesScreenState extends State<CompaniesScreen> {
   int checkboxType = 0;
   int checkboxPart = 0;
 

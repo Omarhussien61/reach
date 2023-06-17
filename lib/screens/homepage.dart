@@ -3,10 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pos/model/Categories_model.dart';
 import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/order/cart.dart';
 import 'package:flutter_pos/screens/account/vendor_information.dart';
+import 'package:flutter_pos/screens/product/companies.dart';
 import 'package:flutter_pos/screens/product/products_page.dart';
+import 'package:flutter_pos/screens/product/sub_category.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
 import 'package:flutter_pos/utils/local/LanguageTranslated.dart';
 import 'package:flutter_pos/model/ads.dart';
@@ -39,7 +42,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<CarType> cartype;
-  Ads ads;
   int checkboxType = 0;
   final ScrollController _scrollController = ScrollController();
   int complete;
@@ -102,27 +104,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     Provider.of<Provider_Data>(context, listen: false).getData( context);
-    getData();
-
     SharedPreferences.getInstance().then((value) {
       complete = value.getInt('complete');
     });
     super.initState();
   }
 
-  getData() {
-    API(context)
-        .get('adshome')
-        .then((value) {
 
-      if (value != null) {
-        setState(() {
-          ads = Ads.fromJson(value);
-        });
-      }
-    });
-
-  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _carouselCurrentPage = 0;
@@ -232,12 +220,12 @@ class _HomeState extends State<Home> {
                         onChange: (value) {},
                       ),
                     ),
-                    ads == null
+                    provider_data.ads == null
                         ? Container()
                         : Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: CarouselSlider(
-                        items: ads.carousel
+                        items: provider_data.ads.carousel
                             .map((item) => Banner_item(
                           item: item.photo,
                         ))
@@ -262,9 +250,9 @@ class _HomeState extends State<Home> {
                             }),
                       ),
                     ),
-                    ads == null
+                    provider_data.ads == null
                         ? Container()
-                        : SliderDotAds(_carouselCurrentPage, ads.carousel),
+                        : SliderDotAds(_carouselCurrentPage, provider_data.ads.carousel),
                     Row(
                       children: [
                         Padding(
@@ -289,8 +277,9 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.all(24.0),
                             child: Custom_Loading(),
                           )
-                        : Container(child: list_category_navbar(themeColor)),
-                    SizedBox(
+                        : Container(child: list_category_navbar(themeColor, provider_data.Mostcategories,true)),
+
+                       SizedBox(
                       height: 20,
                     ),
                     provider_data.productMostView == null
@@ -311,13 +300,31 @@ class _HomeState extends State<Home> {
                                               description: getTransrlate(
                                                   context, 'showAll'),
                                               url:
-                                                  '',
+                                                  'samples_discount',
                                             ),
                                   list_product(
                                       themeColor, provider_data.product),
                                 ],
                               ),
-
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            "ماركات مميزة",
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            textDirection:
+                            TextDirection.ltr,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight:
+                                FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
                     provider_data.productMostSale == null
                         ? Container()
                         : provider_data.productMostSale.isEmpty
@@ -346,7 +353,33 @@ class _HomeState extends State<Home> {
                                       ),
                     SizedBox(
                       height: 10,
+                    ),
+                    provider_data.categories == null
+                        ? Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Custom_Loading(),
                     )
+                        : Container(child: list_category_navbar(themeColor, provider_data.categories,false)),
+  InkWell(
+    onTap: (){
+      Nav.route(
+          context,
+          CompaniesScreen(
+          ));
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Container(
+          decoration:  BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+            border: Border.all(color:themeColor.getColor() )
+                ),
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(child: Text('عرض كل الماركات')),
+      )),
+    ),
+  )
                   ],
                 ),
               ),
@@ -359,7 +392,6 @@ class _HomeState extends State<Home> {
   }
 
   Future<Null> _refreshLocalGallery() async {
-    getData();
   }
 
   Widget list_category(
@@ -401,10 +433,10 @@ class _HomeState extends State<Home> {
 
   Widget list_category_navbar(
     Provider_control themeColor,
+      List<Categories_item>  Mostcategories,
+      bool iscategory
   ) {
-    final provider_data = Provider.of<Provider_Data>(context);
-
-    return provider_data.Mostcategories.isEmpty
+    return Mostcategories.isEmpty
         ? Container()
         : Center(
             child: ResponsiveGridList(
@@ -412,7 +444,7 @@ class _HomeState extends State<Home> {
               desiredItemWidth: 100,
               rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
               minSpacing: 10,
-              children: provider_data.Mostcategories.map((product) => Padding(
+              children:Mostcategories.map((product) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Container(
                       margin:
@@ -422,19 +454,23 @@ class _HomeState extends State<Home> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          Nav.route(
-                              context,
-                              Products_Page(
-                                id: product.id,
-                                name:
-                                    "${themeColor.getlocal() == 'ar' ? product.name ?? product.nameEn : product.nameEn ?? product.name}",
-                                Url:
-                                    'categories/${product.id}',
-                                Istryers:
-                                    product.id == 1711 || product.id == 682,
-                                Category: true,
-                                Category_id: product.id,
-                              ));
+                          Nav.route(context, SubCategoryScreen(Categories:product,));
+
+                          // Nav.route(
+                          //     context,
+                          //     Products_Page(
+                          //       id: product.id,
+                          //       name:
+                          //           "${themeColor.getlocal() == 'ar' ? product.name ?? product.nameEn : product.nameEn ?? product.name}",
+                          //       Url:
+                          //           '${iscategory?"categories":"companies"}/${product.id}',
+                          //       Istryers:
+                          //           product.id == 1711 || product.id == 682,
+                          //       Category: true,
+                          //       Category_id: product.id,
+                          //     )
+                          //
+                          // );
                         },
                         child: Column(
                           children: [

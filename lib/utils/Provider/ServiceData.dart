@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pos/model/Categories_model.dart';
+import 'package:flutter_pos/model/ads.dart';
 import 'package:flutter_pos/model/cart_model.dart';
 import 'package:flutter_pos/model/product_model.dart';
 import 'package:flutter_pos/model/product_most_view.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_pos/service/api.dart';
 class Provider_Data with ChangeNotifier {
    Cart_model cart_model;
    Address address;
+   Ads ads;
+
    List<Product> product,productMostSale;
    List<ProductMost> productMostView;
    List<Categories_item> categories;
@@ -26,6 +29,14 @@ class Provider_Data with ChangeNotifier {
     });
   }
    getData(BuildContext context) {
+     API(context)
+         .get('adshome')
+         .then((value) {
+
+       if (value != null) {
+           ads = Ads.fromJson(value);
+       }
+     });
       API(context,)
          .get('samples_discount')
          .then((value) {
@@ -37,6 +48,12 @@ class Provider_Data with ChangeNotifier {
        if (value != null) {
          print(value);
            Mostcategories = Categories_model.fromJson(value).data;
+       }
+     });
+   API(context).get('samples_companies').then((value) {
+       if (value != null) {
+         print(value);
+           categories = Categories_model.fromJson(value).data;
        }
      });
 

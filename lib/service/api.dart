@@ -61,7 +61,7 @@ class API {
   ) async {
     print(body);
     final full_url =
-        Uri.parse('${GlobalConfiguration().getString('api_base_url')}$url');
+        Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -72,7 +72,40 @@ class API {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
+           // 'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
+            'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
+          },
+          body: json.encode(body));
+      return getAction(response);
+    } catch (e) {
+
+      showDialog(
+        context: context,
+        builder: (_) => ResultOverlay(
+            "${getTransrlate(context, 'ConnectionFailed')}"),
+      );
+    } finally {}
+  }
+  posturl(
+    String url,
+    Map<String, dynamic> body,
+  ) async {
+    print(body);
+    final full_url =
+        Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String basicAuth =
+        'Basic ' + base64.encode(utf8.encode('${body['email']}:${body['password']}'));
+    print("Auth =${basicAuth}");
+
+    try {
+      http.Response response = await http.post(full_url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': '${basicAuth}',
             'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
           },
           body: json.encode(body));
@@ -172,7 +205,7 @@ class API {
     } finally {}
   }
   getAction(http.Response response) {
-
+    print(response.body);
     if (Check) {
       if (response.statusCode == 500) {
         Nav.route(

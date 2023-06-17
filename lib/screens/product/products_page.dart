@@ -1206,64 +1206,14 @@ class _Products_PageState extends State<Products_Page> {
     setState(() {
       product = null;
     });
-    widget.Istryers
-        ? API(context)
-            .get('part/category/attributes/${widget.Category_id}')
-            .then((value) {
-            print(value);
-            if (value != null) {
-              setState(() {
-                if (value['data'] != null) {
-                  width = value['data']['width'].cast<String>();
-                  height = value['data']['height'].cast<String>();
-                  size = value['data']['size'].cast<String>();
-                }
-              });
-            }
-          })
-        : null;
+
     API(context).get(widget.Url).then((value) {
       if (value != null) {
         print("value : $value");
-        if (value['status_code'] == 200) {
           setState(() {
             product = Product_model.fromJson(value).data;
-            if (product != null) {
-              if (product.isNotEmpty) {
-                product?.sort((current, next) =>
-                    current.action_price.compareTo(next.action_price));
-                print("min ${min} max ${max}");
-                max = filterPrice = product.last.action_price;
-                min = minPrice = product.first.action_price;
-                _currentRangeValues = RangeValues(min, max);
-              }
-            }
-            if (value['cats_data'] != null) {
-              categories = new List<Categories_item>();
-              value['cats_data'].forEach((v) {
-                categories.add(new Categories_item.fromJson(v));
-              });
-            }
-            if (value['origins_data'] != null) {
-              origin = [];
-              value['origins_data'].forEach((v) {
-                origin.add(Origin.fromJson(v));
-              });
-            }
-            if (value['manufacturers_data'] != null) {
-              manufacturer = [];
-              value['manufacturers_data'].forEach((v) {
-                manufacturer.add(Manufacturer.fromJson(v));
-              });
-            }
           });
-        } else {
-          //Navigator.pop(context);
-          showDialog(
-              context: context,
-              builder: (_) => ResultOverlay(
-                  "${value['message'] ?? ''} ${value['errors'] ?? ''}"));
-        }
+
       }
     });
   }

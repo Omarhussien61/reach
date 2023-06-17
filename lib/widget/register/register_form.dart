@@ -68,51 +68,51 @@ class _RegisterFormState extends State<RegisterForm> {
                     model.Name = value;
                   },
                 ),
-                MyTextFormField(
-                  labelText: getTransrlate(context, 'City'),
-                  hintText: getTransrlate(context, 'City'),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return getTransrlate(context, 'requiredempty');
-                    } else if (value.length <= 2) {
-                      return "${getTransrlate(context, 'requiredlength')}";
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                    model.Name = value;
-                  },
-                ),
-                MyTextFormField(
-                  labelText: getTransrlate(context, 'district'),
-                  hintText: getTransrlate(context, 'district'),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return getTransrlate(context, 'requiredempty');
-                    } else if (value.length <= 2) {
-                      return "${getTransrlate(context, 'requiredlength')}";
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                    model.Name = value;
-                  },
-                ),
-                MyTextFormField(
-                  labelText: getTransrlate(context, 'Addres'),
-                  hintText: getTransrlate(context, 'Addres'),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return getTransrlate(context, 'requiredempty');
-                    } else if (value.length <= 2) {
-                      return "${getTransrlate(context, 'requiredlength')}";
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                    model.Name = value;
-                  },
-                ),
+                // MyTextFormField(
+                //   labelText: getTransrlate(context, 'City'),
+                //   hintText: getTransrlate(context, 'City'),
+                //   validator: (String value) {
+                //     if (value.isEmpty) {
+                //       return getTransrlate(context, 'requiredempty');
+                //     } else if (value.length <= 2) {
+                //       return "${getTransrlate(context, 'requiredlength')}";
+                //     }
+                //     return null;
+                //   },
+                //   onSaved: (String value) {
+                //     model.Name = value;
+                //   },
+                // ),
+                // MyTextFormField(
+                //   labelText: getTransrlate(context, 'district'),
+                //   hintText: getTransrlate(context, 'district'),
+                //   validator: (String value) {
+                //     if (value.isEmpty) {
+                //       return getTransrlate(context, 'requiredempty');
+                //     } else if (value.length <= 2) {
+                //       return "${getTransrlate(context, 'requiredlength')}";
+                //     }
+                //     return null;
+                //   },
+                //   onSaved: (String value) {
+                //     model.Name = value;
+                //   },
+                // ),
+                // MyTextFormField(
+                //   labelText: getTransrlate(context, 'Addres'),
+                //   hintText: getTransrlate(context, 'Addres'),
+                //   validator: (String value) {
+                //     if (value.isEmpty) {
+                //       return getTransrlate(context, 'requiredempty');
+                //     } else if (value.length <= 2) {
+                //       return "${getTransrlate(context, 'requiredlength')}";
+                //     }
+                //     return null;
+                //   },
+                //   onSaved: (String value) {
+                //     model.Name = value;
+                //   },
+                // ),
                 MyTextFormField(
                   labelText: getTransrlate(context, 'phone'),
                   hintText: getTransrlate(context, 'phone'),
@@ -125,7 +125,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     return null;
                   },
                   onSaved: (String value) {
-                    model.Name = value;
+                    model.phone = value;
                   },
                 ),
 
@@ -237,11 +237,11 @@ class _RegisterFormState extends State<RegisterForm> {
   register(Provider_control themeColor) async {
     model.gender = checkboxValueA.toString();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    API(context).post('user/register', {
-      'name': model.Name,
-      'email': model.email,
+    API(context).post('account/api/register/', {
+      'fullName': model.Name,
+      'phone': model.phone,
       'password': model.password,
-      "password_confirmation": model.password_confirmation,
+      "rePassword": model.password_confirmation,
     }).then((value) {
       if (!value.containsKey('errors')) {
         setState(() => _isLoading = false);

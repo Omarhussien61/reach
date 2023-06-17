@@ -5,12 +5,12 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_pos/main.dart';
 import 'package:flutter_pos/screens/account/Conditions.dart';
 import 'package:flutter_pos/screens/account/return.dart';
+import 'package:flutter_pos/screens/account/signUP_page.dart';
 import 'package:flutter_pos/screens/account/support.dart';
 import 'package:flutter_pos/screens/address/Address_Page.dart';
 import 'package:flutter_pos/screens/account/OrderHistory.dart';
 import 'package:flutter_pos/screens/account/infoPage.dart';
 import 'package:flutter_pos/screens/account/login.dart';
-import 'package:flutter_pos/screens/account/register_page.dart';
 import 'package:flutter_pos/screens/account/user_information.dart';
 import 'package:flutter_pos/screens/account/vendor_information.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
@@ -131,7 +131,7 @@ class _AccountState extends State<Account> {
                             SizedBox(height: 30,),
                             InkWell(
                               onTap: () {
-                                Nav.route(context, RegisterPage());
+                                Nav.route(context, SignUpPage());
                               },
                               child: Container(
                                 width: ScreenUtil.getWidth(context) / 1.2,

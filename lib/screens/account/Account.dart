@@ -45,7 +45,7 @@ class _AccountState extends State<Account> {
   void initState() {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        name = prefs.getString('user_name');
+        name = prefs.getString('first_name');
         token = prefs.getString('token');
         vendor = prefs.getString('vendor');
       });

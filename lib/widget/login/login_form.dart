@@ -119,19 +119,15 @@ class _LoginFormState extends State<LoginForm> {
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           API(context, Check: false).posturl('account/api/login/', {
-                            'email': model.email,
+                            'username': model.email,
                             'password': model.password,
                           }).then((value) {
                             setState(() => isloading = false);
                             if (value != null) {
-                              if (value['status_code'] == 200) {
-                                var user = value['data'];
+                              if (!value.containsKey('error')) {
+                                var user = value;
 
-                                prefs.setString(
-                                    "user_email", "${user['email']}");
-                                prefs.setString("user_name", "${user['name']}");
                                 prefs.setString("token", "${user['token']}");
-                                prefs.setInt("user_id", user['id']);
                                 themeColor.setLogin(true);
 
                                 Phoenix.rebirth(context);
@@ -142,7 +138,7 @@ class _LoginFormState extends State<LoginForm> {
                                 showDialog(
                                     context: context,
                                     builder: (_) =>
-                                        ResultOverlay('${value['detail']}'));
+                                        ResultOverlay('${value['detail']??value['error']}'));
                               }
                             }
                           });

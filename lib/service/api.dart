@@ -65,14 +65,14 @@ class API {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //print("body =${body}");
+    print("token =${prefs.getString('token')}");
 
     try {
       http.Response response = await http.post(full_url,
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-           // 'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
+           'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
             'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
           },
           body: json.encode(body));
@@ -90,7 +90,7 @@ class API {
     String url,
     Map<String, dynamic> body,
   ) async {
-    print(body);
+    print( json.encode(body));
     final full_url =
         Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
 
@@ -105,7 +105,7 @@ class API {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': '${basicAuth}',
+          //  'Authorization': '${basicAuth}',
             'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
           },
           body: json.encode(body));
@@ -214,7 +214,11 @@ class API {
               erorr: response.body.toString()
             ));
       } else if (response.statusCode == 401) {
-       // Nav.routeReplacement(context, LoginPage());
+        var myDataString = utf8.decode(response.bodyBytes);
+        ///obtain json from string
+        var myDataJson = jsonDecode(myDataString);
+        return myDataJson;
+        // Nav.routeReplacement(context, LoginPage());
       } else {
         var myDataString = utf8.decode(response.bodyBytes);
         ///obtain json from string

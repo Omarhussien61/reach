@@ -232,9 +232,9 @@ class _ProductCardState extends State<ProductCard> {
                           onPressed: () {
                             setState(() => loading = true);
 
-                            API(context).post('add/to/cart', {
+                            API(context).post('store/cart/${widget.product.id}/items/', {
                               "product_id": widget.product.id,
-                              "quantity": widget.product.producttypeId==2?widget.product.noOfOrders: 1
+                              "quantity": 1
                             }).then((value) {
                               setState(() => loading = false);
 

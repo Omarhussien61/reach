@@ -49,9 +49,12 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   int _carouselCurrentPage = 0;
+  bool loading=false;
 
   @override
   Widget build(BuildContext context) {
+    final ServiceData = Provider.of<Provider_Data>(context);
+
     return Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -73,16 +76,64 @@ class _ProductPageState extends State<ProductPage> {
             ],
           ),),
           SizedBox(height: 20,),
-          Text("بيزلين | رول أون مزيل العرق للرجال سوبر دراي | 50 مل",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+          Text("${widget.product.name}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           SizedBox(height: 20,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("السعر :",style: TextStyle(color: Colors.blue),),
-              Text(" 149 جنية"),
+              Text("${widget.product.price}"),
             ],
           ),
           SizedBox(height: 20,),
+          loading?CircularProgressIndicator(  valueColor:
+          AlwaysStoppedAnimation<Color>( Colors.orange),): Center(
+            child: TextButton(
+              style:getStyleButton( Colors.orange),
+
+              onPressed: () {
+                setState(() => loading = true);
+
+                API(context).post('store/cart/${widget.product.id}/items/', {
+                  "product_id": widget.product.id,
+                  "quantity": 1
+                }).then((value) {
+                  setState(() => loading = false);
+                  print(value);
+
+                  if (value != null) {
+
+                    if (!value.containsKey('detail')) {
+                      setState(() {
+                        widget.product.inCart=1;
+                      });
+                      showDialog(
+                          context: context,
+                          builder: (_) =>
+                              ResultOverlay(value['message']??value['detail'],
+                                  icon: Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.green,
+                                    size: 80,
+
+                                  )));
+                      ServiceData.getCart(context);
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (_) => ResultOverlay(
+                              '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                              icon: Icon(
+                                Icons.info_outline,
+                                color: Colors.yellow,
+                                size: 80,
+                              )));
+                    }
+                  }
+                });
+              },
+              child: Text(getTransrlate(context, 'ADDtoCart'),style: TextStyle(color: Colors.white),),
+            ),)
       ],
     ),
         ));

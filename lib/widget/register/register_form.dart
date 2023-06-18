@@ -54,8 +54,8 @@ class _RegisterFormState extends State<RegisterForm> {
             child: Column(
               children: <Widget>[
                 MyTextFormField(
-                  labelText: getTransrlate(context, 'name'),
-                  hintText: getTransrlate(context, 'name'),
+                  labelText: getTransrlate(context, 'Firstname'),
+                  hintText: getTransrlate(context, 'Firstname'),
                   validator: (String value) {
                     if (value.isEmpty) {
                       return getTransrlate(context, 'requiredempty');
@@ -68,21 +68,21 @@ class _RegisterFormState extends State<RegisterForm> {
                     model.Name = value;
                   },
                 ),
-                // MyTextFormField(
-                //   labelText: getTransrlate(context, 'City'),
-                //   hintText: getTransrlate(context, 'City'),
-                //   validator: (String value) {
-                //     if (value.isEmpty) {
-                //       return getTransrlate(context, 'requiredempty');
-                //     } else if (value.length <= 2) {
-                //       return "${getTransrlate(context, 'requiredlength')}";
-                //     }
-                //     return null;
-                //   },
-                //   onSaved: (String value) {
-                //     model.Name = value;
-                //   },
-                // ),
+                MyTextFormField(
+                  labelText: getTransrlate(context, 'Lastname'),
+                  hintText: getTransrlate(context, 'Lastname'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return getTransrlate(context, 'requiredempty');
+                    } else if (value.length <= 2) {
+                      return "${getTransrlate(context, 'requiredlength')}";
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    model.City = value;
+                  },
+                ),
                 // MyTextFormField(
                 //   labelText: getTransrlate(context, 'district'),
                 //   hintText: getTransrlate(context, 'district'),
@@ -98,21 +98,23 @@ class _RegisterFormState extends State<RegisterForm> {
                 //     model.Name = value;
                 //   },
                 // ),
-                // MyTextFormField(
-                //   labelText: getTransrlate(context, 'Addres'),
-                //   hintText: getTransrlate(context, 'Addres'),
-                //   validator: (String value) {
-                //     if (value.isEmpty) {
-                //       return getTransrlate(context, 'requiredempty');
-                //     } else if (value.length <= 2) {
-                //       return "${getTransrlate(context, 'requiredlength')}";
-                //     }
-                //     return null;
-                //   },
-                //   onSaved: (String value) {
-                //     model.Name = value;
-                //   },
-                // ),
+
+
+                MyTextFormField(
+                  labelText: getTransrlate(context, 'Username'),
+                  hintText: getTransrlate(context, 'Username'),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return getTransrlate(context, 'requiredempty');
+                    } else if (value.length <= 2) {
+                      return "${getTransrlate(context, 'requiredlength')}";
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    model.address = value;
+                  },
+                ),
                 MyTextFormField(
                   labelText: getTransrlate(context, 'phone'),
                   hintText: getTransrlate(context, 'phone'),
@@ -238,25 +240,23 @@ class _RegisterFormState extends State<RegisterForm> {
     model.gender = checkboxValueA.toString();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     API(context).post('account/api/register/', {
-      'fullName': model.Name,
+      'first_name': model.Name,
+      'last_name': model.City,
       'phone': model.phone,
+      'username': model.address,
       'password': model.password,
       "rePassword": model.password_confirmation,
     }).then((value) {
-      if (!value.containsKey('errors')) {
+      if (!value.containsKey('detail')) {
         setState(() => _isLoading = false);
-        var user = value['data'];
-        //   prefs.setString("user_email", user['email']);
-        // //  prefs.setString("email_verified_at", user['email_verified_at']);
-        //   if (user.containsKey('vendor_details')) {
-        //     prefs.setInt(
-        //         "complete", user['vendor_details']['complete']);
-        //     prefs.setString("vendor", 'vendor');
-        //   }
-        //   prefs.setString("user_name", user['name']);
-        //   prefs.setString("token", user['token']);
-        //   prefs.setInt("user_id", user['id']);
-        //   themeColor.setLogin(true);
+          prefs.setString("first_name", value['first_name']);
+          prefs.setString("last_name", value['last_name']);
+        //  prefs.setString("email_verified_at", user['email_verified_at']);
+
+          prefs.setString("username", value['username']);
+        //  prefs.setString("token", value['token']);
+          prefs.setString("password", value['password']);
+          themeColor.setLogin(true);
         showDialog(
                 context: context,
                 builder: (_) => ResultOverlay('${value['message']}'))
@@ -270,7 +270,7 @@ class _RegisterFormState extends State<RegisterForm> {
         showDialog(
             context: context,
             builder: (_) =>
-                ResultOverlay('${value['message']}\n${value['errors']}'));
+                ResultOverlay('${value['message']}\n${value['detail']}'));
 
         setState(() => _isLoading = false);
       }

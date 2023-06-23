@@ -50,14 +50,11 @@ class _CartScreenState extends State<CartScreen> {
     final _cart_model = Provider.of<Provider_Data>(context);
 
     return Scaffold(
-      bottomNavigationBar: themeColor.isLogin
-          ? _cart_model != null
-              ? _cart_model.cart_model != null
-                  ? _cart_model.cart_model.data == null
+      bottomNavigationBar: _cart_model.cart_model == null
                   ? Container(
         height: 1,
         width: 1,
-      ):_cart_model.cart_model.data.orderDetails.isEmpty
+      ):_cart_model.cart_model.items.isEmpty
                   ? Container(
         height: 1,
         width: 1,
@@ -72,10 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                _cart_model.cart_model.mixed? showDialog(
-                                    context: context,
-                                    builder: (_) =>
-                                    ResultOverlay('${getTransrlate(context, 'mixed')}')):
+
                                 pushNewScreen(
                                   context,
                                   screen: CheckOutPage(
@@ -108,26 +102,14 @@ class _CartScreenState extends State<CartScreen> {
                           ],
                         ),
                       ),
-                    )
-                  : Container(
-                      height: 1,
-                      width: 1,
-                    )
-              : Container(
-                  height: 1,
-                  width: 1,
-                )
-          : Container(
-              height: 1,
-              width: 1,
-            ),
+                    ),
+
       body: Column(
         children: [
           AppBarCustom(),
           Expanded(
             child: SingleChildScrollView(
-              child: themeColor.isLogin
-                  ? Column(
+              child:Column(
                       children: [
                         _cart_model == null
                             ? Center(
@@ -137,10 +119,10 @@ class _CartScreenState extends State<CartScreen> {
                               ))
                             : _cart_model.cart_model == null
                                 ? Container()
-                                :_cart_model.cart_model.data == null
+                                :_cart_model.cart_model == null
                                 ? NotFoundProduct()
                                 : SingleChildScrollView(
-                                    child: _cart_model.cart_model.data.orderDetails.isEmpty
+                                    child: _cart_model.cart_model.items.isEmpty
                                         ? NotFoundProduct()
                                         : Container(
                                             child: Column(
@@ -151,7 +133,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    '${getTransrlate(context, 'ShoppingCart')} (${_cart_model.cart_model.data.count_pieces})',
+                                                    '${getTransrlate(context, 'ShoppingCart')} (${_cart_model.cart_model.items.length})',
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -214,17 +196,17 @@ class _CartScreenState extends State<CartScreen> {
                                                   physics:
                                                       NeverScrollableScrollPhysics(),
                                                   itemCount: _cart_model.cart_model
-                                                      .data.orderDetails.length,
+                                                      .items.length,
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
                                                     return InkWell(
                                                       onTap: (){
-                                                        Nav.route(context, ProductPage(product_id:_cart_model.cart_model.data.orderDetails[index].productId.toString() ,));
+                                                        Nav.route(context, ProductPage(product_id:_cart_model.cart_model.items[index].id.toString() ,));
                                                       },
                                                       child: ProductCart(
                                                           themeColor: themeColor,
-                                                          carts: _cart_model.cart_model.data.orderDetails[index]),
+                                                          carts: _cart_model.cart_model.items[index]),
                                                     );
                                                   },
                                                 ),
@@ -259,7 +241,7 @@ class _CartScreenState extends State<CartScreen> {
                                                         ),
                                                         Container(
                                                           child: AutoSizeText(
-                                                            " ${_cart_model.cart_model.data.orderTotal} ${getTransrlate(context, 'Currency')}",
+                                                            " ${_cart_model.cart_model.grandTotal} ${getTransrlate(context, 'Currency')}",
                                                             maxLines: 1,
                                                             minFontSize: 20,
                                                             maxFontSize: 25,
@@ -294,7 +276,7 @@ class _CartScreenState extends State<CartScreen> {
                                   )
                       ],
                     )
-                  : Notlogin(),
+
             ),
           ),
         ],

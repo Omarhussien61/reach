@@ -6,9 +6,10 @@ import 'package:flutter_pos/model/product_model.dart';
 import 'package:flutter_pos/model/product_most_view.dart';
 import 'package:flutter_pos/model/shipping_address.dart';
 import 'package:flutter_pos/service/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Provider_Data with ChangeNotifier {
-   Cart_model cart_model;
+  Cart_model cart_model;
    Address address;
    Ads ads;
 
@@ -20,13 +21,16 @@ class Provider_Data with ChangeNotifier {
    Provider_Data();
    getCart_model() => cart_model;
    getCart(BuildContext context) {
-    API(context, Check: false).post('show/cart', {}).then((value) {
-      if (value != null) {
-        print(value);
-        cart_model = Cart_model.fromJson(value);
-        notifyListeners();
-      }
-    });
+     SharedPreferences.getInstance().then((value) {
+       API(context, Check: false).get('cart?token=${value.getString('token')}').then((value) {
+         if (value != null) {
+           print(value);
+           cart_model = Cart_model.fromJson(value['results'][0]);
+           notifyListeners();
+         }
+       });
+
+     });
   }
    getData(BuildContext context) {
      API(context)

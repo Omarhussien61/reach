@@ -20,7 +20,7 @@ class ProductCart extends StatefulWidget {
   }) : super(key: key);
 
   final Provider_control themeColor;
-  final OrderDetails carts;
+  final Item carts;
 
   @override
   _ProductCartState createState() => _ProductCartState();
@@ -64,9 +64,7 @@ class _ProductCartState extends State<ProductCart> {
               Container(
                 width: ScreenUtil.getWidth(context) / 3.5,
                 child: CachedNetworkImage(
-                  imageUrl: widget.carts.productImage.isNotEmpty
-                      ? widget.carts.productImage[0].image
-                      : '',
+                  imageUrl: widget.carts.product.name,
                   errorWidget: (context, url, error) => Icon(
                     Icons.image,
                     color: Colors.black12,
@@ -103,7 +101,7 @@ class _ProductCartState extends State<ProductCart> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               AutoSizeText(
-                Servicetheme.getlocal()=='ar'? widget.carts.productName?? widget.carts.productNameEn:widget.carts.productNameEn?? widget.carts.productName,
+                widget.carts.product.name,
                 maxLines: 3,
                 style: TextStyle(
                   fontSize: 16,
@@ -173,7 +171,7 @@ class _ProductCartState extends State<ProductCart> {
                                     ),
                                     Container(
                                       child: AutoSizeText(
-                                        " ${widget.carts.actual_price} ${getTransrlate(context, 'Currency')}",
+                                        " ${widget.carts.product.publicPrice} ${getTransrlate(context, 'Currency')}",
                                         maxLines: 1,
                                         minFontSize: 14,
                                         style: TextStyle(
@@ -203,7 +201,7 @@ class _ProductCartState extends State<ProductCart> {
                                     ),
                                     Container(
                                       child: AutoSizeText(
-                                        " ${widget.carts.total} ${getTransrlate(context, 'Currency')}",
+                                        " ${widget.carts.subTotal} ${getTransrlate(context, 'Currency')}",
                                         maxLines: 1,
                                         minFontSize: 14,
                                         style: TextStyle(
@@ -280,11 +278,11 @@ class _ProductCartState extends State<ProductCart> {
                                                 API(context)
                                                     .post('add/to/cart', {
                                                   "product_id":
-                                                      widget.carts.productId,
+                                                      widget.carts.product.id,
                                                   "quantity":
                                                       widget.carts.quantity,
                                                   "order_id":
-                                                      widget.carts.orderId
+                                                      widget.carts.id
                                                 }).then((value) {
                                                   setState(() => uloading = false);
 
@@ -379,8 +377,8 @@ class _ProductCartState extends State<ProductCart> {
     setState(() => loading = true);
 
     API(context).post('delete/from/cart', {
-      "order_id": widget.carts.orderId,
-      "product_id": widget.carts.productId
+      "order_id": widget.carts.id,
+      "product_id": widget.carts.product.id
     }).then((value) {
       setState(() => loading = false);
 

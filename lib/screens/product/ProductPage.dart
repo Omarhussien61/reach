@@ -49,7 +49,7 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   int _carouselCurrentPage = 0;
-  bool loading=false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,85 +57,166 @@ class _ProductPageState extends State<ProductPage> {
 
     return Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-      children: [
-          AppBarCustom(isback: true),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: ScreenUtil.getHeight(context) / 2.5,
-              child: CachedNetworkImage(imageUrl: widget.product.partCategoryName),
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppBarCustom(isback: true),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: ScreenUtil.getHeight(context) / 2.5,
+                child: CachedNetworkImage(
+                    imageUrl: widget.product.partCategoryName),
+              ),
             ),
-          ),
-          Container(child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("الشركة   : بيزلين"),
-              Text("المادة الفعالة     : بيزلين"),
-            ],
-          ),),
-          SizedBox(height: 20,),
-          Text("${widget.product.name}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-          SizedBox(height: 20,),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("السعر :",style: TextStyle(color: Colors.blue),),
-              Text("${widget.product.price}"),
-            ],
-          ),
-          SizedBox(height: 20,),
-          loading?CircularProgressIndicator(  valueColor:
-          AlwaysStoppedAnimation<Color>( Colors.orange),): Center(
-            child: TextButton(
-              style:getStyleButton( Colors.orange),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("الشركة   : بيزلين"),
+                  Text("المادة الفعالة     : بيزلين"),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "${widget.product.name}",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "السعر :",
+                  style: TextStyle(color: Colors.blue),
+                ),
+                Text("${widget.product.price}"),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            loading
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  )
+                : Center(
+                    child: TextButton(
+                      style: getStyleButton(Colors.orange),
+                      onPressed: () {
+                        setState(() => loading = true);
 
-              onPressed: () {
-                setState(() => loading = true);
+                        API(context).post(
+                            'store/cart/${widget.product.id}/items/', {
+                          "product_id": widget.product.id,
+                          "quantity": 1
+                        }).then((value) {
+                          setState(() => loading = false);
+                          print(value);
 
-                API(context).post('store/cart/${widget.product.id}/items/', {
-                  "product_id": widget.product.id,
-                  "quantity": 1
-                }).then((value) {
-                  setState(() => loading = false);
-                  print(value);
-
-                  if (value != null) {
-
-                    if (!value.containsKey('detail')) {
-                      setState(() {
-                        widget.product.inCart=1;
-                      });
-                      showDialog(
-                          context: context,
-                          builder: (_) =>
-                              ResultOverlay(value['message']??value['detail'],
-                                  icon: Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.green,
-                                    size: 80,
-
-                                  )));
-                      ServiceData.getCart(context);
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (_) => ResultOverlay(
-                              '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
-                              icon: Icon(
-                                Icons.info_outline,
-                                color: Colors.yellow,
-                                size: 80,
-                              )));
-                    }
-                  }
-                });
-              },
-              child: Text(getTransrlate(context, 'ADDtoCart'),style: TextStyle(color: Colors.white),),
-            ),)
-      ],
-    ),
-        ));
+                          if (value != null) {
+                            if (!value.containsKey('detail')) {
+                              setState(() {
+                                widget.product.inCart = 1;
+                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => ResultOverlay(
+                                      value['message'] ?? value['detail'],
+                                      icon: Icon(
+                                        Icons.check_circle_outline,
+                                        color: Colors.green,
+                                        size: 80,
+                                      )));
+                              ServiceData.getCart(context);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => ResultOverlay(
+                                      '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                      icon: Icon(
+                                        Icons.info_outline,
+                                        color: Colors.yellow,
+                                        size: 80,
+                                      )));
+                            }
+                          }
+                        });
+                      },
+                      child: Container(
+                          width: ScreenUtil.getWidth(context) / 1.2,
+                          height: 30,
+                          child: Center(
+                              child: Text(
+                            getTransrlate(context, 'ADDtoCart'),
+                            style: TextStyle(color: Colors.white),
+                          ))),
+                    ),
+                  ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black12),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "المواصفات :",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                        "بيزلين | رول أون مزيل العرق للرجال سوبر دراي | 50 مل"),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black12),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "الاستخدام :",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                        "بيزلين | رول أون مزيل العرق للرجال سوبر دراي | 50 مل"),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }

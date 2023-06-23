@@ -5,6 +5,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_pos/screens/MyCars/myCars.dart';
 import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/homepage.dart';
+import 'package:flutter_pos/screens/order/cart.dart';
 import 'package:flutter_pos/screens/splash_screen.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
 import 'package:flutter_pos/utils/navigator.dart';
@@ -96,7 +97,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
             ),
             IconButton(
               onPressed: () {
-                showDialog(context: context, builder: (_) => SearchOverlay());
+                Nav.route(context, CartScreen());
               },
               icon: Icon(
                 Icons.shopping_cart,

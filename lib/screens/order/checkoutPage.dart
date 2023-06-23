@@ -267,7 +267,7 @@ setState(() {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount:
-                                        widget.carts.data.orderDetails.length,
+                                        widget.carts.items.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Row(
@@ -281,17 +281,7 @@ setState(() {
                                             child: CachedNetworkImage(
                                               imageUrl: widget
                                                       .carts
-                                                      .data
-                                                      .orderDetails[index]
-                                                      .productImage
-                                                      .isNotEmpty
-                                                  ? widget
-                                                      .carts
-                                                      .data
-                                                      .orderDetails[index]
-                                                      .productImage[0]
-                                                      .image
-                                                  : '',
+                                                      .items[index].product.image,
                                               errorWidget:
                                                   (context, url, error) => Icon(
                                                 Icons.image,
@@ -307,7 +297,9 @@ setState(() {
                                                 ScreenUtil.getWidth(context) /
                                                     2,
                                             child: AutoSizeText(
-                                              "${themeColor.getlocal()=='ar'? widget.carts.data.orderDetails[index].productName??widget.carts.data.orderDetails[index].productNameEn: widget.carts.data.orderDetails[index].productNameEn??widget.carts.data.orderDetails[index].productName}",
+                                              "${ widget
+                                                  .carts
+                                                  .items[index].product.name}",
 
                                               maxLines: 2,
                                               style: TextStyle(
@@ -1176,159 +1168,159 @@ setState(() {
         SizedBox(
           height: 5,
         ),
-        Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.black12)),
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              ListView.builder(
-                padding: EdgeInsets.all(1),
-                primary: false,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: widget.carts.data.orderDetails.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: ScreenUtil.getWidth(context) / 8,
-                            height:  ScreenUtil.getHeight(context)/20,
-
-                            child: CachedNetworkImage(
-                              imageUrl: widget.carts.data.orderDetails[index]
-                                      .productImage.isNotEmpty
-                                  ? widget.carts.data.orderDetails[index]
-                                      .productImage[0].image
-                                  : '',
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.image,
-                                color: Colors.black12,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: ScreenUtil.getWidth(context) / 2,
-                            child: AutoSizeText(
-                              "${themeColor.getlocal()=='ar'? widget.carts.data.orderDetails[index].productName??widget.carts.data.orderDetails[index].productNameEn: widget.carts.data.orderDetails[index].productNameEn??widget.carts.data.orderDetails[index].productName}",
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              minFontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AutoSizeText(
-                              "${getTransrlate(context, 'quantity')} :  ${widget.carts.data.orderDetails[index].quantity}",
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              minFontSize: 11,
-                            ),
-                            AutoSizeText(
-                              "${getTransrlate(context, 'price')} : ${widget.carts.data.orderDetails[index].actual_price}  ${getTransrlate(context, 'Currency')}",
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              minFontSize: 11,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.black12,
-                      ),
-                    ],
-                  );
-                },
-              ),
-              Container(
-                height: 1,
-                color: Colors.black12,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "${getTransrlate(context, 'total_product')}",
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    Text(
-                      '${widget.carts.data.orderTotal} ${getTransrlate(context, 'Currency')} ',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      getTransrlate(context, 'fees_ship'),
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    Text(
-                      '0.00 ${getTransrlate(context, 'Currency')} ',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 1,
-                color: Colors.black12,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      getTransrlate(context, 'total_order'),
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    Text(
-                      '${widget.carts.data.orderTotal} ${getTransrlate(context, 'Currency')} ',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+        // Container(
+        //   decoration: BoxDecoration(border: Border.all(color: Colors.black12)),
+        //   padding: const EdgeInsets.all(12.0),
+        //   child: Column(
+        //     children: [
+        //       ListView.builder(
+        //         padding: EdgeInsets.all(1),
+        //         primary: false,
+        //         shrinkWrap: true,
+        //         physics: NeverScrollableScrollPhysics(),
+        //         itemCount: widget.carts.data.orderDetails.length,
+        //         itemBuilder: (BuildContext context, int index) {
+        //           return Column(
+        //             children: [
+        //               SizedBox(
+        //                 height: 10,
+        //               ),
+        //               Row(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: [
+        //                   Container(
+        //                     width: ScreenUtil.getWidth(context) / 8,
+        //                     height:  ScreenUtil.getHeight(context)/20,
+        //
+        //                     child: CachedNetworkImage(
+        //                       imageUrl: widget.carts.data.orderDetails[index]
+        //                               .productImage.isNotEmpty
+        //                           ? widget.carts.data.orderDetails[index]
+        //                               .productImage[0].image
+        //                           : '',
+        //                       errorWidget: (context, url, error) => Icon(
+        //                         Icons.image,
+        //                         color: Colors.black12,
+        //                       ),
+        //                     ),
+        //                   ),
+        //                   SizedBox(
+        //                     width: 10,
+        //                   ),
+        //                   Container(
+        //                     width: ScreenUtil.getWidth(context) / 2,
+        //                     child: AutoSizeText(
+        //                       "${themeColor.getlocal()=='ar'? widget.carts.data.orderDetails[index].productName??widget.carts.data.orderDetails[index].productNameEn: widget.carts.data.orderDetails[index].productNameEn??widget.carts.data.orderDetails[index].productName}",
+        //                       maxLines: 2,
+        //                       style: TextStyle(
+        //                         fontSize: 14,
+        //                         fontWeight: FontWeight.bold,
+        //                       ),
+        //                       minFontSize: 11,
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //               Padding(
+        //                 padding: const EdgeInsets.all(8.0),
+        //                 child: Row(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                   children: [
+        //                     AutoSizeText(
+        //                       "${getTransrlate(context, 'quantity')} :  ${widget.carts.data.orderDetails[index].quantity}",
+        //                       maxLines: 2,
+        //                       style: TextStyle(
+        //                         fontSize: 14,
+        //                         fontWeight: FontWeight.bold,
+        //                       ),
+        //                       minFontSize: 11,
+        //                     ),
+        //                     AutoSizeText(
+        //                       "${getTransrlate(context, 'price')} : ${widget.carts.data.orderDetails[index].actual_price}  ${getTransrlate(context, 'Currency')}",
+        //                       maxLines: 2,
+        //                       style: TextStyle(
+        //                         fontSize: 14,
+        //                         fontWeight: FontWeight.bold,
+        //                       ),
+        //                       minFontSize: 11,
+        //                     ),
+        //                     SizedBox(
+        //                       width: 10,
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //               Container(
+        //                 height: 1,
+        //                 color: Colors.black12,
+        //               ),
+        //             ],
+        //           );
+        //         },
+        //       ),
+        //       Container(
+        //         height: 1,
+        //         color: Colors.black12,
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.symmetric(vertical: 10),
+        //         child: Row(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //           children: [
+        //             Text(
+        //               "${getTransrlate(context, 'total_product')}",
+        //               style: TextStyle(fontWeight: FontWeight.w700),
+        //             ),
+        //             Text(
+        //               '${widget.carts.data.orderTotal} ${getTransrlate(context, 'Currency')} ',
+        //               style: TextStyle(fontWeight: FontWeight.w700),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.symmetric(vertical: 10),
+        //         child: Row(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //           children: [
+        //             Text(
+        //               getTransrlate(context, 'fees_ship'),
+        //               style: TextStyle(fontWeight: FontWeight.w700),
+        //             ),
+        //             Text(
+        //               '0.00 ${getTransrlate(context, 'Currency')} ',
+        //               style: TextStyle(fontWeight: FontWeight.w700),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //       Container(
+        //         height: 1,
+        //         color: Colors.black12,
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.symmetric(vertical: 10),
+        //         child: Row(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //           children: [
+        //             Text(
+        //               getTransrlate(context, 'total_order'),
+        //               style: TextStyle(fontWeight: FontWeight.w700),
+        //             ),
+        //             Text(
+        //               '${widget.carts.data.orderTotal} ${getTransrlate(context, 'Currency')} ',
+        //               style: TextStyle(fontWeight: FontWeight.w700),
+        //             ),
+        //           ],
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
       ],
     );
 

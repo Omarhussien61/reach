@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
             Center(
                 child: Text(
               data.cart_model != null
-                  ? " ${data.cart_model.data == null ? 0 : data.cart_model.data.count_pieces ?? 0} "
+                  ? " ${data.cart_model.items == null ? 0 : data.cart_model.items.length ?? 0} "
                   : '',
               style: TextStyle(
                   height: 1,
@@ -104,6 +104,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     Provider.of<Provider_Data>(context, listen: false).getData( context);
+    Provider.of<Provider_Data>(context, listen: false).getCart( context);
     SharedPreferences.getInstance().then((value) {
       complete = value.getInt('complete');
     });

@@ -34,65 +34,72 @@ class ItemHiddenMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          margin: EdgeInsets.only(bottom: 15.0, top: 15.0, left: 24),
-          child: InkWell(
-            onTap: onTap,
-            child: Row(
-              children: <Widget>[
-                Container(width: 32, child: icon),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Text(
-                    name,
-                    style: (this.baseStyle ??
-                            TextStyle(color: Colors.grey, fontSize: 14.0))
-                        .merge(this.selected
-                            ? this.selectedStyle ??
-                                TextStyle(color: Colors.black, fontSize: 14)
-                            : TextStyle(color: Colors.black, fontSize: 14)),
-                  ),
-                ),lable==null?Container():lable.isEmpty?Container():Row(
-                  children: [
-                    Icon(Icons.check,color: Colors.lightGreen,),
-                    Container(
-                      width: ScreenUtil.getWidth(context)/3,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5.0),
+      child: Container(
+        color:Colors.black26,
+
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 10.0, top: 10.0, left: 24),
+              child: InkWell(
+                onTap: onTap,
+                child: Row(
+                  children: <Widget>[
+                    Container(width: 100, child: icon),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
                       child: Text(
-                        "$lable",maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        name,
                         style: (this.baseStyle ??
-                                TextStyle(color: Colors.grey, fontSize: 10.0))
+                                TextStyle(color: Colors.grey, fontSize: 14.0))
                             .merge(this.selected
                                 ? this.selectedStyle ??
-                                    TextStyle(color: Colors.black, fontSize: 10)
-                                : TextStyle(color: Colors.black, fontSize: 10)),
+                                    TextStyle(color: Colors.black, fontSize: 14)
+                                : TextStyle(color: Colors.black, fontSize: 14)),
                       ),
+                    ),lable==null?Container():lable.isEmpty?Container():Row(
+                      children: [
+                        Icon(Icons.check,color: Colors.lightGreen,),
+                        Container(
+                          width: ScreenUtil.getWidth(context)/3,
+                          child: Text(
+                            "$lable",maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: (this.baseStyle ??
+                                    TextStyle(color: Colors.grey, fontSize: 10.0))
+                                .merge(this.selected
+                                    ? this.selectedStyle ??
+                                        TextStyle(color: Colors.black, fontSize: 10)
+                                    : TextStyle(color: Colors.black, fontSize: 10)),
+                          ),
+                        ),
+                      ],
                     ),
+                    onTap == null
+                        ? Container()
+                        : Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                            size: 15,
+                          )
                   ],
                 ),
-                onTap == null
-                    ? Container()
-                    : Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                        size: 15,
-                      )
-              ],
+              ),
             ),
-          ),
+            onTap == null
+                ? Container()
+                : Container(
+                    height: 1,
+                    color: Colors.black12,
+                  )
+          ],
         ),
-        onTap == null
-            ? Container()
-            : Container(
-                height: 1,
-                color: Colors.black12,
-              )
-      ],
+      ),
     );
   }
 }

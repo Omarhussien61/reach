@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos/screens/account/login.dart';
+import 'package:flutter_pos/screens/account/start.dart';
 import 'package:flutter_pos/screens/homepage.dart';
 import 'package:flutter_pos/service/api.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
@@ -75,8 +76,8 @@ class _SplashScreenState extends State<SplashScreen>
     //themeColor.setCar_made(getTransrlate(context, 'selectCar'));
     final SharedPreferences prefs =
     await SharedPreferences.getInstance();
-     //   Nav.routeReplacement(context, LoginPage());
-           Nav.routeReplacement(context, Home());
+        Nav.routeReplacement(context, StartScreen());
+         //  Nav.routeReplacement(context, Home());
 
     // API(context,Check: false).post('check/valid/session', {}).then((value) async {
     //

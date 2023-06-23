@@ -101,7 +101,7 @@ class _AccountState extends State<Account> {
                     ? Container()
                     : Container(
                   width: ScreenUtil.getWidth(context) ,
-                  child: Column(
+                  child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -110,11 +110,12 @@ class _AccountState extends State<Account> {
                                 Nav.route(context, LoginPage());
                               },
                               child: Container(
-                                width: ScreenUtil.getWidth(context) / 1.2,
+                                width: ScreenUtil.getWidth(context) / 2.5,
 
                                 padding: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.orange)),
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.green),
                                 child: Center(
                                   child: AutoSizeText(
                                     getTransrlate(context, 'login'),
@@ -123,7 +124,7 @@ class _AccountState extends State<Account> {
                                     maxLines: 1,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.orange),
+                                        color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -134,11 +135,12 @@ class _AccountState extends State<Account> {
                                 Nav.route(context, SignUpPage());
                               },
                               child: Container(
-                                width: ScreenUtil.getWidth(context) / 1.2,
+                                width: ScreenUtil.getWidth(context) / 2.5,
 
                                 padding: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.orange)),
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.green),
                                 child: Center(
                                   child: AutoSizeText(
                                     getTransrlate(context, 'AreadyAccount'),
@@ -148,7 +150,7 @@ class _AccountState extends State<Account> {
                                     minFontSize: 10,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.orange),
+                                        color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -194,8 +196,7 @@ class _AccountState extends State<Account> {
                                           },
                                           icon: SvgPicture.asset(
                                             'assets/icons/store.svg',
-                                            height: 25,
-                                            color: Colors.orange,
+                                            height: 30,
                                           ),
                                           name: getTransrlate(
                                               context, 'vendorSettings'),
@@ -211,7 +212,6 @@ class _AccountState extends State<Account> {
                                     },
                                     icon: SvgPicture.asset(
                                       'assets/icons/account.svg',
-                                      color: Colors.orange,
                                     ),
                                     name: getTransrlate(
                                         context, 'ProfileSettings'),
@@ -231,9 +231,7 @@ class _AccountState extends State<Account> {
                                     },
                                     icon: Icon(
                                       Icons.location_on_outlined,
-                                      size: 25,
-                                      color: Colors.orange,
-                                    ),
+                                      size: 30,),
                                     name: getTransrlate(context, 'MyAddress') ,
                                     baseStyle: TextStyle(
                                         color: Colors.black,
@@ -247,8 +245,7 @@ class _AccountState extends State<Account> {
                                     },
                                     icon: Icon(
                                       Icons.local_shipping_outlined,
-                                      size: 25,
-                                      color: Colors.orange,
+                                      size: 30,
                                     ),
                                     name: getTransrlate(context, 'Myorders'),
                                     baseStyle: TextStyle(
@@ -263,8 +260,7 @@ class _AccountState extends State<Account> {
                                     },
                                     icon: Icon(
                                       Icons.favorite_border,
-                                      size: 25,
-                                      color: Colors.orange,
+                                      size: 30,
                                     ),
                                     name: getTransrlate(context, 'MyFav'),
                                     baseStyle: TextStyle(
@@ -299,8 +295,7 @@ class _AccountState extends State<Account> {
                           child: ItemHiddenMenu(
                             icon: Icon(
                               Icons.language,
-                              size: 25,
-                              color: Colors.orange,
+                              size: 30,
                             ),
                             name:
                                 Provider.of<Provider_control>(context).local ==
@@ -315,16 +310,15 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            Nav.route(context, Support_Screen());
+                          onTap: () async {
+
                           },
                           child: ItemHiddenMenu(
-                            icon: Icon(
-                              Icons.help_outline_rounded,
-                              size: 25,
-                              color: Colors.orange,
+                            icon: Image.asset(
+                              "assets/images/roshata.png",
+                              height: 30,
                             ),
-                            name: getTransrlate(context, 'Support'),
+                            name:"اضف روشتة",
                             baseStyle: TextStyle(
                                 color: Colors.black,
                                 fontSize: 19.0,
@@ -333,16 +327,15 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            Nav.route(context, Return());
+                          onTap: () async {
+
                           },
                           child: ItemHiddenMenu(
-                            icon: Icon(
-                              Icons.info_outline,
-                              size: 25,
-                              color: Colors.orange,
+                            icon: Image.asset(
+                              "assets/images/wishlist.png",
+                              height: 30,
                             ),
-                            name: getTransrlate(context, 'return'),
+                            name:"منتجاتي المفضلة",
                             baseStyle: TextStyle(
                                 color: Colors.black,
                                 fontSize: 19.0,
@@ -351,16 +344,15 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            Nav.route(context, Conditions());
+                          onTap: () async {
+
                           },
                           child: ItemHiddenMenu(
-                            icon: Icon(
-                              Icons.contact_page_outlined,
-                              size: 25,
-                              color: Colors.orange,
+                            icon: Image.asset(
+                              "assets/images/doctor.png",
+                              height: 30,
                             ),
-                            name: getTransrlate(context, 'Conditions'),
+                            name:"اسال طبيب",
                             baseStyle: TextStyle(
                                 color: Colors.black,
                                 fontSize: 19.0,
@@ -368,6 +360,163 @@ class _AccountState extends State<Account> {
                             colorLineSelected: Colors.orange,
                           ),
                         ),
+
+                        InkWell(
+                          onTap: () async {
+
+                          },
+                          child: ItemHiddenMenu(
+                            icon: Image.asset(
+                              "assets/images/share.png",
+                              height: 30,
+                            ),
+                            name:"شارك التطبيق",
+                            baseStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w800),
+                            colorLineSelected: Colors.orange,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+
+                          },
+                          child: ItemHiddenMenu(
+                            icon: Image.asset(
+                              "assets/images/review.png",
+                              height: 30,
+                            ),
+                            name:"قيم التطبيق",
+                            baseStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w800),
+                            colorLineSelected: Colors.orange,
+                          ),
+                        ),
+
+                        InkWell(
+                          onTap: () async {
+
+                          },
+                          child: ItemHiddenMenu(
+                            icon: Image.asset(
+                              "assets/images/change.png",
+                              height: 30,
+                            ),
+                            name:"تغيير الفرع",
+                            baseStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w800),
+                            colorLineSelected: Colors.orange,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+
+                          },
+                          child: ItemHiddenMenu(
+                            icon: Image.asset(
+                              "assets/images/setting.png",
+                              height: 30,
+                            ),
+                            name:"الاعدادات",
+                            baseStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w800),
+                            colorLineSelected: Colors.orange,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+
+                          },
+                          child: ItemHiddenMenu(
+                            icon: Image.asset(
+                              "assets/images/emagency.png",
+                              height: 30,
+                            ),
+                            name:"اطباء الطوارئ",
+                            baseStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w800),
+                            colorLineSelected: Colors.orange,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+
+                          },
+                          child: ItemHiddenMenu(
+                            icon: Image.asset(
+                              "assets/images/contract.png",
+                              height: 30,
+                            ),
+                            name:"صرف تعاقدات",
+                            baseStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w800),
+                            colorLineSelected: Colors.orange,
+                          ),
+                        ),
+
+
+                        // InkWell(
+                        //   onTap: () {
+                        //     Nav.route(context, Support_Screen());
+                        //   },
+                        //   child: ItemHiddenMenu(
+                        //     icon: Icon(
+                        //       Icons.help_outline_rounded,
+                        //       size: 30,
+                        //     ),
+                        //     name: getTransrlate(context, 'Support'),
+                        //     baseStyle: TextStyle(
+                        //         color: Colors.black,
+                        //         fontSize: 19.0,
+                        //         fontWeight: FontWeight.w800),
+                        //     colorLineSelected: Colors.orange,
+                        //   ),
+                        // ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Nav.route(context, Return());
+                        //   },
+                        //   child: ItemHiddenMenu(
+                        //     icon: Icon(
+                        //       Icons.info_outline,
+                        //       size: 30,
+                        //     ),
+                        //     name: getTransrlate(context, 'return'),
+                        //     baseStyle: TextStyle(
+                        //         color: Colors.black,
+                        //         fontSize: 19.0,
+                        //         fontWeight: FontWeight.w800),
+                        //     colorLineSelected: Colors.orange,
+                        //   ),
+                        // ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Nav.route(context, Conditions());
+                        //   },
+                        //   child: ItemHiddenMenu(
+                        //     icon: Icon(
+                        //       Icons.contact_page_outlined,
+                        //       size: 30,
+                        //     ),
+                        //     name: getTransrlate(context, 'Conditions'),
+                        //     baseStyle: TextStyle(
+                        //         color: Colors.black,
+                        //         fontSize: 19.0,
+                        //         fontWeight: FontWeight.w800),
+                        //     colorLineSelected: Colors.orange,
+                        //   ),
+                        // ),
                         token == null
                             ? Container()
                             : InkWell(
@@ -385,7 +534,6 @@ class _AccountState extends State<Account> {
                                   icon: Icon(
                                     Icons.exit_to_app,
                                     size: 19,
-                                    color: Colors.orange,
                                   ),
                                   name: getTransrlate(context, 'Logout'),
                                   baseStyle: TextStyle(
@@ -527,7 +675,7 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                         SizedBox(
-                          height: 25,
+                          height: 30,
                         )
                       ],
                     ),

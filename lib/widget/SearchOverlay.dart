@@ -74,7 +74,7 @@ class SearchOverlayState extends State<SearchOverlay>
                                         context,
                                         Products_Page(
                                           Url:
-                                              'ahmed/search/products?search_index=$search_index&cartype_id=${themeColor.car_type}',
+                                              'filter?search=$search_index',
                                           name:
                                               "نتائج البحث: ${search_index ?? ''}",
                                         ));
@@ -104,22 +104,16 @@ class SearchOverlayState extends State<SearchOverlay>
                                   if (string.length >= 2) {
                                     API(context)
                                         .get(
-                                      'ahmed/search/products?search_index=$search_index&cartype_id=${themeColor.car_type}',
+                                      'filter?search=$search_index',
                                     )
                                         .then((value) {
                                       if (value != null) {
-                                        if (value['status_code'] == 200) {
                                           setState(() {
                                             products =
                                                 Product_model.fromJson(value)
                                                     .data;
                                           });
-                                        } else {
-                                          showDialog(
-                                              context: context,
-                                              builder: (_) => ResultOverlay(
-                                                  "${value['message']}\n${value['errors']}"));
-                                        }
+
                                       }
                                     });
                                   } else {

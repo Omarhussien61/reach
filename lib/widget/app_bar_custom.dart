@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_pos/screens/MyCars/myCars.dart';
 import 'package:flutter_pos/screens/account/Account.dart';
+import 'package:flutter_pos/screens/account/user_information.dart';
 import 'package:flutter_pos/screens/homepage.dart';
 import 'package:flutter_pos/screens/order/cart.dart';
 import 'package:flutter_pos/screens/splash_screen.dart';
@@ -87,7 +88,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
             Expanded(child: SizedBox(height: 10,)),
             IconButton(
               onPressed: () {
-                showDialog(context: context, builder: (_) => SearchOverlay());
+                Nav.route(context, UserInfo());
               },
               icon: Icon(
                 Icons.account_circle,

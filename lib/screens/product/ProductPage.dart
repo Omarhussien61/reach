@@ -27,6 +27,7 @@ import 'package:flutter_pos/widget/app_bar_custom.dart';
 import 'package:flutter_pos/widget/custom_loading.dart';
 import 'package:flutter_pos/widget/custom_textfield.dart';
 import 'package:flutter_pos/widget/no_found_product.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:share/share.dart';
@@ -67,15 +68,16 @@ class _ProductPageState extends State<ProductPage> {
               child: Container(
                 height: ScreenUtil.getHeight(context) / 2.5,
                 child: CachedNetworkImage(
-                    imageUrl: widget.product.partCategoryName),
+                    imageUrl: widget.product.image??' ',errorWidget:(context, url, error) =>CachedNetworkImage(
+                  imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ') ,),
               ),
             ),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("الشركة   : بيزلين"),
-                  Text("المادة الفعالة     : بيزلين"),
+                  Text("الشركة   : ${widget.product.company.name}"),
+                  Text("المادة الفعالة     : ${widget.product.effectiveMaterial}"),
                 ],
               ),
             ),
@@ -96,7 +98,42 @@ class _ProductPageState extends State<ProductPage> {
                   "السعر :",
                   style: TextStyle(color: Colors.blue),
                 ),
-                Text("${widget.product.price}"),
+                widget.product.salePrice=='null' ? Container(
+                  width: ScreenUtil.getWidth(context) / 5,
+                  child: Text(
+                    "${widget.product.publicPrice??0} ${getTransrlate(context, 'Currency')} ",
+                    maxLines: 1,
+
+                    style: TextStyle(
+                        color:Colors.black,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ) :Container(
+                  width: ScreenUtil.getWidth(context) / 4,
+                  child: Row(
+                    children: [
+                      Text(
+                        "${widget.product.publicPrice??0} ${getTransrlate(context, 'Currency')} ",
+                        maxLines: 1,
+
+                        style: TextStyle(
+                            color:Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${widget.product.salePrice??0} ",
+                        maxLines: 1,
+                        style: TextStyle(
+                            color:Colors.orange,
+                            fontSize: 10,
+                            decoration: TextDecoration.lineThrough,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             SizedBox(
@@ -113,7 +150,7 @@ class _ProductPageState extends State<ProductPage> {
                         setState(() => loading = true);
 
                         API(context).post(
-                            'store/cart/${widget.product.id}/items/', {
+                            'store/cart/${ServiceData.cart_model.id}/items/', {
                           "product_id": widget.product.id,
                           "quantity": 1
                         }).then((value) {
@@ -123,7 +160,6 @@ class _ProductPageState extends State<ProductPage> {
                           if (value != null) {
                             if (!value.containsKey('detail')) {
                               setState(() {
-                                widget.product.inCart = 1;
                               });
                               showDialog(
                                   context: context,
@@ -164,6 +200,8 @@ class _ProductPageState extends State<ProductPage> {
             ),
             Container(
               height: 150,
+              width: ScreenUtil.getWidth(context),
+
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.black12),
@@ -180,7 +218,7 @@ class _ProductPageState extends State<ProductPage> {
                       height: 20,
                     ),
                     Text(
-                        "بيزلين | رول أون مزيل العرق للرجال سوبر دراي | 50 مل"),
+                        "${widget.product.description}"),
                   ],
                 ),
               ),
@@ -190,6 +228,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
             Container(
               height: 150,
+              width: ScreenUtil.getWidth(context),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.black12),
@@ -206,7 +245,7 @@ class _ProductPageState extends State<ProductPage> {
                       height: 20,
                     ),
                     Text(
-                        "بيزلين | رول أون مزيل العرق للرجال سوبر دراي | 50 مل"),
+                        "${widget.product.usage}"),
                   ],
                 ),
               ),

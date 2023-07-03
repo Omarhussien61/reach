@@ -1,5 +1,7 @@
 import 'package:flutter_pos/model/Categories_model.dart';
 
+import 'dart:convert';
+
 class Product_model {
   int statusCode;
   String message;
@@ -8,8 +10,7 @@ class Product_model {
   Product_model({this.statusCode, this.message, this.data});
 
   Product_model.fromJson(Map<String, dynamic> json) {
-    statusCode = json['status_code'];
-    message = json['message'];
+
     if (json['results'] != null) {
       data = new List<Product>();
       json['results'].forEach((v) { data.add(new Product.fromJson(v)); });
@@ -31,219 +32,98 @@ class Product_model {
   }
 }
 
+// To parse this JSON data, do
+//
+//     final product = productFromJson(jsonString);
+
+
+Product productFromJson(String str) => Product.fromJson(json.decode(str));
+
+String productToJson(Product data) => json.encode(data.toJson());
+
 class Product {
   int id;
   String name;
-  String nameEN;
-  String product_id;
+  String effectiveMaterial;
+  String image;
+  String publicPrice;
+  String salePrice;
+  Company company;
+  String usage;
+  String percentage;
   String description;
-  String description_en;
-  String discount;
-  String price;
-  double action_price;
-  int quantity;
-  String serialNumber;
+  String warning;
+  bool discount;
+  List<dynamic> like;
 
-  int tyres_belong;
+  Product({
+    this.id,
+    this.name,
+    this.effectiveMaterial,
+    this.image,
+    this.publicPrice,
+    this.salePrice,
+    this.company,
+    this.usage,
+    this.percentage,
+    this.description,
+    this.discount,
+    this.warning,
+    this.like,
+  });
 
-  String size;
-  String height;
-  String width;
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+    id: json["id"],
+    name: json["name"],
+    effectiveMaterial: json["effective_material"],
+    image: json["image"],
+    discount: json["discount"]??false,
+    percentage: "${json["percentage"]}",
+    publicPrice: "${json["public_price"]}",
+    salePrice: "${json["instead_of"]}",
+    company:json["company"]==null?Company(name: " "): Company.fromJson(json["company"]),
+    usage: json["usage"],
+    description: json["description"],
+    warning: json["warning"],
+    like: List<dynamic>.from(json["like"].map((x) => x)),
+  );
 
-  int carMadeId;
-  CarMadeName carMadeName;
-  List<CarModelName> carModelName;
-  int cartypeId;
-  String cartypeName;
-  YearFrom yearFrom;
-  YearFrom yearTo;
-  int partCategoryId;
-  String partCategoryName;
-  int categoryId;
-  dynamic categoryName;
-  int vendorId;
-  String vendorName;
-  String vendorSerial;
-  int storeId;
-  String storeName;
-  int manufacturerId;
-  int prodcountryId;
-  String manufacturerName;
-  int transmissionId;
-  String transmissionName;
-  int producttypeId;
-  String producttypeName;
-  String origincountryName;
-  int noOfOrders;
-  String holesalePrice;
-  int countViews;
-  double avgValuations;
-  int cartEnable;
-  int wishlistEnable;
-  List<Media> media;
-  List<PhotoProduct> photo;
-  List<Categories_item> allcategory;
-  String serialId;
-  int approved;
-  List<ProductTags> productTags;
-  List<ProductReviews> productReviews;
-  int countProductReviews;
-  int countAvgValuations;
-  String timeCreated;
-  int inCart;
-  int inWishlist;
-  int inFavourites;
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "effective_material": effectiveMaterial,
+    "image": image,
+    "public_price": publicPrice,
+    "company": company.toJson(),
+    "usage": usage,
+    "description": description,
+    "warning": warning,
+    "like": List<dynamic>.from(like.map((x) => x)),
+  };
+}
 
-  Product({this.id, this.name, this.description, this.discount, this.price, this.quantity, this.serialNumber, this.carMadeId, this.carMadeName, this.carModelName, this.cartypeId, this.cartypeName, this.yearFrom, this.yearTo, this.partCategoryId, this.partCategoryName, this.categoryId, this.categoryName, this.vendorId, this.vendorName, this.storeId, this.storeName, this.manufacturerId, this.prodcountryId, this.manufacturerName, this.transmissionId, this.transmissionName, this.producttypeId, this.producttypeName, this.origincountryName, this.noOfOrders, this.holesalePrice, this.countViews, this.avgValuations, this.cartEnable, this.wishlistEnable, this.media, this.photo, this.serialId, this.approved, this.productTags, this.productReviews, this.countProductReviews, this.countAvgValuations, this.timeCreated, this.inCart, this.inWishlist, this.inFavourites, this.action_price});
+class Company {
+  int id;
+  String name;
+  String image;
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    nameEN = json['name_en'];
-    description = json['description'];
-    description_en = json['description_en'];
-    discount = json['discount']??'0';
-    price = "${json['public_price']}";
-    action_price = json['public_price'];
-    quantity = json['quantity'];
-    serialNumber = json['serial_number'];
-    tyres_belong = json['tyres_belong'];
-    carMadeId = json['car_made_id'];
-    carMadeName = json['car_made_name'] != null ? new CarMadeName.fromJson(json['car_made_name']) : null;
-    if (json['car_model_name'] != null) {
-      carModelName = new List<CarModelName>();
-      json['car_model_name'].forEach((v) { carModelName.add(new CarModelName.fromJson(v)); });
-    }   if (json['allcategory'] != null) {
-      allcategory = new List<Categories_item>();
-      json['allcategory'].forEach((v) { allcategory.add(new Categories_item.fromJson(v)); });
-    }
-    cartypeId = json['cartype_id'];
-    product_id = "${json['product_id']}";
-    cartypeName = json['cartype_name'];
-    yearFrom = json['year_from'] != null ? new YearFrom.fromJson(json['year_from']) : null;
-    yearTo = json['year_to'] != null ? new YearFrom.fromJson(json['year_to']) : null;
-    partCategoryId = json['part_category_id'];
-    partCategoryName = json['image'];
-    categoryId = json['category_id'];
-    categoryName = json['category_name'] != null ?json['category_name'].runtimeType==String?json['category_name']: new Category_Name.fromJson(json['category_name']) : null;
-    vendorId = json['vendor_id'];
-    vendorName = json['vendor_name'];
-    vendorSerial = json['vendor_serial'];
-    storeId = json['store_id'];
-    storeName = json['store_name'];
-    manufacturerId = json['manufacturer_id'];
-    prodcountryId = json['prodcountry_id'];
-    manufacturerName = json['manufacturer_name'];
-    transmissionId = json['transmission_id'];
-    transmissionName = json['transmission_name'];
-    producttypeId = json['producttype_id'];
-    producttypeName = json['producttype_name'];
-    origincountryName = json['origincountry_name'];
-    noOfOrders = json['no_of_orders'];
-    holesalePrice = json['holesale_price'].toString();
-    countViews = json['count_views'];
-    //avgValuations = double.parse(json['avg_valuations'].toString());
-    cartEnable = json['cart_enable'];
-    wishlistEnable = json['wishlist_enable'];
-    if (json['media'] != null) {
-      media = new List<Media>();
-      json['media'].forEach((v) { media.add(new Media.fromJson(v)); });
-    }
-    if (json['photo'] != null) {
-      photo = new List<PhotoProduct>();
-      json['photo'].forEach((v) { photo.add(new PhotoProduct.fromJson(v)); });
-    }
-    serialId = json['serial_id'];
-    approved = json['approved'];
-    if (json['product_tags'] != null) {
-      productTags = new List<ProductTags>();
-      json['product_tags'].forEach((v) { productTags.add(new ProductTags.fromJson(v)); });
-    }
-    if (json['product_reviews'] != null) {
-      productReviews = new List<ProductReviews>();
-      json['product_reviews'].forEach((v) { productReviews.add(new ProductReviews.fromJson(v)); });
-    }
-    countProductReviews = json['count_product_reviews'];
-    countAvgValuations = json['count_avg_valuations'];
-    timeCreated = json['time_created'];
-    inCart = json['in_cart'];
-    inWishlist = json['in_wishlist'];
-    inFavourites = json['in_favourites'];
-    width = json['width'].toString();
-    height = json['height'].toString();
-    size = json['size'].toString();
-  }
+  Company({
+    this.id,
+    this.name,
+    this.image,
+  });
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['discount'] = this.discount;
-    data['price'] = this.price;
-    data['quantity'] = this.quantity;
-    data['serial_number'] = this.serialNumber;
-    data['car_made_id'] = this.carMadeId;
-    if (this.carMadeName != null) {
-      data['car_made_name'] = this.carMadeName.toJson();
-    }
-    if (this.carModelName != null) {
-      data['car_model_name'] = this.carModelName.map((v) => v.toJson()).toList();
-    }
-    data['cartype_id'] = this.cartypeId;
-    data['cartype_name'] = this.cartypeName;
-    if (this.yearFrom != null) {
-      data['year_from'] = this.yearFrom.toJson();
-    }
-    if (this.yearTo != null) {
-      data['year_to'] = this.yearTo.toJson();
-    }
-    data['part_category_id'] = this.partCategoryId;
-    data['part_category_name'] = this.partCategoryName;
-    data['category_id'] = this.categoryId;
-    if (this.categoryName != null) {
-      data['category_name'] = this.categoryName.toJson();
-    }
-    data['vendor_id'] = this.vendorId;
-    data['vendor_name'] = this.vendorName;
-    data['store_id'] = this.storeId;
-    data['store_name'] = this.storeName;
-    data['manufacturer_id'] = this.manufacturerId;
-    data['prodcountry_id'] = this.prodcountryId;
-    data['manufacturer_name'] = this.manufacturerName;
-    data['transmission_id'] = this.transmissionId;
-    data['transmission_name'] = this.transmissionName;
-    data['producttype_id'] = this.producttypeId;
-    data['producttype_name'] = this.producttypeName;
-    data['origincountry_name'] = this.origincountryName;
-    data['no_of_orders'] = this.noOfOrders;
-    data['holesale_price'] = this.holesalePrice;
-    data['count_views'] = this.countViews;
-    data['avg_valuations'] = this.avgValuations;
-    data['cart_enable'] = this.cartEnable;
-    data['wishlist_enable'] = this.wishlistEnable;
-    if (this.media != null) {
-      data['media'] = this.media.map((v) => v.toJson()).toList();
-    }
-    if (this.photo != null) {
-      data['photo'] = this.photo.map((v) => v.toJson()).toList();
-    }
-    data['serial_id'] = this.serialId;
-    data['approved'] = this.approved;
-    if (this.productTags != null) {
-      data['product_tags'] = this.productTags.map((v) => v.toJson()).toList();
-    }
-    if (this.productReviews != null) {
-      data['product_reviews'] = this.productReviews.map((v) => v.toJson()).toList();
-    }
-    data['count_product_reviews'] = this.countProductReviews;
-    data['count_avg_valuations'] = this.countAvgValuations;
-    data['time_created'] = this.timeCreated;
-    data['in_cart'] = this.inCart;
-    data['in_wishlist'] = this.inWishlist;
-    data['in_favourites'] = this.inFavourites;
-    return data;
-  }
+  factory Company.fromJson(Map<String, dynamic> json) => Company(
+    id: json["id"],
+    name: json["name"],
+    image: json["image"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "image": image,
+  };
 }
 
 class CarMadeName {

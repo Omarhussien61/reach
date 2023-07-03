@@ -30,9 +30,18 @@ class CompaniesScreen extends StatefulWidget {
 class _CompaniesScreenState extends State<CompaniesScreen> {
   int checkboxType = 0;
   int checkboxPart = 0;
+  List<Categories_item> categories;
 
   @override
   void initState() {
+    API(context).get('companies').then((value) {
+      if (value != null) {
+        print(value);
+setState(() {
+  categories = Categories_model.fromJson(value).data;
+
+});      }
+    });
     super.initState();
   }
 
@@ -56,7 +65,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                     ? Center(child: Custom_Loading())
                     : Container(
                   child: SingleChildScrollView(
-                    child: getList(data.categories),
+                    child: getList(categories),
                   ),
                 ),
               ),

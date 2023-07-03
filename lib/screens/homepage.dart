@@ -8,6 +8,7 @@ import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/order/cart.dart';
 import 'package:flutter_pos/screens/account/vendor_information.dart';
 import 'package:flutter_pos/screens/product/companies.dart';
+import 'package:flutter_pos/screens/product/companiesScreen.dart';
 import 'package:flutter_pos/screens/product/products_page.dart';
 import 'package:flutter_pos/screens/product/sub_category.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
@@ -208,7 +209,9 @@ class _HomeState extends State<Home> {
                       margin: const EdgeInsets.only(left: 10, right: 10),
                       child: MyTextFormField(
                         hintText: 'ما الذي تبحث عنه ؟',
-                        prefix: Icon(Icons.search),
+                        prefix: IconButton(icon: Icon(Icons.search),onPressed: (){
+                          showDialog(context: context, builder: (_) => SearchOverlay());
+                        },),
                         suffixIcon:IconButton(icon: Icon(Icons.filter_list_outlined),onPressed: (){
                           Nav.route(
                               context,
@@ -455,7 +458,21 @@ class _HomeState extends State<Home> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          Nav.route(context, SubCategoryScreen(Categories:product,));
+                          iscategory?
+                          Nav.route(context, SubCategoryScreen(Categories:product,)):
+                          Nav.route(
+                              context,
+                              Products_Page(
+                                id: product.id,
+                                name:
+                                "${themeColor.getlocal() == 'ar' ? product.name ??
+                                    product.nameEn : product.nameEn ?? product.name}",
+                                Url:
+                                'companies/${product.id}',
+                                Istryers: product.id == 1711 || product.id == 682,
+                                Category: true,
+                                Category_id: product.id,
+                              ));;
 
                           // Nav.route(
                           //     context,

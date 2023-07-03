@@ -55,7 +55,7 @@ class _RegisterFormState extends State<RegisterForm> {
               children: <Widget>[
                 MyTextFormField(
                   labelText: getTransrlate(context, 'Firstname'),
-                  hintText: getTransrlate(context, 'Firstname'),
+                 // hintText: getTransrlate(context, 'Firstname'),
                   validator: (String value) {
                     if (value.isEmpty) {
                       return getTransrlate(context, 'requiredempty');
@@ -70,7 +70,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 MyTextFormField(
                   labelText: getTransrlate(context, 'Lastname'),
-                  hintText: getTransrlate(context, 'Lastname'),
+            //      hintText: getTransrlate(context, 'Lastname'),
                   validator: (String value) {
                     if (value.isEmpty) {
                       return getTransrlate(context, 'requiredempty');
@@ -102,7 +102,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
                 MyTextFormField(
                   labelText: getTransrlate(context, 'Username'),
-                  hintText: getTransrlate(context, 'Username'),
+                 // hintText: getTransrlate(context, 'Username'),
                   validator: (String value) {
                     if (value.isEmpty) {
                       return getTransrlate(context, 'requiredempty');
@@ -116,8 +116,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   },
                 ),
                 MyTextFormField(
+                  keyboard_type: TextInputType.number,
+
                   labelText: getTransrlate(context, 'phone'),
-                  hintText: getTransrlate(context, 'phone'),
+                //  hintText: getTransrlate(context, 'phone'),
+                  suffixIcon: Container(width:50,height:50,child: Center(child: Text('+20',textDirection: TextDirection.ltr,))),
+                  textDirection: TextDirection.ltr,
+
                   validator: (String value) {
                     if (value.isEmpty) {
                       return getTransrlate(context, 'requiredempty');
@@ -127,13 +132,13 @@ class _RegisterFormState extends State<RegisterForm> {
                     return null;
                   },
                   onSaved: (String value) {
-                    model.phone = value;
+                    model.phone = "+20${value.startsWith('0')?value.replaceRange(0, 1, ''):value}";
                   },
                 ),
 
                 MyTextFormField(
                   labelText: getTransrlate(context, 'password'),
-                  hintText: getTransrlate(context, 'password'),
+              //    hintText: getTransrlate(context, 'password'),
                   suffixIcon: IconButton(
                     icon: Icon(
                       // Based on passwordVisible state choose the icon
@@ -167,7 +172,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 MyTextFormField(
                   labelText: getTransrlate(context, 'ConfirmPassword'),
-                  hintText: getTransrlate(context, 'ConfirmPassword'),
+          //        hintText: getTransrlate(context, 'ConfirmPassword'),
                   suffixIcon: IconButton(
                     icon: Icon(
                       // Based on passwordVisible state choose the icon

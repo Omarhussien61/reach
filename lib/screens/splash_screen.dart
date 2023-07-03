@@ -76,7 +76,13 @@ class _SplashScreenState extends State<SplashScreen>
     //themeColor.setCar_made(getTransrlate(context, 'selectCar'));
     final SharedPreferences prefs =
     await SharedPreferences.getInstance();
-        Nav.routeReplacement(context, StartScreen());
+        if(prefs.getString('token')==null){
+          Nav.routeReplacement(context, StartScreen());
+
+        }else{
+          Nav.routeReplacement(context, Home());
+
+        }
          //  Nav.routeReplacement(context, Home());
 
     // API(context,Check: false).post('check/valid/session', {}).then((value) async {

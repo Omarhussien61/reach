@@ -72,7 +72,7 @@ class API {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-           'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
+          // 'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
             'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
           },
           body: json.encode(body));

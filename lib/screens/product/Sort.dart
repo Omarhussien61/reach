@@ -11,7 +11,7 @@ class Sortdialog extends StatefulWidget {
 }
 
 class _SortdialogState extends State<Sortdialog> {
-  List characters = ["ordering=public_price", "ordering=-public_price"];
+  List characters = ["ordering=public_price", "ordering=-public_price","ordering=-id", "ordering=id"];
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -83,38 +83,38 @@ class _SortdialogState extends State<Sortdialog> {
               },
             ),
           ),
-          // Container(
-          //   color: Colors.white,
-          //   child: RadioListTile<String>(
-          //     title: const Text('الاكثر مشاهدة'),
-          //     value: characters[2],
-          //     activeColor: Colors.orange,
-          //     groupValue: _character,
-          //     onChanged: (String value) {
-          //       setState(() {
-          //           _character = value;
-          //           Navigator.pop(context,value);
-          //
-          //       });
-          //     },
-          //   ),
-          // ),
-          // Container(
-          //   color: Colors.white,
-          //   child: RadioListTile<String>(
-          //     title: const Text('الاعلى مبيعا'),
-          //     value: characters[3],
-          //     activeColor: Colors.orange,
-          //     groupValue:_character,
-          //     onChanged: (String value) {
-          //       setState(() {
-          //           _character = value;
-          //           Navigator.pop(context,value);
-          //
-          //       });
-          //     },
-          //   ),
-          // ),
+          Container(
+            color: Colors.white,
+            child: RadioListTile<String>(
+              title:  Text('${getTransrlate(context, 'SortByNew')}'),
+              value: characters[2],
+              activeColor: Colors.orange,
+              groupValue: widget.character,
+              onChanged: (String value) {
+                setState(() {
+                  widget.character = value;
+                    Navigator.pop(context,value);
+
+                });
+              },
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            child: RadioListTile<String>(
+              title:  Text('${getTransrlate(context, 'SortByold')}'),
+              value: characters[3],
+              activeColor: Colors.orange,
+              groupValue: widget.character,
+              onChanged: (String value) {
+                setState(() {
+                  widget.character = value;
+                    Navigator.pop(context,value);
+
+                });
+              },
+            ),
+          ),
         ],
       ),
     );

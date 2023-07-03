@@ -12,6 +12,7 @@ import 'package:flutter_pos/utils/navigator.dart';
 import 'package:flutter_pos/utils/screen_size.dart';
 import 'package:flutter_pos/widget/ResultOverlay.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:provider/provider.dart';
 
 class ProductList extends StatefulWidget {
@@ -72,19 +73,6 @@ class _ProductListState extends State<ProductList> {
               ]),
           child: Column(
             children: [
-              widget.product.producttypeId!=2?Container():Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Color(0xffF2E964),
-                  ),
-                  padding: EdgeInsets.only(left: 16, top: 2, right: 12, bottom: 2),
-                  child:Center(
-                    child: Text(
-                      "${getTransrlate(context, 'wholesale')} : ${widget.product.noOfOrders ?? ' '} ${getTransrlate(context, 'piece')} ",
-                      style: TextStyle(color: Colors.blueGrey,
-                          fontWeight: FontWeight.bold,fontSize: 11),
-                    ),
-                  ) ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -96,12 +84,8 @@ class _ProductListState extends State<ProductList> {
                     height: 100,
                     width: ScreenUtil.getWidth(context) / 4.5,
                     child: CachedNetworkImage(
-                      imageUrl: widget.product.partCategoryName??'',
-                      errorWidget: (context, url, error) => Icon(
-                        Icons.image,
-                        color: Colors.black12,
-                      ),
-                    ),
+                      imageUrl: widget.product.image??' ',errorWidget:(context, url, error) =>CachedNetworkImage(
+                        imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ') ,),
                   ),
                   Expanded(
                     child: Container(
@@ -119,7 +103,7 @@ class _ProductListState extends State<ProductList> {
                             width: ScreenUtil.getWidth(context) /2,
 
                             child: AutoSizeText(
-                              themeColor.getlocal()=='ar'? widget.product.name??widget.product.nameEN :widget.product.nameEN??widget.product.name,
+                             widget.product.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -132,19 +116,6 @@ class _ProductListState extends State<ProductList> {
                           ),
                           SizedBox(
                             height: 5,
-                          ),
-                          widget.product.tyres_belong != 1?Container():   Container(
-                            width: ScreenUtil.getWidth(context) / 5.5,
-                            child: Text(
-                              "${widget.product.width ?? ''}/ ${widget.product.height ?? ''}/ ${widget.product.size ?? ''}",
-                              maxLines: 1,
-                              textDirection: TextDirection.ltr,
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12
-                              ),
-                            ),
                           ),
 
                           SizedBox(
@@ -170,96 +141,47 @@ class _ProductListState extends State<ProductList> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              widget.product.producttypeId == 2
-                                  ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "${getTransrlate(context, 'wholesalePrice')}  : ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,fontSize: 11),
-                                      ),
-                                      Text(
-                                        '${widget.product.holesalePrice ?? ' '} ${getTransrlate(context, 'Currency')} ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,fontSize: 11,
-                                            color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                  // SizedBox(
-                                  //   height: 5,
-                                  // ),
-                                  // Row(
-                                  //   children: [
-                                  //     Text(
-                                  //       "${getTransrlate(context, 'minOfOrder')}  : ",
-                                  //       style: TextStyle(
-                                  //           fontWeight: FontWeight.w400,fontSize: 11),
-                                  //     ),
-                                  //     Text(
-                                  //       '${widget.product.noOfOrders ?? ' '} ',
-                                  //       style: TextStyle(
-                                  //           fontWeight: FontWeight.bold,fontSize: 11,
-                                  //           color: Colors.black),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                ],
-                              )
-                                  : Container(
-                                  width: ScreenUtil.getWidth(context) /2.5,
-                                  child: widget.product.discount == "0"
-                                      ? AutoSizeText(
-                                          "${widget.product.action_price} ${getTransrlate(context, 'Currency')} ",
-                                          maxLines: 1,
-                                          minFontSize: 14,
-                                          maxFontSize: 16,
-                                          style: TextStyle(
-                                              color:
-                                                  widget.themeColor.getColor(),
-                                              fontWeight: FontWeight.w400),
-                                        )
-                                      : Row(
-                                        children: [
-                                          Container(
-                                            width: ScreenUtil.getWidth(context) /7,
+                              widget.product.salePrice=='null' ? Container(
+                                width: ScreenUtil.getWidth(context) / 5,
+                                child: Text(
+                                  "${widget.product.publicPrice??0} ${getTransrlate(context, 'Currency')} ",
+                                  maxLines: 1,
 
-                                            child: Text(
-                                                "${double.parse(widget.product.price).floorToDouble()}  ",
-                                              style: TextStyle(
-                                                decoration:  TextDecoration.lineThrough,
-                                                fontSize: 10,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                          ),  Container(
-                                            width: ScreenUtil.getWidth(context) /5,
+                                  style: TextStyle(
+                                      color:Colors.black,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ) :Container(
+                                width: ScreenUtil.getWidth(context) / 4,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "${widget.product.publicPrice??0} ${getTransrlate(context, 'Currency')} ",
+                                      maxLines: 1,
 
-                                            child: Text(
-                                                "${widget.product.action_price?.floor()} ${getTransrlate(context, 'Currency')} ",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                          ),
-                                        ],
-                                      )),
-                              Expanded(
+                                      style: TextStyle(
+                                          color:Colors.black,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "${widget.product.salePrice??0} ",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color:Colors.orange,
+                                          fontSize: 10,
+                                          decoration: TextDecoration.lineThrough,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),                              Expanded(
                                 child: SizedBox(
                                   height: 6,
                                 ),
                               ),
-                              widget.product.inCart==1?   Icon(
-                                CupertinoIcons.check_mark_circled,
-                                size: 28,
-                                color: Colors.black87,
-                              ):   loading?
+                               loading?
                               SizedBox(
                                 height: 20.0,
                                 width: 20.0,
@@ -271,15 +193,13 @@ class _ProductListState extends State<ProductList> {
 
                                   API(context).post('add/to/cart', {
                                     "product_id": widget.product.id,
-                                    "quantity": widget.product.producttypeId==2?widget.product.noOfOrders: 1
+                                    "quantity": 1
                                   }).then((value) {
                                     setState(() => loading = false);
 
                                     if (value != null) {
                                       if (value['status_code'] == 200) {
-                                        setState(() {
-                                          widget.product.inCart=1;
-                                        });
+
                                         showDialog(
                                             context: context,
                                             builder: (_) => ResultOverlay(
@@ -308,34 +228,7 @@ class _ProductListState extends State<ProductList> {
                               IconButton(
                                 onPressed: () {
                                   setState(() => wloading = true);
-                                  widget.product.inWishlist == 0
-                                      ? API(context).post('user/add/wishlist', {
-                                          "product_id": widget.product.id
-                                        }).then((value) {
-                                    setState(() => wloading = false);
-
-                                    if (value != null) {
-                                            if (value['status_code'] == 200) {
-                                              setState(() => wloading = false);
-
-                                              data.getWishlist(context);
-
-                                              setState(() {
-                                                widget.product.inWishlist = 1;
-                                              });
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (_) => ResultOverlay(
-                                                      value['message']));
-                                            } else {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (_) => ResultOverlay(
-                                                      value['errors']));
-                                            }
-                                          }
-                                        })
-                                      : API(context).post(
+                                  API(context).post(
                                           'user/removeitem/wishlist', {
                                           "product_id": widget.product.id
                                         }).then((value) {
@@ -345,9 +238,7 @@ class _ProductListState extends State<ProductList> {
                                             if (value['status_code'] == 200) {
                                               data.getWishlist(context);
                                               setState(() => wloading = false);
-                                              setState(() {
-                                                widget.product.inWishlist = 0;
-                                              });
+
                                               showDialog(
                                                   context: context,
                                                   builder: (_) => ResultOverlay(
@@ -362,9 +253,7 @@ class _ProductListState extends State<ProductList> {
                                         });
                                 },
                                 icon: Icon(
-                                  widget.product.inWishlist == 0
-                                      ? Icons.favorite_border
-                                      : Icons.favorite,
+                                  Icons.favorite,
                                   color: Colors.grey,
                                 ),
                               ),

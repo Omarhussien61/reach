@@ -106,11 +106,12 @@ class _CartScreenState extends State<CartScreen> {
 
       body: Column(
         children: [
-          AppBarCustom(),
+          AppBarCustom(isback: true,),
           Expanded(
             child: SingleChildScrollView(
               child:Column(
                       children: [
+
                         _cart_model == null
                             ? Center(
                                 child: Padding(

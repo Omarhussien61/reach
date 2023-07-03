@@ -22,14 +22,16 @@ class Provider_Data with ChangeNotifier {
    getCart_model() => cart_model;
    getCart(BuildContext context) {
      SharedPreferences.getInstance().then((value) {
-       API(context, Check: false).get('cart?token=${value.getString('token')}').then((value) {
-         if (value != null) {
-           print(value);
-           cart_model = Cart_model.fromJson(value['results'][0]);
-           notifyListeners();
-         }
-       });
-
+       if(value.getString('token')!=null){
+         API(context, Check: false).get('cart?token=${value.getString('token')}').then((value) {
+           if (value != null) {
+             print(value);
+             cart_model = Cart_model.fromJson(value['results'][0]);
+             notifyListeners();
+           }
+         });
+       }
+       notifyListeners();
      });
   }
    getData(BuildContext context) {
@@ -59,8 +61,8 @@ class Provider_Data with ChangeNotifier {
          print(value);
            categories = Categories_model.fromJson(value).data;
        }
+       notifyListeners();
      });
-
 
      //notifyListeners();
     //

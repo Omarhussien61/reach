@@ -78,7 +78,7 @@ class _AccountState extends State<Account> {
                   height: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -159,7 +159,7 @@ class _AccountState extends State<Account> {
                         ),
                     ),
                 SizedBox(
-                  height: ScreenUtil.getWidth(context) / 15,
+                  height: 20 ,
                 ),
               ],
             ),
@@ -169,146 +169,117 @@ class _AccountState extends State<Account> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  token == null
-                      ? Container()
-                      :  Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(right: 16, left: 16),
-                            child: NotificationListener<
-                                OverscrollIndicatorNotification>(
-                              onNotification: (scroll) {
-                                scroll.disallowGlow();
-                                return false;
-                              },
-                              child: Column(
-                                children: <Widget>[
-                                  vendor == null
-                                      ? Container()
-                                      : ItemHiddenMenu(
-                                          onTap: () {
-                                            Nav.route(context, VendorInfo());
-                                          },
-                                          icon: SvgPicture.asset(
-                                            'assets/icons/store.svg',
-                                            height: 30,
-                                          ),
-                                          name: getTransrlate(
-                                              context, 'vendorSettings'),
-                                          baseStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 19.0,
-                                              fontWeight: FontWeight.w800),
-                                          colorLineSelected: Colors.orange,
-                                        ),
-                                  ItemHiddenMenu(
-                                    onTap: () {
-                                      Nav.route(context, UserInfo());
-                                    },
-                                    icon: SvgPicture.asset(
-                                      'assets/icons/account.svg',
-                                    ),
-                                    name: getTransrlate(
-                                        context, 'ProfileSettings'),
-                                    baseStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19.0,
-                                        fontWeight: FontWeight.w800),
-                                    colorLineSelected: Colors.orange,
-                                  ),
-                                  ItemHiddenMenu(
-                                    lable:  token == null
-                                        ? '': _cart_model.address == null
-                                        ? ''
-                                        : '${_cart_model.address.area == null ? '' : _cart_model.address.area.areaName ?? ''},${ _cart_model.address.city == null ? '' :  _cart_model.address.city.cityName ?? ''} , ${ _cart_model.address.street ?? ''}',
-                                    onTap: () {
-                                      Nav.route(context, Shipping_Address());
-                                    },
-                                    icon: Icon(
-                                      Icons.location_on_outlined,
-                                      size: 30,),
-                                    name: getTransrlate(context, 'MyAddress') ,
-                                    baseStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19.0,
-                                        fontWeight: FontWeight.w800),
-                                    colorLineSelected: Colors.orange,
-                                  ),
-                                  ItemHiddenMenu(
-                                    onTap: () {
-                                      Nav.route(context, OrderHistory());
-                                    },
-                                    icon: Icon(
-                                      Icons.local_shipping_outlined,
-                                      size: 30,
-                                    ),
-                                    name: getTransrlate(context, 'Myorders'),
-                                    baseStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19.0,
-                                        fontWeight: FontWeight.w800),
-                                    colorLineSelected: Colors.orange,
-                                  ),
-                                  ItemHiddenMenu(
-                                    onTap: () {
-                                      Nav.route(context, WishList());
-                                    },
-                                    icon: Icon(
-                                      Icons.favorite_border,
-                                      size: 30,
-                                    ),
-                                    name: getTransrlate(context, 'MyFav'),
-                                    baseStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 19.0,
-                                        fontWeight: FontWeight.w800),
-                                    colorLineSelected: Colors.orange,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ]),
-                  ),
+                  // token == null
+                  //     ? Container()
+                  //     :  Container(
+                  //   child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: <Widget>[
+                  //         SizedBox(
+                  //           height: 5,
+                  //         ),
+                  //         Container(
+                  //           padding: const EdgeInsets.only(right: 16, left: 16),
+                  //           child: NotificationListener<
+                  //               OverscrollIndicatorNotification>(
+                  //             onNotification: (scroll) {
+                  //               scroll.disallowGlow();
+                  //               return false;
+                  //             },
+                  //             child: Column(
+                  //               children: <Widget>[
+                  //                 vendor == null
+                  //                     ? Container()
+                  //                     : ItemHiddenMenu(
+                  //                         onTap: () {
+                  //                           Nav.route(context, VendorInfo());
+                  //                         },
+                  //                         icon: SvgPicture.asset(
+                  //                           'assets/icons/store.svg',
+                  //                           height: 30,
+                  //                         ),
+                  //                         name: getTransrlate(
+                  //                             context, 'vendorSettings'),
+                  //                         baseStyle: TextStyle(
+                  //                             color: Colors.black,
+                  //                             fontSize: 19.0,
+                  //                             fontWeight: FontWeight.w800),
+                  //                         colorLineSelected: Colors.orange,
+                  //                       ),
+                  //                 ItemHiddenMenu(
+                  //                   onTap: () {
+                  //                     Nav.route(context, UserInfo());
+                  //                   },
+                  //                   icon: SvgPicture.asset(
+                  //                     'assets/icons/account.svg',
+                  //                   ),
+                  //                   name: getTransrlate(
+                  //                       context, 'ProfileSettings'),
+                  //                   baseStyle: TextStyle(
+                  //                       color: Colors.black,
+                  //                       fontSize: 19.0,
+                  //                       fontWeight: FontWeight.w800),
+                  //                   colorLineSelected: Colors.orange,
+                  //                 ),
+                  //                 ItemHiddenMenu(
+                  //                   lable:  token == null
+                  //                       ? '': _cart_model.address == null
+                  //                       ? ''
+                  //                       : '${_cart_model.address.area == null ? '' : _cart_model.address.area.areaName ?? ''},${ _cart_model.address.city == null ? '' :  _cart_model.address.city.cityName ?? ''} , ${ _cart_model.address.street ?? ''}',
+                  //                   onTap: () {
+                  //                     Nav.route(context, Shipping_Address());
+                  //                   },
+                  //                   icon: Icon(
+                  //                     Icons.location_on_outlined,
+                  //                     size: 30,),
+                  //                   name: getTransrlate(context, 'MyAddress') ,
+                  //                   baseStyle: TextStyle(
+                  //                       color: Colors.black,
+                  //                       fontSize: 19.0,
+                  //                       fontWeight: FontWeight.w800),
+                  //                   colorLineSelected: Colors.orange,
+                  //                 ),
+                  //                 ItemHiddenMenu(
+                  //                   onTap: () {
+                  //                     Nav.route(context, OrderHistory());
+                  //                   },
+                  //                   icon: Icon(
+                  //                     Icons.local_shipping_outlined,
+                  //                     size: 30,
+                  //                   ),
+                  //                   name: getTransrlate(context, 'Myorders'),
+                  //                   baseStyle: TextStyle(
+                  //                       color: Colors.black,
+                  //                       fontSize: 19.0,
+                  //                       fontWeight: FontWeight.w800),
+                  //                   colorLineSelected: Colors.orange,
+                  //                 ),
+                  //                 ItemHiddenMenu(
+                  //                   onTap: () {
+                  //                     Nav.route(context, WishList());
+                  //                   },
+                  //                   icon: Icon(
+                  //                     Icons.favorite_border,
+                  //                     size: 30,
+                  //                   ),
+                  //                   name: getTransrlate(context, 'MyFav'),
+                  //                   baseStyle: TextStyle(
+                  //                       color: Colors.black,
+                  //                       fontSize: 19.0,
+                  //                       fontWeight: FontWeight.w800),
+                  //                   colorLineSelected: Colors.orange,
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ]),
+                  // ),
                   Container(
                     color: Color(0xffF6F6F6),
                     padding: const EdgeInsets.only(right: 16, left: 16),
                     child: Column(
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            await themeColor.local == 'ar'
-                                ? themeColor.setLocal('en')
-                                : themeColor.setLocal('ar');
-                            MyApp.setlocal(
-                                context, Locale(themeColor.getlocal(), ''));
-                            SharedPreferences.getInstance().then((prefs) {
-                              prefs.setString('local', themeColor.local);
-                            });
-                            Phoenix.rebirth(context);
-                          },
-                          child: ItemHiddenMenu(
-                            icon: Icon(
-                              Icons.language,
-                              size: 30,
-                            ),
-                            name:
-                                Provider.of<Provider_control>(context).local ==
-                                        'ar'
-                                    ? 'English'
-                                    : 'عربى',
-                            baseStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 19.0,
-                                fontWeight: FontWeight.w800),
-                            colorLineSelected: Colors.orange,
-                          ),
-                        ),
                         InkWell(
                           onTap: () async {
 
@@ -517,6 +488,36 @@ class _AccountState extends State<Account> {
                         //     colorLineSelected: Colors.orange,
                         //   ),
                         // ),
+                        // InkWell(
+                        //   onTap: () async {
+                        //     await themeColor.local == 'ar'
+                        //         ? themeColor.setLocal('en')
+                        //         : themeColor.setLocal('ar');
+                        //     MyApp.setlocal(
+                        //         context, Locale(themeColor.getlocal(), ''));
+                        //     SharedPreferences.getInstance().then((prefs) {
+                        //       prefs.setString('local', themeColor.local);
+                        //     });
+                        //     Phoenix.rebirth(context);
+                        //   },
+                        //   child: ItemHiddenMenu(
+                        //     icon: Icon(
+                        //       Icons.language,
+                        //       size: 30,
+                        //     ),
+                        //     name:
+                        //     Provider.of<Provider_control>(context).local ==
+                        //         'ar'
+                        //         ? 'English'
+                        //         : 'عربى',
+                        //     baseStyle: TextStyle(
+                        //         color: Colors.black,
+                        //         fontSize: 19.0,
+                        //         fontWeight: FontWeight.w800),
+                        //     colorLineSelected: Colors.orange,
+                        //   ),
+                        // ),
+
                         token == null
                             ? Container()
                             : InkWell(

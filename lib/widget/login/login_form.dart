@@ -47,10 +47,12 @@ class _LoginFormState extends State<LoginForm> {
                 children: <Widget>[
                   MyTextFormField(
                     intialLabel: '',
-                    keyboard_type: TextInputType.emailAddress,
-                    labelText: getTransrlate(context, 'mail'),
-                    hintText: getTransrlate(context, 'mail'),
+                    keyboard_type: TextInputType.number,
+                    labelText: getTransrlate(context, 'phone'),
+                //    hintText: getTransrlate(context, 'phone'),
                     isPhone: true,
+                    textDirection: TextDirection.ltr,
+                    suffixIcon: Container(width:50,height:50,child: Center(child: Text('+20',textDirection: TextDirection.ltr,))),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return getTransrlate(context, 'requiredempty');
@@ -59,13 +61,13 @@ class _LoginFormState extends State<LoginForm> {
                       return null;
                     },
                     onSaved: (String value) {
-                      model.email = value;
+                      model.email = "+20${value.startsWith('0')?value.replaceRange(0, 1, ''):value}";
                     },
                   ),
                   MyTextFormField(
                     intialLabel: '',
                     labelText: getTransrlate(context, 'password'),
-                    hintText: getTransrlate(context, 'password'),
+                  //  hintText: getTransrlate(context, 'password'),
                     suffixIcon: IconButton(
                       icon: Icon(
                         // Based on passwordVisible state choose the icon

@@ -208,6 +208,9 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: const EdgeInsets.only(left: 10, right: 10),
                       child: MyTextFormField(
+                        press: (){
+                          showDialog(context: context, builder: (_) => SearchOverlay());
+                        },
                         hintText: 'ما الذي تبحث عنه ؟',
                         prefix: IconButton(icon: Icon(Icons.search),onPressed: (){
                           showDialog(context: context, builder: (_) => SearchOverlay());

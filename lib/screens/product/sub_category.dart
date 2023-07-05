@@ -55,7 +55,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            AppBarCustom(isback: true,),
+            AppBarCustom(isback: true,title: widget.Categories.name,),
             provider_data.ads == null
                 ? Container()
                 : Padding(

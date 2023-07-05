@@ -70,7 +70,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
                maxFontSize: 15,
                minFontSize: 10,
                overflow: TextOverflow.ellipsis,
-               style: TextStyle(color: Colors.white),
+               style: TextStyle(color: Colors.black),
              ),
            ) :Center(
               child: InkWell(

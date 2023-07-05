@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_pos/model/question_model.dart';
 import 'package:flutter_pos/model/review.dart';
+import 'package:flutter_pos/screens/account/start.dart';
 import 'package:flutter_pos/screens/product/photo.dart';
 import 'package:flutter_pos/screens/product/products_page.dart';
 import 'package:flutter_pos/screens/product/Quastions.dart';
@@ -147,43 +148,48 @@ class _ProductPageState extends State<ProductPage> {
                     child: TextButton(
                       style: getStyleButton(Colors.orange),
                       onPressed: () {
-                        setState(() => loading = true);
+                        
+                        if(ServiceData.cart_model==null){
+                          Nav.route(context, StartScreen());
+                        }else{
+                          setState(() => loading = true);
+                          API(context).post(
+                              'store/cart/${ServiceData.cart_model.id}/items/', {
+                            "product_id": widget.product.id,
+                            "quantity": 1
+                          }).then((value) {
+                            setState(() => loading = false);
+                            print(value);
 
-                        API(context).post(
-                            'store/cart/${ServiceData.cart_model.id}/items/', {
-                          "product_id": widget.product.id,
-                          "quantity": 1
-                        }).then((value) {
-                          setState(() => loading = false);
-                          print(value);
-
-                          if (value != null) {
-                            if (!value.containsKey('detail')) {
-                              setState(() {
-                              });
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => ResultOverlay(
-                                      value['message'] ?? value['detail'],
-                                      icon: Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.green,
-                                        size: 80,
-                                      )));
-                              ServiceData.getCart(context);
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => ResultOverlay(
-                                      '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
-                                      icon: Icon(
-                                        Icons.info_outline,
-                                        color: Colors.yellow,
-                                        size: 80,
-                                      )));
+                            if (value != null) {
+                              if (!value.containsKey('detail')) {
+                                setState(() {
+                                });
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => ResultOverlay(
+                                        value['message'] ?? value['detail'],
+                                        icon: Icon(
+                                          Icons.check_circle_outline,
+                                          color: Colors.green,
+                                          size: 80,
+                                        )));
+                                ServiceData.getCart(context);
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => ResultOverlay(
+                                        '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                        icon: Icon(
+                                          Icons.info_outline,
+                                          color: Colors.yellow,
+                                          size: 80,
+                                        )));
+                              }
                             }
-                          }
-                        });
+                          });
+                        }
+                       
                       },
                       child: Container(
                           width: ScreenUtil.getWidth(context) / 1.2,

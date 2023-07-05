@@ -94,18 +94,12 @@ class API {
     final full_url =
         Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String basicAuth =
-        'Basic ' + base64.encode(utf8.encode('${body['email']}:${body['password']}'));
-    print("Auth =${basicAuth}");
 
     try {
       http.Response response = await http.post(full_url,
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-          //  'Authorization': '${basicAuth}',
             'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
           },
           body: json.encode(body));

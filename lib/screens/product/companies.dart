@@ -34,7 +34,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
 
   @override
   void initState() {
-    API(context).get('companies').then((value) {
+    API(context).get('store/companies').then((value) {
       if (value != null) {
         print(value);
 setState(() {

@@ -23,7 +23,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   Model_login model = Model_login();
-  bool passwordVisible = false;
+  bool passwordVisible = true;
   String CountryNo = '';
   bool isloading = false;
 
@@ -130,6 +130,7 @@ class _LoginFormState extends State<LoginForm> {
                                 var user = value;
 
                                 prefs.setString("token", "${user['token']}");
+                                prefs.setInt("userID", user['id']);
                                 themeColor.setLogin(true);
 
                                 Phoenix.rebirth(context);

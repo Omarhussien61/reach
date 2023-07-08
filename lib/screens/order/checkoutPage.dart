@@ -28,7 +28,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../address/add_address.dart';
 
 class CheckOutPage extends StatefulWidget {
   CheckOutPage({Key key, this.carts}) : super(key: key);
@@ -63,7 +62,7 @@ setState(() {
   DefaultAddress=Provider.of<Provider_Data>(context,listen: false).address;
 });
     getAddress();
-    getpaymentways();
+    //getpaymentways();
     super.initState();
   }
 
@@ -145,27 +144,6 @@ setState(() {
                                               setState(() {
                                                 checkboxValue = value;
                                                 DefaultAddress=address[index];
-                                                API(context).post(
-                                                   'user/mark/default/shipping/${address[index].id}',
-                                                    {}).then((value) {
-                                                  if (value != null) {
-                                                    if (value['status_code'] ==
-                                                        200) {
-                                         //             Navigator.pop(context);
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (_) =>
-                                                              ResultOverlay(value[
-                                                                  'message']));
-                                                    } else {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (_) =>
-                                                              ResultOverlay(value[
-                                                                  'errors']));
-                                                    }
-                                                  }
-                                                });
                                               });
                                             },
                                           ),
@@ -182,7 +160,7 @@ setState(() {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  address[index].recipientName,
+                                                  address[index].street,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           checkboxValue == index
@@ -191,12 +169,10 @@ setState(() {
                                                       fontSize: 20),
                                                 ),
                                                 Container(
-                                                  width: ScreenUtil.getWidth(
-                                                          context) /
-                                                      1.5,
+                                                  width: ScreenUtil.getWidth(context) / 1.8,
                                                   child: Text(
-                                                    "${address[index].district ?? ' '} ,${address[index].street ?? ' '} , ${address[index].city !=null?address[index].city.cityName: ' '} , "
-                                                        "${address[index].state==null?'':address[index].state.countryName ?? ' '}",
+                                                    "${address[index].apartmentNo ?? ' '} ,${address[index].building ?? ' '} , ${address[index].city !=null?address[index].city.name: ' '} , "
+                                                        "${address[index].country==null?'':address[index].country.name ?? ' '}",
                                                     maxLines: 2,
                                                     style: TextStyle(
                                                         height: 1.5,
@@ -404,7 +380,7 @@ setState(() {
                           ),
                           Text(
                          //   _cart_model.address==null?'غير محدد حاليا': 'توصيل إلى: ${_cart_model.address.area==null?'':_cart_model.address.area.areaName??''},${_cart_model.address.city==null?'':_cart_model.address.city.cityName??''}.${_cart_model.address.street??''}',
-                            DefaultAddress==null?'${getTransrlate(context, 'NoSelect')}': ' ${DefaultAddress.area==null?'':DefaultAddress.area.areaName??''},${DefaultAddress.city==null?'':DefaultAddress.city.cityName??''}.${DefaultAddress.street??''},${DefaultAddress.district??''}${DefaultAddress.floorNo??''}${DefaultAddress.apartmentNo??''}',
+                            DefaultAddress==null?'${getTransrlate(context, 'NoSelect')}': ' ${DefaultAddress.city==null?'':DefaultAddress.city.name??''}.${DefaultAddress.street??''},${DefaultAddress.building??''}${DefaultAddress.apartmentNo??''}',
                             style: TextStyle(
                                 height: 1.5, fontWeight: FontWeight.bold),
                           ),
@@ -796,23 +772,28 @@ setState(() {
                                 setState(() => loading = true);
 
                                 API(context)
-                                    .post('user/checkout', {}).then((value) {
-                                      print(value);
+                                    .post('store/checkout/', {
+                                  'cart':_cart_model.cart_model.id,
+                                  'address':DefaultAddress.id,
+                                  'total_cost':_cart_model.cart_model.grandTotal
+                                }).then((value) {
+                                      print(value.runtimeType);
                                       setState(() => loading = false);
 
                                       if (value != null) {
-                                    if (value['status_code'] == 200) {
-                                      checkout_model =
-                                          Checkout_model.fromJson(value);
+                                    if (value.runtimeType!=String ) {
                                       Provider.of<Provider_Data>(context,
                                               listen: false)
                                           .getCart(context);
                                       continued();
+                                      Phoenix.rebirth(context);
+                                    }else{
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) =>
+                                              ResultOverlay(value));
                                     }
-                                    showDialog(
-                                        context: context,
-                                        builder: (_) =>
-                                            ResultOverlay(value['message']));
+
                                   }
                                 });
                               },
@@ -1115,7 +1096,7 @@ setState(() {
   }
 
   void getAddress() {
-    API(context).get('user/all/shippings').then((value) {
+    API(context).get('account/api/address/?token=c808021bfa97bd51ffdd8416319252bd3f5deb42').then((value) {
       if (value != null) {
         setState(() {
           address = ShippingAddress.fromJson(value).data;
@@ -1328,8 +1309,8 @@ setState(() {
   }
 
   _navigate_add_Address(BuildContext context) async {
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddAddress()));
+    // await Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => AddAddress()));
     Timer(Duration(seconds: 3), () => getAddress());
   }
 }

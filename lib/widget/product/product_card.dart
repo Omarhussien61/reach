@@ -109,24 +109,6 @@ class _ProductCardState extends State<ProductCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          // Container(
-                          //   width: 75,
-                          //   child: RatingBar.builder(
-                          //     ignoreGestures: true,
-                          //     initialRating:
-                          //         widget.product.avgValuations.toDouble(),
-                          //     itemSize: ScreenUtil.getWidth(context) / 40,
-                          //     minRating: 0.5,
-                          //     direction: Axis.horizontal,
-                          //     allowHalfRating: true,
-                          //     itemCount: 5,
-                          //     itemBuilder: (context, _) => Icon(
-                          //       Icons.star,
-                          //       color: Colors.orange,
-                          //     ),
-                          //     onRatingUpdate: (rating) {},
-                          //   ),
-                          // ),
                           widget.product.salePrice=='null' ? Container(
                           width: ScreenUtil.getWidth(context) / 5,
                           child: Text(
@@ -139,7 +121,7 @@ class _ProductCardState extends State<ProductCard> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ) :Container(
-                          width: ScreenUtil.getWidth(context) / 4,
+                          width: ScreenUtil.getWidth(context) / 3,
                           child: Row(
                             children: [
                               Text(
@@ -163,7 +145,6 @@ class _ProductCardState extends State<ProductCard> {
                             ],
                           ),
                         ),
-                          SizedBox(width: 50,)
                         ],
                       ),
 

@@ -52,6 +52,19 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   int _carouselCurrentPage = 0;
   bool loading = false;
+  String token;
+  int userId;
+  @override
+  void initState() {
+    print("like${ widget.product.like}");
+    SharedPreferences.getInstance().then((prefs){
+      setState(() {
+        token=prefs.getString('token');
+        userId=prefs.getInt('userID');
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +77,139 @@ class _ProductPageState extends State<ProductPage> {
         child: Column(
           children: [
             AppBarCustom(isback: true),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: ScreenUtil.getHeight(context) / 2.5,
-                child: CachedNetworkImage(
-                    imageUrl: widget.product.image??' ',errorWidget:(context, url, error) =>CachedNetworkImage(
-                  imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ') ,),
-              ),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: ScreenUtil.getHeight(context) / 2.5,
+                    child: CachedNetworkImage(
+                        imageUrl: widget.product.image??' ',errorWidget:(context, url, error) =>CachedNetworkImage(
+                      imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ') ,),
+                  ),
+                ),
+                widget.product.like.isEmpty?
+                IconButton(icon: Icon(Icons.favorite_border,size: 30,color: Colors.orange,),onPressed: (){
+                  if(userId==null){
+                    Nav.route(context, StartScreen());
+                  }else
+                  {
+                    API(context).post(
+                        'store/list_fav/${widget.product.id}/?token=${token}', {
+                    }).then((value) {
+                      print(value);
+
+                      if (value != null) {
+                        if (value.containsKey('data')) {
+                          setState(() {
+                            widget.product.like=value['data']['like'];
+                          });
+                          showDialog(
+                              context: context,
+                              builder: (_) => ResultOverlay(
+                                  value['message'] ?? value['detail'],
+                                  icon: Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.green,
+                                    size: 80,
+                                  )));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (_) => ResultOverlay(
+                                  '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                  icon: Icon(
+                                    Icons.info_outline,
+                                    color: Colors.yellow,
+                                    size: 80,
+                                  )));
+                        }
+                      }
+                    });
+                  }
+
+                },):  widget.product.like.firstWhere((element) => element==userId)!=null?
+                IconButton(icon: Icon(Icons.favorite,size: 30,color: Colors.orange,),onPressed: (){
+                  if(userId==null){
+                    Nav.route(context, StartScreen());
+                  }else
+                  {
+                    API(context).post(
+                        'store/list_fav/${widget.product.id}/?token=${token}', {
+                    }).then((value) {
+                      print(value);
+
+                      if (value != null) {
+                        if (value.containsKey('data')) {
+                          setState(() {
+                            widget.product.like=value['data']['like'];
+                          });
+                          showDialog(
+                              context: context,
+                              builder: (_) => ResultOverlay(
+                                  value['message'] ?? value['detail'],
+                                  icon: Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.green,
+                                    size: 80,
+                                  )));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (_) => ResultOverlay(
+                                  '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                  icon: Icon(
+                                    Icons.info_outline,
+                                    color: Colors.yellow,
+                                    size: 80,
+                                  )));
+                        }
+                      }
+                    });
+                  }
+
+                },):
+                IconButton(icon: Icon(Icons.favorite_border,size: 30,color: Colors.orange,),onPressed: (){
+                  if(userId==null){
+                    Nav.route(context, StartScreen());
+                  }else
+                  {
+                    API(context).post(
+                        'store/list_fav/${widget.product.id}/?token=${token}', {
+                    }).then((value) {
+                      print(value);
+
+                      if (value != null) {
+                        if (value.containsKey('data')) {
+                          setState(() {
+                            widget.product.like=value['data']['like'];
+                          });
+                          showDialog(
+                              context: context,
+                              builder: (_) => ResultOverlay(
+                                  value['message'] ?? value['detail'],
+                                  icon: Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.green,
+                                    size: 80,
+                                  )));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (_) => ResultOverlay(
+                                  '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                  icon: Icon(
+                                    Icons.info_outline,
+                                    color: Colors.yellow,
+                                    size: 80,
+                                  )));
+                        }
+                      }
+                    });
+                  }
+
+                },)
+              ],
             ),
             Container(
               child: Row(
@@ -111,7 +249,7 @@ class _ProductPageState extends State<ProductPage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ) :Container(
-                  width: ScreenUtil.getWidth(context) / 4,
+                  width: ScreenUtil.getWidth(context) / 3,
                   child: Row(
                     children: [
                       Text(

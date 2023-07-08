@@ -141,13 +141,7 @@ class _OrderdetailsState extends State<Orderdetails> {
                     '${getTransrlate(context, 'addressShipping')} : ',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                   ),
-                  widget.order.address == null
-                      ? Container()
-                      : Text(
-                    "${widget.order.address.homeNo??' '} \n ${widget.order.address.street??' '} \n ${widget.order.address.district??''}\n ${widget.order.address.city==null?' ':widget.order.address.city.cityName} \n ${widget.order.address.area==null?' ':widget.order.address.area.areaName} \n ${widget.order.address.state==null?' ':widget.order.address.state.countryName}\n ${widget.order.address.recipientPhone??''}",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        ),
+
                 ],
               ),
               Column(

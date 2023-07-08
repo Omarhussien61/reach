@@ -36,7 +36,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
 
   @override
   void initState() {
-    API(context).get('companies/${widget.Categories.id}').then((value) {
+    API(context).get('store/companies/${widget.Categories.id}').then((value) {
       if (value != null) {
         setState(() {
           Categories = Categories_model.fromJson(value).data;

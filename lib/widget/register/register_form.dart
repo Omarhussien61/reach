@@ -27,7 +27,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   Model model = Model();
   bool PhoneStatue = false;
-  bool passwordVisible = false;
+  bool passwordVisible = true;
   bool _isLoading = false;
   String CountryNo = '+20';
   String verificationId;
@@ -158,9 +158,6 @@ class _RegisterFormState extends State<RegisterForm> {
                       return getTransrlate(context, 'requiredempty');
                     } else if (value.length < 8) {
                       return getTransrlate(context, 'PasswordShorter');
-                    } else if (!value.contains(new RegExp(
-                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))) {
-                      return "${getTransrlate(context, 'invalidpass')}";
                     }
                     _formKey.currentState.save();
 

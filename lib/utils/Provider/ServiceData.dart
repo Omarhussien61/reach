@@ -23,7 +23,7 @@ class Provider_Data with ChangeNotifier {
    getCart(BuildContext context) {
      SharedPreferences.getInstance().then((value) {
        if(value.getString('token')!=null){
-         API(context, Check: false).get('cart?token=${value.getString('token')}').then((value) {
+         API(context, Check: false).get('store/cart?token=${value.getString('token')}').then((value) {
            if (value != null) {
              print(value);
              cart_model = Cart_model.fromJson(value['results'][0]);
@@ -36,7 +36,7 @@ class Provider_Data with ChangeNotifier {
   }
    getData(BuildContext context) {
      API(context)
-         .get('adshome')
+         .get('store/adshome')
          .then((value) {
 
        if (value != null) {
@@ -44,19 +44,19 @@ class Provider_Data with ChangeNotifier {
        }
      });
       API(context,)
-         .get('samples_discount')
+         .get('store/samples_discount')
          .then((value) {
        if (value != null) {
            product = Product_model.fromJson(value).data;
        }
      });
-     API(context).get('categories').then((value) {
+     API(context).get('store/categories').then((value) {
        if (value != null) {
          print(value);
            Mostcategories = Categories_model.fromJson(value).data;
        }
      });
-   API(context).get('samples_companies').then((value) {
+   API(context).get('store/samples_companies').then((value) {
        if (value != null) {
          print(value);
            categories = Categories_model.fromJson(value).data;

@@ -34,7 +34,7 @@ class API {
 
   get(String url) async {
     final full_url =
-        Uri.parse('${GlobalConfiguration().getString('api_base_url')}$url');
+        Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       http.Response response = await http.get(full_url, headers: {
@@ -65,6 +65,7 @@ class API {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    print("url =${full_url}");
     print("token =${prefs.getString('token')}");
 
     try {

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos/model/cart_model.dart';
 import 'package:flutter_pos/model/category_model.dart';
-import 'package:flutter_pos/screens/address/Address_Page.dart';
 import 'package:flutter_pos/screens/order/checkoutPage.dart';
 import 'package:flutter_pos/screens/product/ProductPage.dart';
 import 'package:flutter_pos/service/api.dart';
@@ -147,8 +146,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       const EdgeInsets.all(8.0),
                                                   child: InkWell(
                                                     onTap: () {
-                                                      Nav.route(context,
-                                                          Shipping_Address());
+                                                 //     Nav.route(context, Shipping_Address());
                                                     },
                                                     child: Row(
                                                       children: [
@@ -157,25 +155,25 @@ class _CartScreenState extends State<CartScreen> {
                                                               .location_on_outlined,
                                                           color: Colors.orange,
                                                         ),
-                                                        Container(
-                                                            width: ScreenUtil
-                                                                    .getWidth(
-                                                                        context) /
-                                                                1.3,
-                                                            child: Text(
-                                                              _cart_model.address==null?'${getTransrlate(context, 'NoSelect')}': '${getTransrlate(context, 'ShippingTo')}:${_cart_model.address.area==null?'':_cart_model.address.area.areaName??''},${_cart_model.address.city==null?'':_cart_model.address.city.cityName??''}.${_cart_model.address.street??''}',
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 14),
-                                                            )),
+                                                        // Container(
+                                                        //     width: ScreenUtil
+                                                        //             .getWidth(
+                                                        //                 context) /
+                                                        //         1.3,
+                                                        //     child: Text(
+                                                        //       _cart_model.address==null?'${getTransrlate(context, 'NoSelect')}': '${getTransrlate(context, 'ShippingTo')}:${_cart_model.address.area==null?'':_cart_model.address.area.areaName??''},${_cart_model.address.city==null?'':_cart_model.address.city.cityName??''}.${_cart_model.address.street??''}',
+                                                        //       maxLines: 1,
+                                                        //       overflow:
+                                                        //           TextOverflow
+                                                        //               .ellipsis,
+                                                        //       style: TextStyle(
+                                                        //           color: Colors
+                                                        //               .black,
+                                                        //           fontWeight:
+                                                        //               FontWeight
+                                                        //                   .bold,
+                                                        //           fontSize: 14),
+                                                        //     )),
                                                       ],
                                                     ),
                                                   ),
@@ -242,7 +240,7 @@ class _CartScreenState extends State<CartScreen> {
                                                         ),
                                                         Container(
                                                           child: AutoSizeText(
-                                                            " ${_cart_model.cart_model.grandTotal} ${getTransrlate(context, 'Currency')}",
+                                                            " ${_cart_model.cart_model.grandTotal.toStringAsFixed(2)} ${getTransrlate(context, 'Currency')}",
                                                             maxLines: 1,
                                                             minFontSize: 20,
                                                             maxFontSize: 25,

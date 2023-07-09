@@ -27,7 +27,6 @@ class ProductCart extends StatefulWidget {
 }
 
 class _ProductCartState extends State<ProductCart> {
-
   List<String> items = [
     "1",
     "2",
@@ -67,7 +66,7 @@ class _ProductCartState extends State<ProductCart> {
             Container(
               width: ScreenUtil.getWidth(context) / 4,
               child: CachedNetworkImage(
-                imageUrl: widget.carts.product.image,
+                imageUrl: widget.carts.product.image??" ",
                 errorWidget: (context, url, error) => Icon(
                   Icons.image,
                   color: Colors.black12,
@@ -76,10 +75,11 @@ class _ProductCartState extends State<ProductCart> {
             ),
             Column(
               children: [
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Container(
                   width: ScreenUtil.getWidth(context) / 2.5,
-
                   child: AutoSizeText(
                     widget.carts.product.name,
                     maxLines: 3,
@@ -104,7 +104,6 @@ class _ProductCartState extends State<ProductCart> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -167,9 +166,37 @@ class _ProductCartState extends State<ProductCart> {
                                 //     ),
                                 //   ),
                                 // ),
-                                widget.carts.quantity!=0?   IconButton(icon:  Icon(Icons.remove_circle,color: Colors.grey,),onPressed: ()=>setState(()=>widget.carts.quantity--),):new Container(),
-                                 Text(widget.carts.quantity.toString()),
-                                 IconButton(icon: new Icon(Icons.add_circle,color: Servicetheme.getColor(),),onPressed: ()=>setState(()=>widget.carts.quantity++)),
+                                widget.carts.quantity != 0
+                                    ? IconButton(
+                                        icon: Icon(
+                                          Icons.remove_circle,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: ()
+                                        {
+                                          setState(() => widget.carts.quantity--);
+                                          API(context).patch('store/cart/${widget.carts.id}/items/${ServiceData.cart_model.id}/', {
+                                            "quantity": widget.carts.quantity
+                                          });
+                                          ServiceData.getCart(context);
+                                        },
+                                      )
+                                    : new Container(),
+                                Text(widget.carts.quantity.toString()),
+                                IconButton(
+                                    icon: new Icon(
+                                      Icons.add_circle,
+                                      color: Servicetheme.getColor(),
+                                    ),
+                                    onPressed: ()
+                                    {
+                                          setState(() => widget.carts.quantity++);
+                                          API(context).patch('store/cart/${widget.carts.id}/items/${ServiceData.cart_model.id}/', {
+                                            "quantity": widget.carts.quantity
+                                          });
+                                          ServiceData.getCart(context);
+
+                                        }),
                                 Container(
                                   width: ScreenUtil.getWidth(context) / 5,
                                   child: Container(
@@ -182,155 +209,15 @@ class _ProductCartState extends State<ProductCart> {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
-                            !other
-                                ? Container(
-                              child: Form(
-                                key: _formKey,
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      bottom: 10,
-                                      left: 2,
-                                      right: 2,
-                                      top: 10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black12)),
-                                  height: 90,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        "${getTransrlate(context, 'quantity')} :",
-                                      ),
 
-                                      Container(
-                                        width: 100,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 2, vertical: 12),
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: MyTextFormField(
-                                          istitle: true,
-                                          intialLabel: widget.carts.quantity.toString(),
-                                          keyboard_type:
-                                          TextInputType.number,
-                                          labelText: getTransrlate(
-                                              context, 'quantity'),
-                                          hintText: getTransrlate(
-                                              context, 'quantity'),
-                                          isPhone: true,
-                                          validator: (String value) {
-                                            if (value.isEmpty) {
-                                              return "كمية";
-                                            }
-                                            _formKey.currentState.save();
-                                            return null;
-                                          },
-                                          onSaved: (String value) {
-                                            widget.carts.quantity =
-                                                int.parse(value);
-                                          },
-                                        ),
-                                      ),
-                                      uloading?Center(
-                                        child: CircularProgressIndicator(  valueColor:
-                                        AlwaysStoppedAnimation<Color>( Colors.lightGreen),),
-                                      ):  InkWell(
-                                        onTap: () {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            _formKey.currentState.save();
-                                            setState(() => uloading = true);
-
-                                            API(context)
-                                                .post('add/to/cart', {
-                                              "product_id":
-                                              widget.carts.product.id,
-                                              "quantity":
-                                              widget.carts.quantity,
-                                              "order_id":
-                                              widget.carts.id
-                                            }).then((value) {
-                                              setState(() => uloading = false);
-
-                                              if (value != null) {
-                                                if (value['status_code'] ==
-                                                    200) {
-
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          ResultOverlay(value[
-                                                          'message']));
-
-                                                  ServiceData.getCart(
-                                                      context);
-                                                  setState(() {
-                                                    other=!other;
-
-                                                  });
-                                                } else {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          ResultOverlay(value[
-                                                          'message']));
-                                                }
-                                              }
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          margin:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 2,
-                                              vertical: 1),
-                                          padding:
-                                          const EdgeInsets.all(12.0),
-                                          color: Colors.lightGreen,
-                                          child: Center(
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    CupertinoIcons.cart,
-                                                    color: Colors.white,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    getTransrlate(
-                                                        context, 'updateCart'),
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        color: Colors.white),
-                                                  ),
-                                                ],
-                                              )),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                                : Container(),
                           ],
                         ),
                       ),
-
                       Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
                         child: Container(
                           height: 1,
                           color: Colors.black12,
@@ -339,28 +226,31 @@ class _ProductCartState extends State<ProductCart> {
                     ],
                   ),
                 )
-
               ],
             ),
-            loading?Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: SizedBox(
-                height: 20.0,
-                width: 20.0,
-                child: Center(
-                  child: CircularProgressIndicator(  valueColor:
-                  AlwaysStoppedAnimation<Color>( Colors.orange),),
-                ),
-              ),
-            ): IconButton(
-                onPressed: () {
-                  deleteItem(ServiceData);
-                },
-                icon: Icon(
-                  Icons.delete_outline,
-                  size: 25,
-                  color: Colors.grey,
-                )),
+            loading
+                ? Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: SizedBox(
+                      height: 20.0,
+                      width: 20.0,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.orange),
+                        ),
+                      ),
+                    ),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      deleteItem(ServiceData);
+                    },
+                    icon: Icon(
+                      Icons.delete_outline,
+                      size: 25,
+                      color: Colors.grey,
+                    )),
           ],
         ),
       ),
@@ -370,21 +260,19 @@ class _ProductCartState extends State<ProductCart> {
   void deleteItem(Provider_Data ServiceData) {
     setState(() => loading = true);
 
-    API(context).Delete('6/items/${widget.carts.id}/').then((value) {
+    API(context).Delete('store/cart/${ServiceData.cart_model.id}/items/${widget.carts.id}/').then((value) {
       setState(() => loading = false);
+      ServiceData.getCart(context);
 
-      if (value != null) {
-        if (value['status_code'] == 200) {
-          showDialog(
-              context: context,
-              builder: (_) => ResultOverlay(value['message']));
-          ServiceData.getCart(context);
-        } else {
-          showDialog(
-              context: context,
-              builder: (_) => ResultOverlay(value['errors']));
-        }
-      }
+        // if (!value.containsKey('detail')) {
+        //   showDialog(
+        //       context: context,
+        //       builder: (_) => ResultOverlay('تم الحذف'));
+        // } else {
+        //   showDialog(
+        //       context: context, builder: (_) => ResultOverlay(value['detail']));
+        // }
+
     });
   }
 }

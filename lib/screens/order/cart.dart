@@ -24,7 +24,6 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
-import '../MyCars/myCars.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key key}) : super(key: key);
@@ -139,43 +138,6 @@ class _CartScreenState extends State<CartScreen> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 22),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                 //     Nav.route(context, Shipping_Address());
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .location_on_outlined,
-                                                          color: Colors.orange,
-                                                        ),
-                                                        // Container(
-                                                        //     width: ScreenUtil
-                                                        //             .getWidth(
-                                                        //                 context) /
-                                                        //         1.3,
-                                                        //     child: Text(
-                                                        //       _cart_model.address==null?'${getTransrlate(context, 'NoSelect')}': '${getTransrlate(context, 'ShippingTo')}:${_cart_model.address.area==null?'':_cart_model.address.area.areaName??''},${_cart_model.address.city==null?'':_cart_model.address.city.cityName??''}.${_cart_model.address.street??''}',
-                                                        //       maxLines: 1,
-                                                        //       overflow:
-                                                        //           TextOverflow
-                                                        //               .ellipsis,
-                                                        //       style: TextStyle(
-                                                        //           color: Colors
-                                                        //               .black,
-                                                        //           fontWeight:
-                                                        //               FontWeight
-                                                        //                   .bold,
-                                                        //           fontSize: 14),
-                                                        //     )),
-                                                      ],
-                                                    ),
                                                   ),
                                                 ),
                                                 Padding(

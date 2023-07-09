@@ -75,7 +75,7 @@ class _ProductCardState extends State<ProductCard> {
                   imageUrl: widget.product.image??'',
                   fit: BoxFit.contain,
                     errorWidget:(context, url, error) =>CachedNetworkImage(
-                        imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ')
+                        imageUrl: GlobalConfiguration().getString('base_url')+"${widget.product.image??' '}")
                 ),
                 Container(
                   color: Colors.white,

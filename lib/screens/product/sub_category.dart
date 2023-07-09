@@ -36,7 +36,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
 
   @override
   void initState() {
-    API(context).get('subcategory/${widget.Categories.id}').then((value) {
+    API(context).get('store/subcategory/${widget.Categories.id}').then((value) {
       if (value != null) {
         setState(() {
           Categories = Categories_model.fromJson(value).data;

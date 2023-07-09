@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pos/model/Categories_model.dart';
 import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/order/cart.dart';
-import 'package:flutter_pos/screens/account/vendor_information.dart';
 import 'package:flutter_pos/screens/product/companies.dart';
 import 'package:flutter_pos/screens/product/companiesScreen.dart';
 import 'package:flutter_pos/screens/product/products_page.dart';

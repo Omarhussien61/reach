@@ -5,13 +5,13 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_pos/main.dart';
 import 'package:flutter_pos/screens/account/Conditions.dart';
 import 'package:flutter_pos/screens/account/return.dart';
+import 'package:flutter_pos/screens/account/roshata.dart';
 import 'package:flutter_pos/screens/account/signUP_page.dart';
 import 'package:flutter_pos/screens/account/support.dart';
 import 'package:flutter_pos/screens/account/OrderHistory.dart';
 import 'package:flutter_pos/screens/account/infoPage.dart';
 import 'package:flutter_pos/screens/account/login.dart';
 import 'package:flutter_pos/screens/account/user_information.dart';
-import 'package:flutter_pos/screens/account/vendor_information.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
 import 'package:flutter_pos/utils/local/LanguageTranslated.dart';
@@ -26,7 +26,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../MyCars/myCars.dart';
 
 class Account extends StatefulWidget {
   const Account({Key key}) : super(key: key);
@@ -281,6 +280,7 @@ class _AccountState extends State<Account> {
                       children: [
                         InkWell(
                           onTap: () async {
+                            Nav.route(context, Roshata());
 
                           },
                           child: ItemHiddenMenu(
@@ -298,7 +298,7 @@ class _AccountState extends State<Account> {
                         ),
                         InkWell(
                           onTap: () async {
-
+                            Nav.route(context, WishList());
                           },
                           child: ItemHiddenMenu(
                             icon: Image.asset(

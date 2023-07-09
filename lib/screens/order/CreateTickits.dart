@@ -277,17 +277,17 @@ super.initState();
                               setState(() => loading = false);
 
                               if (value['status_code'] == 201) {
-                                  Navigator.pop(context);
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) =>
-                                          ResultOverlay(value['message']));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) =>
-                                          ResultOverlay("${value['message']}\n${value['errors']}"));
-                                }
+                                Navigator.pop(context);
+                                showDialog(
+                                    context: context,
+                                    builder: (_) =>
+                                        ResultOverlay(value['message']));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) =>
+                                        ResultOverlay("${value['message']}\n${value['errors']}"));
+                              }
                               }
                             });
                           }

@@ -86,6 +86,37 @@ class API {
             "${getTransrlate(context, 'ConnectionFailed')}"),
       );
     } finally {}
+  }  patch(
+    String url,
+    Map<String, dynamic> body,
+  ) async {
+    print(body);
+    final full_url =
+        Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    print("url =${full_url}");
+    print("token =${prefs.getString('token')}");
+
+    try {
+      http.Response response = await http.patch(full_url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          // 'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
+            'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
+          },
+          body: json.encode(body));
+      return getAction(response);
+    } catch (e) {
+
+      showDialog(
+        context: context,
+        builder: (_) => ResultOverlay(
+            "${getTransrlate(context, 'ConnectionFailed')}"),
+      );
+    } finally {}
   }
   posturl(
     String url,
@@ -122,22 +153,17 @@ class API {
       File attachment,
       File bankDocs}) async {
     final full_url =
-        Uri.parse('${GlobalConfiguration().getString('api_base_url')}$url');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var headers = {
-      'Authorization': 'Bearer  ${prefs.getString('token')}'
-    }; // remove headers if not wanted
+        Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
     try {
-
+      print(full_url);
       var request = http.MultipartRequest(
         'POST', Uri.parse(full_url.toString())); // your server url
     request.fields.addAll(body); // any other fields required by your server
-    attachment==null?null:  request.files.add(await http.MultipartFile.fromPath('attachment', '${attachment.path}')); // file you want to upload
+    attachment==null?null:  request.files.add(await http.MultipartFile.fromPath('image', '${attachment.path}')); // file you want to upload
     commercialDocs==null?null:  request.files.add(await http.MultipartFile.fromPath('commercialDocs', '${commercialDocs.path}')); // file you want to upload
     taxCardDocs==null?null: request.files.add(await http.MultipartFile.fromPath('taxCardDocs', '${taxCardDocs.path}')); // file you want to upload
     wholesaleDocs==null?null: request.files.add(await http.MultipartFile.fromPath('wholesaleDocs', '${wholesaleDocs.path}')); // file you want to upload
     bankDocs==null?null: request.files.add(await http.MultipartFile.fromPath('bankDocs', '${bankDocs.path}')); // file you want to upload
-    request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     //print(await request.files);
 
@@ -178,7 +204,8 @@ class API {
   Delete(String url) async {
 
     final full_url =
-        Uri.parse('${GlobalConfiguration().getString('api_base_url')}$url');
+        Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
+    print(full_url);
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       http.Response response = await http.delete(
@@ -186,17 +213,18 @@ class API {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${prefs.getString('token') ?? identifier}',
           'Accept-Language': Provider.of<Provider_control>(context,listen: false).getlocal(),
         },
       );
-      return getAction(response);
+      var myDataString = utf8.decode(response.bodyBytes);
+      ///obtain json from string
+      return jsonDecode(myDataString);
     } catch (e) {
-      showDialog(
-        context: context,
-        builder: (_) => ResultOverlay(
-            "${getTransrlate(context, 'ConnectionFailed')}"),
-      );
+      // showDialog(
+      //   context: context,
+      //   builder: (_) => ResultOverlay(
+      //       "${getTransrlate(context, 'ConnectionFailed')}"),
+      // );
     } finally {}
   }
   getAction(http.Response response) {

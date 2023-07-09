@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos/model/product_model.dart';
+import 'package:flutter_pos/screens/account/start.dart';
 import 'package:flutter_pos/screens/product/ProductPage.dart';
 import 'package:flutter_pos/service/api.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
@@ -14,9 +15,10 @@ import 'package:flutter_pos/widget/ResultOverlay.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductList extends StatefulWidget {
-   ProductList({
+  ProductList({
     Key key,
     @required this.themeColor,
     this.product,
@@ -31,12 +33,20 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
-  bool loading =false;
-  bool wloading =false;
-
+  bool loading = false;
+  bool wloading = false;
+  String token;
+  int userId;
   @override
   void initState() {
-  super.initState();
+    SharedPreferences.getInstance().then((prefs){
+      setState(() {
+        token=prefs.getString('token');
+        userId=prefs.getInt('userID');
+      });
+
+    });
+    super.initState();
   }
 
   @override
@@ -52,7 +62,7 @@ class _ProductListState extends State<ProductList> {
       ),
       child: InkWell(
         onTap: () {
-          widget.ctx==null?null: Navigator.pop(widget.ctx);
+          widget.ctx == null ? null : Navigator.pop(widget.ctx);
           Nav.route(
               context,
               ProductPage(
@@ -73,7 +83,6 @@ class _ProductListState extends State<ProductList> {
               ]),
           child: Column(
             children: [
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,8 +93,12 @@ class _ProductListState extends State<ProductList> {
                     height: 100,
                     width: ScreenUtil.getWidth(context) / 4.5,
                     child: CachedNetworkImage(
-                      imageUrl: widget.product.image??' ',errorWidget:(context, url, error) =>CachedNetworkImage(
-                        imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ') ,),
+                      imageUrl: widget.product.image ?? ' ',
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                          imageUrl:
+                              GlobalConfiguration().getString('base_url') +
+                                  '${widget.product.image ?? ' '}'),
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -100,10 +113,9 @@ class _ProductListState extends State<ProductList> {
                             height: 5,
                           ),
                           Container(
-                            width: ScreenUtil.getWidth(context) /2,
-
+                            width: ScreenUtil.getWidth(context) / 2,
                             child: AutoSizeText(
-                             widget.product.name,
+                              widget.product.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -141,122 +153,212 @@ class _ProductListState extends State<ProductList> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              widget.product.salePrice=='null' ? Container(
-                                width: ScreenUtil.getWidth(context) / 5,
-                                child: Text(
-                                  "${widget.product.publicPrice??0} ${getTransrlate(context, 'Currency')} ",
-                                  maxLines: 1,
-
-                                  style: TextStyle(
-                                      color:Colors.black,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ) :Container(
-                                width: ScreenUtil.getWidth(context) / 4,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "${widget.product.publicPrice??0} ${getTransrlate(context, 'Currency')} ",
-                                      maxLines: 1,
-
-                                      style: TextStyle(
-                                          color:Colors.black,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold),
+                              widget.product.salePrice == 'null'
+                                  ? Container(
+                                      width: ScreenUtil.getWidth(context) / 5,
+                                      child: Text(
+                                        "${widget.product.publicPrice ?? 0} ${getTransrlate(context, 'Currency')} ",
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: ScreenUtil.getWidth(context) / 3.5,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${widget.product.publicPrice ?? 0} ${getTransrlate(context, 'Currency')} ",
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "${widget.product.salePrice ?? 0} ",
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                color: Colors.orange,
+                                                fontSize: 10,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      "${widget.product.salePrice??0} ",
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          color:Colors.orange,
-                                          fontSize: 10,
-                                          decoration: TextDecoration.lineThrough,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),                              Expanded(
+                              Expanded(
                                 child: SizedBox(
                                   height: 6,
                                 ),
                               ),
-                               loading?
-                              SizedBox(
-                                height: 20.0,
-                                width: 20.0,
-                                child: CircularProgressIndicator(  valueColor:
-                                AlwaysStoppedAnimation<Color>( Colors.orange),),
-                              ):InkWell(
-                                onTap: () {
-                                  setState(() => loading = true);
+                              loading
+                                  ? SizedBox(
+                                      height: 20.0,
+                                      width: 20.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.orange),
+                                      ),
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        setState(() => loading = true);
 
-                                  API(context).post('add/to/cart', {
-                                    "product_id": widget.product.id,
-                                    "quantity": 1
-                                  }).then((value) {
-                                    setState(() => loading = false);
+                                        API(context).post(
+                                            'store/cart/${data.cart_model.id}/items/',
+                                            {
+                                              "product_id": widget.product.id,
+                                              "quantity": 1
+                                            }).then((value) {
+                                          setState(() => loading = false);
+                                          print(value);
 
-                                    if (value != null) {
-                                      if (value['status_code'] == 200) {
+                                          if (value != null) {
+                                            if (!value.containsKey('detail')) {
+                                              setState(() {});
 
-                                        showDialog(
-                                            context: context,
-                                            builder: (_) => ResultOverlay(
-                                                value['message']));
-                                        data.getCart(context);
-                                      } else {
-                                        showDialog(
-                                            context: context,
-                                            builder: (_) => ResultOverlay(
-                                                value['errors']??value['message']));
-                                      }
-                                    }
-                                  });
-                                },
-                                child:    Icon(
-                                  CupertinoIcons.cart,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              wloading?SizedBox(
-                                height: 20.0,
-                                width: 20.0,
-                                child: CircularProgressIndicator(  valueColor:
-                                AlwaysStoppedAnimation<Color>( Colors.orange),),
-                              ):
-                              IconButton(
-                                onPressed: () {
-                                  setState(() => wloading = true);
-                                  API(context).post(
-                                          'user/removeitem/wishlist', {
-                                          "product_id": widget.product.id
-                                        }).then((value) {
-                                    setState(() => wloading = false);
-
-                                    if (value != null) {
-                                            if (value['status_code'] == 200) {
-                                              data.getWishlist(context);
-                                              setState(() => wloading = false);
-
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (_) => ResultOverlay(
-                                                      value['message']));
+                                              final snackBar = SnackBar(
+                                                content: Center(
+                                                    child: Text(
+                                                  'تم اضافه المنتج الى عربة التسوق',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: 'Cairo'),
+                                                )),
+                                                backgroundColor: Colors.green,
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              data.getCart(context);
                                             } else {
                                               showDialog(
                                                   context: context,
                                                   builder: (_) => ResultOverlay(
-                                                      value['errors']));
+                                                      '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                                      icon: Icon(
+                                                        Icons.info_outline,
+                                                        color: Colors.yellow,
+                                                        size: 80,
+                                                      )));
                                             }
                                           }
                                         });
-                                },
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                                      },
+                                      child: Icon(
+                                        CupertinoIcons.cart,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                              widget.product.like.isEmpty?
+                              IconButton(icon: Icon(Icons.favorite_border,size: 30,color: Colors.orange,),onPressed: (){
+                                if(userId==null){
+                                  Nav.route(context, StartScreen());
+                                }else
+                                {
+                                  API(context).post(
+                                      'store/list_fav/${widget.product.id}/?token=${token}', {
+                                  }).then((value) {
+                                    print(value);
+
+                                    if (value != null) {
+                                      if (value.containsKey('data')) {
+                                        setState(() {
+                                          widget.product.like=value['data']['like'];
+                                        });
+                                        final snackBar = SnackBar(
+                                          content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                                          backgroundColor: Colors.green,
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      } else {
+
+                                      }
+                                    }
+                                  });
+                                }
+
+                              },):
+                              widget.product.like.where((element) => element==userId).isNotEmpty?
+                              IconButton(icon: Icon(Icons.favorite,size: 30,color: Colors.orange,),onPressed: (){
+                                if(userId==null){
+                                  Nav.route(context, StartScreen());
+                                }else
+                                {
+                                  API(context).post(
+                                      'store/list_fav/${widget.product.id}/?token=${token}', {
+                                  }).then((value) {
+                                    print(value);
+
+                                    if (value != null) {
+                                      if (value.containsKey('data')) {
+                                        setState(() {
+                                          widget.product.like=value['data']['like'];
+                                        });
+                                        final snackBar = SnackBar(
+                                          content:  Center(child: Text('تم ازالة المنتج من المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                                          backgroundColor: Colors.red,
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      } else {
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) => ResultOverlay(
+                                                '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                                icon: Icon(
+                                                  Icons.info_outline,
+                                                  color: Colors.yellow,
+                                                  size: 80,
+                                                )));
+                                      }
+                                    }
+                                  });
+                                }
+
+                              },):
+                              IconButton(icon: Icon(Icons.favorite_border,size: 30,color: Colors.orange,),onPressed: (){
+                                if(userId==null){
+                                  Nav.route(context, StartScreen());
+                                }else
+                                {
+                                  API(context).post(
+                                      'store/list_fav/${widget.product.id}/?token=${token}', {
+                                  }).then((value) {
+                                    print(value);
+
+                                    if (value != null) {
+                                      if (value.containsKey('data')) {
+                                        setState(() {
+                                          widget.product.like=value['data']['like'];
+                                        });
+                                        final snackBar = SnackBar(
+                                          content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                                          backgroundColor: Colors.green,
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      } else {
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) => ResultOverlay(
+                                                '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                                icon: Icon(
+                                                  Icons.info_outline,
+                                                  color: Colors.yellow,
+                                                  size: 80,
+                                                )));
+                                      }
+                                    }
+                                  });
+                                }
+
+                              },)
                             ],
                           ),
                         ],

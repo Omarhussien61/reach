@@ -1207,7 +1207,7 @@ class _Products_PageState extends State<Products_Page> {
       product = null;
     });
 
-    API(context).get(widget.Url).then((value) {
+    API(context).get("store/${widget.Url}").then((value) {
       if (value != null) {
         print("value : $value");
           setState(() {
@@ -1225,7 +1225,7 @@ class _Products_PageState extends State<Products_Page> {
       product = null;
     });
 
-    API(context).get(widget.Url).then((value) {
+    API(context).get("store/${widget.Url}").then((value) {
       if (value != null) {
           setState(() {
             product = Product_model.fromJson(value).data;

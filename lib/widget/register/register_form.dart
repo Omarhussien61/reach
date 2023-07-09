@@ -83,9 +83,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     model.City = value;
                   },
                 ),
+
+                //
+                //
                 // MyTextFormField(
-                //   labelText: getTransrlate(context, 'district'),
-                //   hintText: getTransrlate(context, 'district'),
+                //   labelText: getTransrlate(context, 'Username'),
+                //  // hintText: getTransrlate(context, 'Username'),
                 //   validator: (String value) {
                 //     if (value.isEmpty) {
                 //       return getTransrlate(context, 'requiredempty');
@@ -95,26 +98,9 @@ class _RegisterFormState extends State<RegisterForm> {
                 //     return null;
                 //   },
                 //   onSaved: (String value) {
-                //     model.Name = value;
+                //     model.address = value;
                 //   },
                 // ),
-
-
-                MyTextFormField(
-                  labelText: getTransrlate(context, 'Username'),
-                 // hintText: getTransrlate(context, 'Username'),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return getTransrlate(context, 'requiredempty');
-                    } else if (value.length <= 2) {
-                      return "${getTransrlate(context, 'requiredlength')}";
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                    model.address = value;
-                  },
-                ),
                 MyTextFormField(
                   keyboard_type: TextInputType.number,
 
@@ -245,7 +231,7 @@ class _RegisterFormState extends State<RegisterForm> {
       'first_name': model.Name,
       'last_name': model.City,
       'phone': model.phone,
-      'username': model.address,
+      'username': model.phone,
       'password': model.password,
       "rePassword": model.password_confirmation,
     }).then((value) {
@@ -261,13 +247,10 @@ class _RegisterFormState extends State<RegisterForm> {
           themeColor.setLogin(true);
         showDialog(
                 context: context,
-                builder: (_) => ResultOverlay('${value['message']}'))
+                builder: (_) => ResultOverlay('تم التسجيل برجاء تسجيل الدخول الان'))
             .whenComplete(() {
           Nav.routeReplacement(context, LoginPage());
         });
-
-        // Navigator.pushAndRemoveUntil(
-        //     context, MaterialPageRoute(builder: (_) => Account()), (r) => false);
       } else {
         showDialog(
             context: context,

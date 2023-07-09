@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_pos/model/question_model.dart';
 import 'package:flutter_pos/model/review.dart';
 import 'package:flutter_pos/screens/account/start.dart';
+import 'package:flutter_pos/screens/order/cart.dart';
 import 'package:flutter_pos/screens/product/photo.dart';
 import 'package:flutter_pos/screens/product/products_page.dart';
 import 'package:flutter_pos/screens/product/Quastions.dart';
@@ -38,7 +39,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../MyCars/myCars.dart';
 
 class ProductPage extends StatefulWidget {
   ProductPage({Key key, this.product, this.product_id}) : super(key: key);
@@ -62,6 +62,7 @@ class _ProductPageState extends State<ProductPage> {
         token=prefs.getString('token');
         userId=prefs.getInt('userID');
       });
+
     });
     super.initState();
   }
@@ -85,7 +86,7 @@ class _ProductPageState extends State<ProductPage> {
                     height: ScreenUtil.getHeight(context) / 2.5,
                     child: CachedNetworkImage(
                         imageUrl: widget.product.image??' ',errorWidget:(context, url, error) =>CachedNetworkImage(
-                      imageUrl: GlobalConfiguration().getString('base_url')+widget.product.image??' ') ,),
+                      imageUrl: GlobalConfiguration().getString('base_url')+'${widget.product.image??' '}') ,),
                   ),
                 ),
                 widget.product.like.isEmpty?
@@ -104,31 +105,21 @@ class _ProductPageState extends State<ProductPage> {
                           setState(() {
                             widget.product.like=value['data']['like'];
                           });
-                          showDialog(
-                              context: context,
-                              builder: (_) => ResultOverlay(
-                                  value['message'] ?? value['detail'],
-                                  icon: Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.green,
-                                    size: 80,
-                                  )));
+                          final snackBar = SnackBar(
+                            content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                            backgroundColor: Colors.green,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          showDialog(
-                              context: context,
-                              builder: (_) => ResultOverlay(
-                                  '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
-                                  icon: Icon(
-                                    Icons.info_outline,
-                                    color: Colors.yellow,
-                                    size: 80,
-                                  )));
+
                         }
                       }
                     });
                   }
 
-                },):  widget.product.like.firstWhere((element) => element==userId)!=null?
+                },):
+                widget.product.like.where((element) => element==userId).isNotEmpty?
                 IconButton(icon: Icon(Icons.favorite,size: 30,color: Colors.orange,),onPressed: (){
                   if(userId==null){
                     Nav.route(context, StartScreen());
@@ -144,15 +135,12 @@ class _ProductPageState extends State<ProductPage> {
                           setState(() {
                             widget.product.like=value['data']['like'];
                           });
-                          showDialog(
-                              context: context,
-                              builder: (_) => ResultOverlay(
-                                  value['message'] ?? value['detail'],
-                                  icon: Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.green,
-                                    size: 80,
-                                  )));
+                          final snackBar = SnackBar(
+                            content:  Center(child: Text('تم ازالة المنتج من المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                            backgroundColor: Colors.red,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
                           showDialog(
                               context: context,
@@ -184,15 +172,12 @@ class _ProductPageState extends State<ProductPage> {
                           setState(() {
                             widget.product.like=value['data']['like'];
                           });
-                          showDialog(
-                              context: context,
-                              builder: (_) => ResultOverlay(
-                                  value['message'] ?? value['detail'],
-                                  icon: Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.green,
-                                    size: 80,
-                                  )));
+                          final snackBar = SnackBar(
+                            content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                            backgroundColor: Colors.green,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
                           showDialog(
                               context: context,
@@ -303,15 +288,13 @@ class _ProductPageState extends State<ProductPage> {
                               if (!value.containsKey('detail')) {
                                 setState(() {
                                 });
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => ResultOverlay(
-                                        value['message'] ?? value['detail'],
-                                        icon: Icon(
-                                          Icons.check_circle_outline,
-                                          color: Colors.green,
-                                          size: 80,
-                                        )));
+
+                                final snackBar = SnackBar(
+                                  content:  Center(child: Text('تم اضافه المنتج الى عربة التسوق',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+
+                                  backgroundColor: Colors.green,
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 ServiceData.getCart(context);
                               } else {
                                 showDialog(

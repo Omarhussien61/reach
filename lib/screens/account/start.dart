@@ -11,7 +11,6 @@ import 'package:flutter_pos/screens/account/OrderHistory.dart';
 import 'package:flutter_pos/screens/account/infoPage.dart';
 import 'package:flutter_pos/screens/account/login.dart';
 import 'package:flutter_pos/screens/account/user_information.dart';
-import 'package:flutter_pos/screens/account/vendor_information.dart';
 import 'package:flutter_pos/screens/homepage.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
@@ -27,7 +26,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../MyCars/myCars.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key key}) : super(key: key);

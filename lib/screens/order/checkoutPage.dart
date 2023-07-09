@@ -11,8 +11,8 @@ import 'package:flutter_pos/model/checkout_model.dart';
 import 'package:flutter_pos/model/order_model.dart';
 import 'package:flutter_pos/model/payment_model.dart';
 import 'package:flutter_pos/model/shipping_address.dart';
-import 'package:flutter_pos/screens/MyCars/myCars.dart';
 import 'package:flutter_pos/screens/account/OrderHistory.dart';
+import 'package:flutter_pos/screens/account/add_address.dart';
 import 'package:flutter_pos/screens/account/orderdetails.dart';
 import 'package:flutter_pos/service/api.dart';
 import 'package:flutter_pos/utils/Provider/ServiceData.dart';
@@ -27,6 +27,7 @@ import 'package:flutter_pos/widget/custom_textfield.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class CheckOutPage extends StatefulWidget {
@@ -230,7 +231,7 @@ setState(() {
                             SizedBox(
                               height: 5,
                             ),
-                            Container(
+                            DefaultAddress==null?Container():      Container(
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black12)),
                               padding: const EdgeInsets.all(12.0),
@@ -313,14 +314,14 @@ setState(() {
                                         SizedBox(
                                           width: ScreenUtil.getWidth(context)/2,
                                           child: Text(
-                                            '${getTransrlate(context, 'shipingditils')} : ${DateFormat(DateFormat.ABBR_MONTH_DAY, '${themeColor.getlocal()}').format(DateTime.now().add(Duration(days: 3)))} - ${DateFormat(DateFormat.ABBR_MONTH_DAY, '${themeColor.getlocal()}').format(DateTime.now().add(Duration(days: 5)))}',
+                                            '${DefaultAddress.city.name} : ${DateFormat(DateFormat.ABBR_MONTH_DAY, '${themeColor.getlocal()}').format(DateTime.now().add(Duration(days: 3)))} - ${DateFormat(DateFormat.ABBR_MONTH_DAY, '${themeColor.getlocal()}').format(DateTime.now().add(Duration(days: 5)))}',
                                             style: TextStyle(
                                                 height: 1.5,
                                                 fontWeight: FontWeight.w700),
                                           ),
                                         ),
                                         Text(
-                                          '0.00 ${getTransrlate(context, 'Currency')}',
+                                          '0.0 ${getTransrlate(context, 'Currency')}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,fontSize: 14),
                                         ),
@@ -1095,8 +1096,10 @@ setState(() {
     _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
   }
 
-  void getAddress() {
-    API(context).get('account/api/address/?token=c808021bfa97bd51ffdd8416319252bd3f5deb42').then((value) {
+  Future<void> getAddress() async {
+    final SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+    API(context).get('account/api/address/?token=${prefs.getString('token')}').then((value) {
       if (value != null) {
         setState(() {
           address = ShippingAddress.fromJson(value).data;
@@ -1309,8 +1312,8 @@ setState(() {
   }
 
   _navigate_add_Address(BuildContext context) async {
-    // await Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => AddAddress()));
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AddAddress()));
     Timer(Duration(seconds: 3), () => getAddress());
   }
 }

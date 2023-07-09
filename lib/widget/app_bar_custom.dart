@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:flutter_pos/screens/MyCars/myCars.dart';
 import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/account/user_information.dart';
 import 'package:flutter_pos/screens/homepage.dart';

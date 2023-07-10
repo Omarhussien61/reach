@@ -58,7 +58,7 @@ class _WishListState extends State<WishList> {
           ],
         ),
       ),
-      body:!themeColor.isLogin?Notlogin(): Container(
+      body: Container(
         child: data.wishList == null
             ? Center(child: Custom_Loading())
             : data.wishList.isEmpty

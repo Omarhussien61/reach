@@ -93,28 +93,28 @@ class _Wish_ListState extends State<Wish_List> {
                       children: [
                         Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Container(
-                                width: ScreenUtil.getWidth(context) / 5,
-                                child: RatingBar.builder(
-                                  ignoreGestures: true,
-                                  initialRating: 5.0,
-                                  itemSize: 14.0,
-                                  minRating: 0.5,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.orange,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 8.0),
+                            //   child: Container(
+                            //     width: ScreenUtil.getWidth(context) / 5,
+                            //     child: RatingBar.builder(
+                            //       ignoreGestures: true,
+                            //       initialRating: 5.0,
+                            //       itemSize: 14.0,
+                            //       minRating: 0.5,
+                            //       direction: Axis.horizontal,
+                            //       allowHalfRating: true,
+                            //       itemCount: 5,
+                            //       itemBuilder: (context, _) => Icon(
+                            //         Icons.star,
+                            //         color: Colors.orange,
+                            //       ),
+                            //       onRatingUpdate: (rating) {
+                            //         print(rating);
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
                             Container(
                               width: ScreenUtil.getWidth(context) / 5,
                               child: AutoSizeText(
@@ -215,7 +215,7 @@ class _Wish_ListState extends State<Wish_List> {
                       children: <Widget>[
                         Icon(CupertinoIcons.cart, color: Colors.orange),
                         Container(
-                          width: ScreenUtil.getWidth(context) / 5,
+                          width: ScreenUtil.getWidth(context) / 4,
                           child: AutoSizeText(
                             '${getTransrlate(context, 'ADDtoCart')}',
                             minFontSize: 13,

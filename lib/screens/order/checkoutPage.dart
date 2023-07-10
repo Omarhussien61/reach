@@ -321,7 +321,7 @@ setState(() {
                                           ),
                                         ),
                                         Text(
-                                          '0.0 ${getTransrlate(context, 'Currency')}',
+                                          '${DefaultAddress.total_delivery??'0.0'} ${getTransrlate(context, 'Currency')}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,fontSize: 14),
                                         ),

@@ -106,7 +106,7 @@ class _ProductPageState extends State<ProductPage> {
                             widget.product.like=value['data']['like'];
                           });
                           final snackBar = SnackBar(
-                            content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+                            content:  Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                             backgroundColor: Colors.green,
                           );
@@ -136,7 +136,7 @@ class _ProductPageState extends State<ProductPage> {
                             widget.product.like=value['data']['like'];
                           });
                           final snackBar = SnackBar(
-                            content:  Center(child: Text('تم ازالة المنتج من المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+                            content:  Text('تم ازالة المنتج من المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                             backgroundColor: Colors.red,
                           );
@@ -173,7 +173,7 @@ class _ProductPageState extends State<ProductPage> {
                             widget.product.like=value['data']['like'];
                           });
                           final snackBar = SnackBar(
-                            content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+                            content:  Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                             backgroundColor: Colors.green,
                           );
@@ -290,7 +290,7 @@ class _ProductPageState extends State<ProductPage> {
                                 });
 
                                 final snackBar = SnackBar(
-                                  content:  Center(child: Text('تم اضافه المنتج الى عربة التسوق',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+                                  content:  Text('تم اضافه المنتج الى عربة التسوق',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                                   backgroundColor: Colors.green,
                                 );

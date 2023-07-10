@@ -175,7 +175,7 @@ class _ProductCartState extends State<ProductCart> {
                                         onPressed: ()
                                         {
                                           setState(() => widget.carts.quantity--);
-                                          API(context).patch('store/cart/${widget.carts.id}/items/${ServiceData.cart_model.id}/', {
+                                          API(context).patch('store/cart/${ServiceData.cart_model.id}/items/${widget.carts.id}/', {
                                             "quantity": widget.carts.quantity
                                           });
                                           ServiceData.getCart(context);
@@ -191,7 +191,7 @@ class _ProductCartState extends State<ProductCart> {
                                     onPressed: ()
                                     {
                                           setState(() => widget.carts.quantity++);
-                                          API(context).patch('store/cart/${widget.carts.id}/items/${ServiceData.cart_model.id}/', {
+                                          API(context).patch('store/cart/${ServiceData.cart_model.id}/items/${widget.carts.id}/', {
                                             "quantity": widget.carts.quantity
                                           });
                                           ServiceData.getCart(context);

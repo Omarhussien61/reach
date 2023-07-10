@@ -500,13 +500,14 @@ class _HomeState extends State<Home> {
                                   color: Colors.black12),
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: CachedNetworkImage(
-                                  height: ScreenUtil.getHeight(context) / 12,
-                                  width: ScreenUtil.getWidth(context) / 3.2,
-                                  imageUrl: (product.photo == null)
+                                child: Image.network(
+
+                                  (product.photo == null)
                                       ? 'http://arabimagefoundation.com/images/defaultImage.png'
                                       : product.photo,
-                                  errorWidget: (context, url, error) => Padding(
+                                  height: ScreenUtil.getHeight(context) / 12,
+                                  width: ScreenUtil.getWidth(context) / 3.2,
+                                  errorBuilder: (context, url, error) => Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Image.asset(
                                       'assets/images/alt_img_category.png',

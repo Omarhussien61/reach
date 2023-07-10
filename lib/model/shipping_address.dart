@@ -49,7 +49,7 @@ class Address {
   String floor;
   String apartmentNo;
   String specialMark;
-  String total_delivery;
+  double total_delivery;
 
   Address({
     this.id,

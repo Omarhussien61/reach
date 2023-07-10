@@ -776,7 +776,7 @@ setState(() {
                                     .post('store/checkout/', {
                                   'cart':_cart_model.cart_model.id,
                                   'address':DefaultAddress.id,
-                                  'total_cost':_cart_model.cart_model.grandTotal
+                                  'total_cost':_cart_model.cart_model.grandTotal+DefaultAddress.total_delivery
                                 }).then((value) {
                                       print(value.runtimeType);
                                       setState(() => loading = false);

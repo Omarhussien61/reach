@@ -139,7 +139,8 @@ class _Wish_ListState extends State<Wish_List> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 dloading?CircularProgressIndicator(  valueColor:
-                AlwaysStoppedAnimation<Color>( Colors.orange),):IconButton(
+                AlwaysStoppedAnimation<Color>( Colors.orange),):
+                IconButton(
                     onPressed: () {
                       setState(() => dloading = true);
 

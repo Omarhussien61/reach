@@ -1149,7 +1149,7 @@ class _Products_PageState extends State<Products_Page> {
                               product = null;
                             });
                             API(context)
-                                .get('${url}?${sort ?? 'ordering=public_price'}')
+                                .get('store/${url}?${sort ?? 'ordering=public_price'}')
                                 .then((value) {
                               if (value != null) {
                                   setState(() {

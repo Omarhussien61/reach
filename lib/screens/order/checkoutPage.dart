@@ -788,13 +788,12 @@ setState(() {
                                           .getCart(context);
                                       continued();
                                       final snackBar = SnackBar(
-                                        content:  Text('تم ارسال الطلب لما اطلب الاوردر',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
+                                        content:  Text('تم ارسال الطلب ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                                         backgroundColor: Colors.green,
                                       );
                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                                      Timer(Duration(seconds: 3), () => Phoenix.rebirth(context));
 
                                     }else{
                                       showDialog(
@@ -838,9 +837,7 @@ setState(() {
                       title: Text(
                         getTransrlate(context, 'next_checkout'),
                       ),
-                      content: checkout_model == null
-                          ? Container()
-                          : Column(
+                      content:  Column(
                               children: <Widget>[
                                 Icon(
                                   Icons.check_circle_outline,
@@ -851,7 +848,7 @@ setState(() {
                                   height: 10,
                                 ),
                                 Text(
-                                  '${checkout_model.message}',
+                                  'تم ارسال الطلب',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.lightGreen,
@@ -879,13 +876,6 @@ setState(() {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        '${getTransrlate(context, 'OrderNO')} ${checkout_model.data.orderNumber} :',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
 
                                       SizedBox(
                                         height: 10,
@@ -907,132 +897,50 @@ setState(() {
                                       SizedBox(
                                         height: 25,
                                       ),
-                                      InkWell(
-                                        onTap: (){
-                                          API(context).post('user/show/orders/${checkout_model.data.id}',{}).then((value) {
-                                            if (value != null) {
-                                              Nav.routeReplacement(context, Orderdetails(order: Order.fromJson(value['data'])));
-                                            }
-                                          });
-                                        },
-                                        child: Text(
-                                          '${getTransrlate(context, 'OrderDitails')}',
-                                          style: TextStyle(
-                                              color: Colors.orange,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ),
+                                      // InkWell(
+                                      //   onTap: (){
+                                      //     API(context).post('user/show/orders/${checkout_model.data.id}',{}).then((value) {
+                                      //       if (value != null) {
+                                      //         Nav.routeReplacement(context, Orderdetails(order: Order.fromJson(value['data'])));
+                                      //       }
+                                      //     });
+                                      //   },
+                                      //   child: Text(
+                                      //     '${getTransrlate(context, 'OrderDitails')}',
+                                      //     style: TextStyle(
+                                      //         color: Colors.orange,
+                                      //         fontWeight: FontWeight.bold,
+                                      //         fontSize: 16),
+                                      //   ),
+                                      // ),
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      ListView.builder(
-                                        padding: EdgeInsets.all(1),
-                                        primary: false,
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: checkout_model
-                                            .data.orderDetails.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: ScreenUtil.getWidth(
-                                                        context) /
-                                                    8,
-                                                height:  ScreenUtil.getHeight(context)/20,
-
-                                                child: CachedNetworkImage(
-                                                  imageUrl: checkout_model
-                                                          .data
-                                                          .orderDetails[index]
-                                                          .productImage
-                                                          .isNotEmpty
-                                                      ? checkout_model
-                                                          .data
-                                                          .orderDetails[index]
-                                                          .productImage[0]
-                                                          .image
-                                                      : '',
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(
-                                                    Icons.image,
-                                                    color: Colors.black12,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    width: ScreenUtil.getWidth(context) / 2,
-                                                    child: AutoSizeText(
-                                                      "${themeColor.getlocal()=='ar'?checkout_model
-                                                          .data
-                                                          .orderDetails[index].productName??checkout_model
-                                                          .data
-                                                          .orderDetails[index].productNameEn:checkout_model
-                                                          .data
-                                                          .orderDetails[index].productNameEn??checkout_model
-                                                          .data
-                                                          .orderDetails[index].productName}",
-
-                                                      maxLines: 2,
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                      minFontSize: 11,
-                                                    ),
-                                                  ),
-                                                  AutoSizeText(
-                                                    "${getTransrlate(context, 'quantity')}  : ${checkout_model.data.orderDetails[index].quantity}",
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey),
-                                                    minFontSize: 11,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              getTransrlate(context, 'total'),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              '${checkout_model.data.orderTotal} ${getTransrlate(context, 'Currency')} ',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       vertical: 10),
+                                      //   child: Row(
+                                      //     crossAxisAlignment:
+                                      //         CrossAxisAlignment.center,
+                                      //     mainAxisAlignment:
+                                      //         MainAxisAlignment.center,
+                                      //     children: [
+                                      //       Text(
+                                      //         getTransrlate(context, 'total'),
+                                      //         style: TextStyle(
+                                      //             fontWeight: FontWeight.w700),
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 10,
+                                      //       ),
+                                      //       Text(
+                                      //         '${_cart_model.cart_model.grandTotal} ${getTransrlate(context, 'Currency')} ',
+                                      //         style: TextStyle(
+                                      //             fontWeight: FontWeight.w700),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                       Center(
                                         child: InkWell(
                                           onTap: () {

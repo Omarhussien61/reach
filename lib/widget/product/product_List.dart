@@ -92,9 +92,9 @@ class _ProductListState extends State<ProductList> {
                     padding: EdgeInsets.all(4),
                     height: 100,
                     width: ScreenUtil.getWidth(context) / 4.5,
-                    child: CachedNetworkImage(
-                      imageUrl: widget.product.image ?? ' ',
-                      errorWidget: (context, url, error) => CachedNetworkImage(
+                    child: Image.network(
+                      widget.product.image,
+                      errorBuilder: (context, url, error) => CachedNetworkImage(
                           imageUrl:
                               GlobalConfiguration().getString('base_url') +
                                   '${widget.product.image ?? ' '}'),
@@ -222,14 +222,13 @@ class _ProductListState extends State<ProductList> {
                                             if (!value.containsKey('detail')) {
                                               setState(() {});
 
-                                              final snackBar = SnackBar(
-                                                content: Center(
-                                                    child: Text(
+                                              const snackBar = SnackBar(
+                                                content: Text(
                                                   'تم اضافه المنتج الى عربة التسوق',
                                                   style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: 'Cairo'),
-                                                )),
+                                                  color: Colors.white,
+                                                  fontFamily: 'Cairo'),
+                                                ),
                                                 backgroundColor: Colors.green,
                                               );
                                               ScaffoldMessenger.of(context)
@@ -270,9 +269,8 @@ class _ProductListState extends State<ProductList> {
                                         setState(() {
                                           widget.product.like=value['data']['like'];
                                         });
-                                        final snackBar = SnackBar(
-                                          content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
-
+                                        const snackBar = SnackBar(
+                                          content:  Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
                                           backgroundColor: Colors.green,
                                         );
                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -300,8 +298,8 @@ class _ProductListState extends State<ProductList> {
                                         setState(() {
                                           widget.product.like=value['data']['like'];
                                         });
-                                        final snackBar = SnackBar(
-                                          content:  Center(child: Text('تم ازالة المنتج من المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+                                        const snackBar = SnackBar(
+                                          content:  Text('تم ازالة المنتج من المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                                           backgroundColor: Colors.red,
                                         );
@@ -337,8 +335,8 @@ class _ProductListState extends State<ProductList> {
                                         setState(() {
                                           widget.product.like=value['data']['like'];
                                         });
-                                        final snackBar = SnackBar(
-                                          content:  Center(child: Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),)),
+                                        const snackBar = SnackBar(
+                                          content:  Text('تم اضافه المنتج الى المفضلة ',style: TextStyle(color: Colors.white,fontFamily: 'Cairo'),),
 
                                           backgroundColor: Colors.green,
                                         );

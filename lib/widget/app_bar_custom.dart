@@ -6,8 +6,10 @@ import 'package:flutter_pos/screens/account/Account.dart';
 import 'package:flutter_pos/screens/account/user_information.dart';
 import 'package:flutter_pos/screens/homepage.dart';
 import 'package:flutter_pos/screens/order/cart.dart';
+import 'package:flutter_pos/screens/product/products_page.dart';
 import 'package:flutter_pos/screens/splash_screen.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
+import 'package:flutter_pos/utils/local/LanguageTranslated.dart';
 import 'package:flutter_pos/utils/navigator.dart';
 import 'package:flutter_pos/utils/screen_size.dart';
 import 'package:flutter_pos/widget/SearchOverlay.dart';
@@ -87,13 +89,14 @@ class _AppBarCustomState extends State<AppBarCustom> {
             Expanded(child: SizedBox(height: 10,)),
             IconButton(
               onPressed: () {
-                Nav.route(context, UserInfo());
+                Nav.route(context, Products_Page(Url:'samples_discount',name:"${getTransrlate(
+                    context, 'offers')}" ,));
               },
               icon: Icon(
-                Icons.account_circle,
+                Icons.local_offer_outlined,
                 size: 40,
               ),
-              color: Colors.black,
+              color: Colors.orange,
             ),
             IconButton(
               onPressed: () {

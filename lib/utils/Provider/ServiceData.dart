@@ -107,13 +107,19 @@ class Provider_Data with ChangeNotifier {
     // });
   }
    getWishlist(BuildContext context) {
-    API(context).get('user/get/wishlist').then((value) {
-      if (value != null) {
-          wishList = Product_model.fromJson(value).data;
-          notifyListeners();
+     SharedPreferences.getInstance().then((value) {
+       if(value.getString('token')!=null){
+         API(context).get('store/list_fav?token=${value.getString('token')}').then((value) {
+           if (value != null) {
+             wishList = Product_model.fromJson(value).data;
+             notifyListeners();
 
-      }
-    });
+           }
+         });
+       }
+       notifyListeners();
+     });
+
   }
    getShipping(BuildContext context) {
     API(context, Check: false).get('user/get/default/shipping').then((value) {

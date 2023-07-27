@@ -104,7 +104,7 @@ class SearchOverlayState extends State<SearchOverlay>
                                   if (string.length >= 2) {
                                     API(context)
                                         .get(
-                                      'filter?search=$search_index',
+                                      'store/filter?search=$search_index',
                                     )
                                         .then((value) {
                                       if (value != null) {

@@ -135,7 +135,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         "${themeColor.getlocal() == 'ar' ? e.name ??
                             e.nameEn : e.nameEn ?? e.name}",
                         Url:
-                        'categories/${e.id}',
+                        'subproduct/${e.id}',
                         Istryers: e.id == 1711 || e.id == 682,
                         Category: true,
                         Category_id: e.id,

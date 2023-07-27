@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_pos/widget/ResultOverlay.dart';
 import 'package:flutter_pos/widget/custom_textfield.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/shipping_address.dart';
 
@@ -70,7 +73,7 @@ class _AddAddressState extends State<AddAddress> {
                       fontSize: 22),
                 ),
                 SizedBox(
-                  height: 5,
+                  height:20,
                 ),
 
                 Text(
@@ -103,17 +106,13 @@ class _AddAddressState extends State<AddAddress> {
                     itemAsString: (City u) => "${u.name}",
                     onChanged: (City data) {
                       print(data.id);
-                      address.city.id = data.id;
+                      address.country = data;
                        setState(() {
                          cities=null;
                        });
-                      getArea(data.id);
+                      getCity(data.id);
                     },
                   ),
-                ),
-                Text(
-                  getTransrlate(context, 'area'),
-                  style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
                 Text(
                   getTransrlate(context, 'City'),
@@ -147,32 +146,14 @@ class _AddAddressState extends State<AddAddress> {
                     itemAsString: (City u) => "${u.name}",
                     onChanged: (City data) {
                       print(data.id);
-
+                      address.city=data;
                     } ,
                   ),
                 ),
                 MyTextFormField(
                   intialLabel: '',
                   keyboard_type: TextInputType.emailAddress,
-                  labelText: getTransrlate(context, 'district'),
-                  hintText: getTransrlate(context, 'district'),
-                  isPhone: true,
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return getTransrlate(context, 'requiredempty');
-                    }else   if (value.length<1) {
-                      return "${getTransrlate(context, 'requiredlength')}";
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                  },
-                ),
-                MyTextFormField(
-                  intialLabel: '',
-                  keyboard_type: TextInputType.emailAddress,
                   labelText: getTransrlate(context, 'Street'),
-                  hintText: getTransrlate(context, 'Street'),
                   isPhone: true,
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -190,7 +171,6 @@ class _AddAddressState extends State<AddAddress> {
                   intialLabel: '',
                   keyboard_type: TextInputType.number,
                   labelText: getTransrlate(context, 'HomeNo'),
-                  hintText: getTransrlate(context, 'HomeNo'),
                   isPhone: true,
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -201,13 +181,14 @@ class _AddAddressState extends State<AddAddress> {
                     return null;
                   },
                   onSaved: (String value) {
+                    address.building = value;
+
                   },
                 ),
                 MyTextFormField(
                   intialLabel: '',
                   keyboard_type: TextInputType.number,
                   labelText: getTransrlate(context, 'FloorNo'),
-                  hintText: getTransrlate(context, 'FloorNo'),
                   isPhone: true,
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -218,13 +199,14 @@ class _AddAddressState extends State<AddAddress> {
                     return null;
                   },
                   onSaved: (String value) {
+                    address.floor = value;
+
                   },
                 ),
                 MyTextFormField(
                   intialLabel: '',
                   keyboard_type: TextInputType.number,
                   labelText: getTransrlate(context, 'apartment_no'),
-                  hintText: getTransrlate(context, 'apartment_no'),
                   isPhone: true,
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -238,98 +220,10 @@ class _AddAddressState extends State<AddAddress> {
                     address.apartmentNo = value;
                   },
                 ),
-                Container(
-                  height: 100,
-                  child: Stack(
-                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Positioned(
-                        right: 1,
-                        child: Container(
-                          width: ScreenUtil.getWidth(context)/1.5 ,
-                          child: MyTextFormField(
-                            textAlign: TextAlign.left,
-                            textDirection: TextDirection.ltr,
-                            intialLabel: '',
-                            keyboard_type: TextInputType.phone,
-                            labelText: getTransrlate(context, 'phone'),
-                            inputFormatters: [
-                              new LengthLimitingTextInputFormatter(10),
-                            ],
-                            hintText: getTransrlate(context, 'phone'),
-                            isPhone: true,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return getTransrlate(context, 'phone');
-                              }
-                              else   if (value.length<9) {
-                                return "${getTransrlate(context, 'requiredlength')}";
-                              }
-                              _formKey.currentState.save();
-                              return null;
-                            },
-                            onSaved: (String value) {
-                            },
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 1,
-                        child: Container(
-                          width: ScreenUtil.getWidth(context)*0.2 ,
-                          child: MyTextFormField(
-                            textAlign: TextAlign.right,
-                            textDirection: TextDirection.ltr,
-
-                            enabled: false,
-                            controller: code,
-                            keyboard_type: TextInputType.phone,
-                            labelText: getTransrlate(context, 'CountroyCode'),
-                            hintText: getTransrlate(context, 'CountroyCode'),
-                            isPhone: true,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return getTransrlate(context, 'CountroyCode');
-                              }
-                              _formKey.currentState.save();
-                              return null;
-                            },
-                            onSaved: (String value) {
-                              //address.recipientPhone = value;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                MyTextFormField(
-                  intialLabel: '',
-                  textDirection: TextDirection.ltr,
-                  keyboard_type: TextInputType.phone,
-                  labelText: getTransrlate(context, 'telphone'),
-                  validator: (String value) {
-                    if (value.length>1&&value.length<8) {
-                      return getTransrlate(context, 'requiredlength');
-                    } else  if (value.length>1&&!value.startsWith('0')) {
-                      return getTransrlate(context, 'telphone0');
-                    }
-                    _formKey.currentState.save();
-                    return null;
-                  },
-                  inputFormatters: [
-                    new LengthLimitingTextInputFormatter(14),
-                  ],
-                  hintText: getTransrlate(context, 'telphone'),
-                  isPhone: true,
-                  onSaved: (String value) {
-                  },
-                ),
                 MyTextFormField(
                   intialLabel: '',
                   keyboard_type: TextInputType.text,
                   labelText: getTransrlate(context, 'nearest_milestone'),
-                  hintText: getTransrlate(context, 'nearest_milestone'),
                   isPhone: true,
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -340,15 +234,8 @@ class _AddAddressState extends State<AddAddress> {
                     return null;
                   },
                   onSaved: (String value) {
-                  },
-                ),
-                MyTextFormField(
-                  intialLabel: '',
-                  keyboard_type: TextInputType.emailAddress,
-                  labelText: getTransrlate(context, 'OrderNote'),
-                  hintText: getTransrlate(context, 'OrderNote'),
-                  isPhone: true,
-                  onSaved: (String value) {
+                    address.specialMark = value;
+
                   },
                 ),
                 SizedBox(height: 25),
@@ -393,29 +280,31 @@ class _AddAddressState extends State<AddAddress> {
                         onTap: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                            print( address.toJson());
+                            print( jsonEncode(address.toJson()));
                             setState(() => loading = true);
+                            SharedPreferences.getInstance().then((value) {
+                              if(value.getString('token')!=null){
+                                API(context)
+                                    .post('account/api/newaddress/?token=${value.getString('token')}', address.toJson())
+                                    .then((value) {
+                                  if (value != null) {
+                                    setState(() => loading = false);
 
-                            API(context)
-                                .post('user/add/shipping', address.toJson())
-                                .then((value) {
-                              if (value != null) {
-                                setState(() => loading = false);
+                                    if (value.containsKey('id')) {
+                                      Navigator.pop(context);
 
-                                if (value['status_code'] == 201) {
-                                  Navigator.pop(context);
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) =>
-                                          ResultOverlay(value['message']));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => ResultOverlay(
-                                          '${value['message'] ?? ''}\n${value['errors']}'));
-                                }
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) => ResultOverlay(
+                                              '$value'));
+                                    }
+                                  }
+                                });
                               }
                             });
+
+
                           }
                         },
                       ),
@@ -457,23 +346,24 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   void getCity(int id) {
-    API(context).get('cities/list/all/$id').then((value) {
+    API(context).get('account/cities/$id').then((value) {
       setState(() {
+        cities=[];
+        value['data'].forEach((v){
+          cities.add(City.fromJson(v));
+        });
       });
     });
 
   }
-  void getArea(int id) {
-    API(context).get('areas/list/all/$id').then((value) {
-      setState(() {
-      });
-    });
 
-  }
   void getCountry() {
-    API(context).get('countries/list/all').then((value) {
+    API(context).get('account/country').then((value) {
       setState(() {
-
+        contries=[];
+        value['data'].forEach((v){
+          contries.add(City.fromJson(v));
+        });
       });
     });
 

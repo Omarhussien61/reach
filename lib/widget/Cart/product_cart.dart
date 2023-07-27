@@ -93,137 +93,123 @@ class _ProductCartState extends State<ProductCart> {
                   color: Colors.white,
                   //width: ScreenUtil.getWidth(context) / 1.7,
                   padding: EdgeInsets.only(left: 10, top: 2, right: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 2, vertical: 12),
-                        padding: const EdgeInsets.all(3.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 2, vertical: 12),
+                    padding: const EdgeInsets.all(3.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                // Container(
-                                //   width: ScreenUtil.getWidth(context) / 3.2,
-                                //   child: Column(
-                                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //     crossAxisAlignment: CrossAxisAlignment.center,
-                                //     children: [
-                                //       Container(
-                                //         child: AutoSizeText(
-                                //           getTransrlate(context, 'price'),
-                                //           maxLines: 1,
-                                //           minFontSize: 14,
-                                //           style: TextStyle(fontWeight: FontWeight.w400),
-                                //         ),
-                                //       ),
-                                //       SizedBox(
-                                //         height: 10,
-                                //       ),
-                                //       Container(
-                                //         child: AutoSizeText(
-                                //           " ${widget.carts.product.publicPrice} ${getTransrlate(context, 'Currency')}",
-                                //           maxLines: 1,
-                                //           minFontSize: 14,
-                                //           style: TextStyle(
-                                //               color: widget.themeColor.getColor(),
-                                //               fontWeight: FontWeight.bold),
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // InkWell(
-                                //   onTap: () {
-                                //     setState(() {
-                                //       other = !other;
-                                //     });
-                                //   },
-                                //   child: Container(
-                                //     width: 100,
-                                //     decoration: BoxDecoration(
-                                //         border: Border.all(
-                                //             width: 1, color: Colors.black12)),
-                                //     child: Padding(
-                                //       padding: const EdgeInsets.all(8.0),
-                                //       child: Row(
-                                //         crossAxisAlignment: CrossAxisAlignment.center,
-                                //         mainAxisAlignment:
-                                //         MainAxisAlignment.spaceEvenly,
-                                //         children: [
-                                //           Container(
-                                //               width: 50,
-                                //               child:
-                                //               Text("${widget.carts.quantity}")),
-                                //           Icon(Icons.arrow_drop_down)
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                widget.carts.quantity != 0
-                                    ? IconButton(
-                                        icon: Icon(
-                                          Icons.remove_circle,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: ()
-                                        {
-                                          setState(() => widget.carts.quantity--);
-                                          API(context).patch('store/cart/${widget.carts.id}/items/${ServiceData.cart_model.id}/', {
-                                            "quantity": widget.carts.quantity
-                                          });
-                                          ServiceData.getCart(context);
-                                        },
-                                      )
-                                    : new Container(),
-                                Text(widget.carts.quantity.toString()),
-                                IconButton(
-                                    icon: new Icon(
-                                      Icons.add_circle,
-                                      color: Servicetheme.getColor(),
+                            // Container(
+                            //   width: ScreenUtil.getWidth(context) / 3.2,
+                            //   child: Column(
+                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //     crossAxisAlignment: CrossAxisAlignment.center,
+                            //     children: [
+                            //       Container(
+                            //         child: AutoSizeText(
+                            //           getTransrlate(context, 'price'),
+                            //           maxLines: 1,
+                            //           minFontSize: 14,
+                            //           style: TextStyle(fontWeight: FontWeight.w400),
+                            //         ),
+                            //       ),
+                            //       SizedBox(
+                            //         height: 10,
+                            //       ),
+                            //       Container(
+                            //         child: AutoSizeText(
+                            //           " ${widget.carts.product.publicPrice} ${getTransrlate(context, 'Currency')}",
+                            //           maxLines: 1,
+                            //           minFontSize: 14,
+                            //           style: TextStyle(
+                            //               color: widget.themeColor.getColor(),
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     setState(() {
+                            //       other = !other;
+                            //     });
+                            //   },
+                            //   child: Container(
+                            //     width: 100,
+                            //     decoration: BoxDecoration(
+                            //         border: Border.all(
+                            //             width: 1, color: Colors.black12)),
+                            //     child: Padding(
+                            //       padding: const EdgeInsets.all(8.0),
+                            //       child: Row(
+                            //         crossAxisAlignment: CrossAxisAlignment.center,
+                            //         mainAxisAlignment:
+                            //         MainAxisAlignment.spaceEvenly,
+                            //         children: [
+                            //           Container(
+                            //               width: 50,
+                            //               child:
+                            //               Text("${widget.carts.quantity}")),
+                            //           Icon(Icons.arrow_drop_down)
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            widget.carts.quantity != 0
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.remove_circle,
+                                      color: Colors.grey,
                                     ),
                                     onPressed: ()
                                     {
-                                          setState(() => widget.carts.quantity++);
-                                          API(context).patch('store/cart/${widget.carts.id}/items/${ServiceData.cart_model.id}/', {
-                                            "quantity": widget.carts.quantity
-                                          });
-                                          ServiceData.getCart(context);
-
-                                        }),
-                                Container(
-                                  width: ScreenUtil.getWidth(context) / 5,
-                                  child: Container(
-                                    child: AutoSizeText(
-                                      " ${widget.carts.subTotal} ${getTransrlate(context, 'Currency')}",
-                                      maxLines: 1,
-                                      minFontSize: 11,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                                      setState(() => widget.carts.quantity--);
+                                      API(context).patch('store/cart/${ServiceData.cart_model.id}/items/${widget.carts.id}/', {
+                                        "quantity": widget.carts.quantity
+                                      });
+                                      ServiceData.getCart(context);
+                                    },
+                                  )
+                                : new Container(),
+                            Text(widget.carts.quantity.toString()),
+                            IconButton(
+                                icon: new Icon(
+                                  Icons.add_circle,
+                                  color: Servicetheme.getColor(),
                                 ),
-                              ],
-                            ),
+                                onPressed: ()
+                                {
+                                      setState(() => widget.carts.quantity++);
+                                      API(context).patch('store/cart/${ServiceData.cart_model.id}/items/${widget.carts.id}/', {
+                                        "quantity": widget.carts.quantity
+                                      });
+                                      ServiceData.getCart(context);
 
+                                    }),
+                            Container(
+                              width: ScreenUtil.getWidth(context) / 5,
+                              child: Container(
+                                child: AutoSizeText(
+                                  " ${widget.carts.subTotal} ${getTransrlate(context, 'Currency')}",
+                                  maxLines: 1,
+                                  minFontSize: 11,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 16),
-                        child: Container(
-                          height: 1,
-                          color: Colors.black12,
-                        ),
-                      )
-                    ],
+
+                      ],
+                    ),
                   ),
                 )
               ],

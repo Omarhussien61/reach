@@ -93,28 +93,28 @@ class _Wish_ListState extends State<Wish_List> {
                       children: [
                         Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Container(
-                                width: ScreenUtil.getWidth(context) / 5,
-                                child: RatingBar.builder(
-                                  ignoreGestures: true,
-                                  initialRating: 5.0,
-                                  itemSize: 14.0,
-                                  minRating: 0.5,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.orange,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 8.0),
+                            //   child: Container(
+                            //     width: ScreenUtil.getWidth(context) / 5,
+                            //     child: RatingBar.builder(
+                            //       ignoreGestures: true,
+                            //       initialRating: 5.0,
+                            //       itemSize: 14.0,
+                            //       minRating: 0.5,
+                            //       direction: Axis.horizontal,
+                            //       allowHalfRating: true,
+                            //       itemCount: 5,
+                            //       itemBuilder: (context, _) => Icon(
+                            //         Icons.star,
+                            //         color: Colors.orange,
+                            //       ),
+                            //       onRatingUpdate: (rating) {
+                            //         print(rating);
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
                             Container(
                               width: ScreenUtil.getWidth(context) / 5,
                               child: AutoSizeText(
@@ -139,7 +139,8 @@ class _Wish_ListState extends State<Wish_List> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 dloading?CircularProgressIndicator(  valueColor:
-                AlwaysStoppedAnimation<Color>( Colors.orange),):IconButton(
+                AlwaysStoppedAnimation<Color>( Colors.orange),):
+                IconButton(
                     onPressed: () {
                       setState(() => dloading = true);
 
@@ -172,35 +173,42 @@ class _Wish_ListState extends State<Wish_List> {
                 SizedBox(height: 25,),
                 InkWell(
                   onTap: () {
-                    API(context).post('add/to/cart', {
-                      "product_id": widget.product.id,
-                      "quantity": 1
-                    }).then((value) {
+
+                    API(context).post(
+                        'store/cart/${data.cart_model.id}/items/',
+                        {
+                          "product_id": widget.product.id,
+                          "quantity": 1
+                        }).then((value) {
+                      setState(() => loading = false);
+                      print(value);
+
                       if (value != null) {
-                        if (value['status_code'] == 200) {
-                          showDialog(
-                              context: context,
-                              builder: (_) =>
-                                  ResultOverlay(value['message']));
-                          Provider.of<Provider_Data>(context,listen: false).getCart(context);
-                          API(context).post('user/removeitem/wishlist',
-                              {"product_id": widget.product.id}).then((value) {
-                            if (value != null) {
-                              if (value['status_code'] == 200) {
-                                data.getWishlist(context);
-                              } else {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) =>
-                                        ResultOverlay('${value['message']??''}\n${value['errors']}'));
-                              }
-                            }
-                          });
+                        if (!value.containsKey('detail')) {
+                          setState(() {});
+
+                          const snackBar = SnackBar(
+                            content: Text(
+                              'تم اضافه المنتج الى عربة التسوق',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Cairo'),
+                            ),
+                            backgroundColor: Colors.green,
+                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBar);
+                          data.getCart(context);
                         } else {
                           showDialog(
                               context: context,
-                              builder: (_) =>
-                                  ResultOverlay('${value['message']??value['errors']}'));
+                              builder: (_) => ResultOverlay(
+                                  '${value['message'] ?? ''}\n${value['detail'] ?? ""}',
+                                  icon: Icon(
+                                    Icons.info_outline,
+                                    color: Colors.yellow,
+                                    size: 80,
+                                  )));
                         }
                       }
                     });
@@ -215,7 +223,7 @@ class _Wish_ListState extends State<Wish_List> {
                       children: <Widget>[
                         Icon(CupertinoIcons.cart, color: Colors.orange),
                         Container(
-                          width: ScreenUtil.getWidth(context) / 5,
+                          width: ScreenUtil.getWidth(context) / 4,
                           child: AutoSizeText(
                             '${getTransrlate(context, 'ADDtoCart')}',
                             minFontSize: 13,

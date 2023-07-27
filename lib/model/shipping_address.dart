@@ -49,6 +49,7 @@ class Address {
   String floor;
   String apartmentNo;
   String specialMark;
+  double total_delivery;
 
   Address({
     this.id,
@@ -59,6 +60,7 @@ class Address {
     this.floor,
     this.apartmentNo,
     this.specialMark,
+    this.total_delivery,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
@@ -70,17 +72,18 @@ class Address {
     floor: json["floor"],
     apartmentNo: json["apartment_no"],
     specialMark: json["special_mark"],
+    total_delivery: json["total_delivery"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "city": city.toJson(),
-    "country": country.toJson(),
+    "city": city.id,
+    "country": country.id,
     "street": street,
     "building": building,
     "floor": floor,
     "apartment_no": apartmentNo,
     "special_mark": specialMark,
+    //"total_delivery": 100.0
   };
 }
 

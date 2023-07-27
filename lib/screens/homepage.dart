@@ -306,7 +306,7 @@ class _HomeState extends State<Home> {
                                               description: getTransrlate(
                                                   context, 'showAll'),
                                               url:
-                                                  'samples_discount',
+                                                  'discount',
                                             ),
                                   list_product(
                                       themeColor, provider_data.product),
@@ -335,11 +335,7 @@ class _HomeState extends State<Home> {
                         ? Container()
                         : provider_data.productMostSale.isEmpty
                             ? Container()
-                            : cartype == null
-                                ? Container()
-                                : cartype.isEmpty
-                                    ? Container()
-                                    : Column(
+                            : Column(
                                         children: [
                                           ProductListTitleBar(
                                             themeColor: themeColor,
@@ -348,7 +344,7 @@ class _HomeState extends State<Home> {
                                             description: getTransrlate(
                                                 context, 'showAll'),
                                             url:
-                                                'ahmed/best/seller/products?cartype_id=${cartype[checkboxType].id}&per_page=50',
+                                                'meddiscounts',
                                           ),
                                           list_product(themeColor,
                                               provider_data.productMostSale),

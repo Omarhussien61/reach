@@ -49,6 +49,12 @@ class Provider_Data with ChangeNotifier {
        if (value != null) {
            product = Product_model.fromJson(value).data;
        }
+     });      API(context,)
+         .get('store/samples_meddiscount')
+         .then((value) {
+       if (value != null) {
+         productMostSale = Product_model.fromJson(value).data;
+       }
      });
      API(context).get('store/categories').then((value) {
        if (value != null) {

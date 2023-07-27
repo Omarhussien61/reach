@@ -122,10 +122,11 @@ class API {
     String url,
     Map<String, dynamic> body,
   ) async {
-    print( json.encode(body));
+
     final full_url =
         Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
-
+    print( full_url);
+    print( json.encode(body));
 
     try {
       http.Response response = await http.post(full_url,

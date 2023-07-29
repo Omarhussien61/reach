@@ -147,11 +147,9 @@ class API {
   }
 
   postFile(String url, Map<String, String> body,
-      {File commercialDocs,
-      File taxCardDocs,
-      File wholesaleDocs,
-      File attachment,
-      File bankDocs}) async {
+      {
+      File attachment
+     }) async {
     final full_url =
         Uri.parse('${GlobalConfiguration().getString('base_url')}$url');
     try {
@@ -159,23 +157,21 @@ class API {
       var request = http.MultipartRequest(
         'POST', Uri.parse(full_url.toString())); // your server url
     request.fields.addAll(body); // any other fields required by your server
-    attachment==null?null:  request.files.add(await http.MultipartFile.fromPath('image', '${attachment.path}')); // file you want to upload
-    commercialDocs==null?null:  request.files.add(await http.MultipartFile.fromPath('commercialDocs', '${commercialDocs.path}')); // file you want to upload
-    taxCardDocs==null?null: request.files.add(await http.MultipartFile.fromPath('taxCardDocs', '${taxCardDocs.path}')); // file you want to upload
-    wholesaleDocs==null?null: request.files.add(await http.MultipartFile.fromPath('wholesaleDocs', '${wholesaleDocs.path}')); // file you want to upload
-    bankDocs==null?null: request.files.add(await http.MultipartFile.fromPath('bankDocs', '${bankDocs.path}')); // file you want to upload
+    attachment==null?null:  request.files.add(await http.MultipartFile.fromPath('image', '${attachment.path}')); // file you want to upload// file you want to upload
     http.StreamedResponse response = await request.send();
-    //print(await request.files);
+    print(request.fields.toString());
+      print(response.stream.bytesToString());
 
     return response.stream.bytesToString().then((value) {
       print(jsonDecode(value));
       return jsonDecode(value);
     } );
     } catch (e) {
+      print(e);
       showDialog(
         context: context,
         builder: (_) => ResultOverlay(
-            "${getTransrlate(context, 'ConnectionFailed')}"),
+            "${e??getTransrlate(context, 'ConnectionFailed')}"),
       );
     } finally {}
   }

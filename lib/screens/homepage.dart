@@ -301,8 +301,7 @@ class _HomeState extends State<Home> {
                                 children: [
                                   ProductListTitleBar(
                                               themeColor: themeColor,
-                                              title: getTransrlate(
-                                                  context, 'offers'),
+                                              title:'عروض تجميل ',
                                               description: getTransrlate(
                                                   context, 'showAll'),
                                               url:
@@ -312,6 +311,27 @@ class _HomeState extends State<Home> {
                                       themeColor, provider_data.product),
                                 ],
                               ),
+                    provider_data.productMostSale == null
+                        ? Container()
+                        : provider_data.productMostSale.isEmpty
+                            ? Container()
+                            : Column(
+                                        children: [
+                                          ProductListTitleBar(
+                                            themeColor: themeColor,
+                                            title: "عروض أدوية",
+                                            description: getTransrlate(
+                                                context, 'showAll'),
+                                            url:
+                                                'meddiscounts',
+                                          ),
+                                          list_product(themeColor,
+                                              provider_data.productMostSale),
+                                          SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      ),
                     Row(
                       children: [
                         Padding(
@@ -331,28 +351,7 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                    provider_data.productMostSale == null
-                        ? Container()
-                        : provider_data.productMostSale.isEmpty
-                            ? Container()
-                            : Column(
-                                        children: [
-                                          ProductListTitleBar(
-                                            themeColor: themeColor,
-                                            title: getTransrlate(
-                                                context, 'moresale'),
-                                            description: getTransrlate(
-                                                context, 'showAll'),
-                                            url:
-                                                'meddiscounts',
-                                          ),
-                                          list_product(themeColor,
-                                              provider_data.productMostSale),
-                                          SizedBox(
-                                            height: 10,
-                                          )
-                                        ],
-                                      ),
+
                     SizedBox(
                       height: 10,
                     ),

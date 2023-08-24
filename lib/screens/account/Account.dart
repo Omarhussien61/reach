@@ -237,21 +237,7 @@ class _AccountState extends State<Account> {
                   //                       fontWeight: FontWeight.w800),
                   //                   colorLineSelected: Colors.orange,
                   //                 ),
-                  //                 ItemHiddenMenu(
-                  //                   onTap: () {
-                  //                     Nav.route(context, OrderHistory());
-                  //                   },
-                  //                   icon: Icon(
-                  //                     Icons.local_shipping_outlined,
-                  //                     size: 30,
-                  //                   ),
-                  //                   name: getTransrlate(context, 'Myorders'),
-                  //                   baseStyle: TextStyle(
-                  //                       color: Colors.black,
-                  //                       fontSize: 19.0,
-                  //                       fontWeight: FontWeight.w800),
-                  //                   colorLineSelected: Colors.orange,
-                  //                 ),
+
                   //                 ItemHiddenMenu(
                   //                   onTap: () {
                   //                     Nav.route(context, WishList());
@@ -313,6 +299,21 @@ class _AccountState extends State<Account> {
                             colorLineSelected: Colors.orange,
                           ),
                         ),
+                                        // ItemHiddenMenu(
+                                        //   onTap: () {
+                                        //     Nav.route(context, OrderHistory());
+                                        //   },
+                                        //   icon: Icon(
+                                        //     Icons.local_shipping_outlined,
+                                        //     size: 30,
+                                        //   ),
+                                        //   name: getTransrlate(context, 'Myorders'),
+                                        //   baseStyle: TextStyle(
+                                        //       color: Colors.black,
+                                        //       fontSize: 19.0,
+                                        //       fontWeight: FontWeight.w800),
+                                        //   colorLineSelected: Colors.orange,
+                                        // ),
                         InkWell(
                           onTap: () async {
 

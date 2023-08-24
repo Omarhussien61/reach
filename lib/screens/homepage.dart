@@ -469,7 +469,7 @@ class _HomeState extends State<Home> {
                                 Istryers: product.id == 1711 || product.id == 682,
                                 Category: true,
                                 Category_id: product.id,
-                              ));;
+                              ));
 
                           // Nav.route(
                           //     context,

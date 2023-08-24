@@ -93,7 +93,7 @@ class _ProductListState extends State<ProductList> {
                     height: 100,
                     width: ScreenUtil.getWidth(context) / 4.5,
                     child: Image.network(
-                      widget.product.image,
+                      "${widget.product.image}",
                       errorBuilder: (context, url, error) => CachedNetworkImage(
                           imageUrl:
                               GlobalConfiguration().getString('base_url') +

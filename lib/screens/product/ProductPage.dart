@@ -56,6 +56,11 @@ class _ProductPageState extends State<ProductPage> {
   int userId;
   @override
   void initState() {
+    API(context).get('store/categories/${widget.product.id}').then((value){
+      setState(() {
+        widget.product=Product.fromJson(value['data'][0]);
+      });
+    });
     print("like${ widget.product.like}");
     SharedPreferences.getInstance().then((prefs){
       setState(() {
@@ -99,7 +104,6 @@ class _ProductPageState extends State<ProductPage> {
                         'store/list_fav/${widget.product.id}/?token=${token}', {
                     }).then((value) {
                       print(value);
-
                       if (value != null) {
                         if (value.containsKey('data')) {
                           setState(() {
@@ -200,8 +204,38 @@ class _ProductPageState extends State<ProductPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("الشركة   : ${widget.product.company.name}"),
-                  Text("المادة الفعالة     : ${widget.product.effectiveMaterial}"),
+                  Container(
+                    width: MediaQuery.of(context).size.width/1.7,
+                    child: InkWell(
+                      onTap: (){
+                        Nav.route(
+                            context,
+                            Products_Page(
+                              id: widget.product.company.id,
+                              name:
+                              "${ widget.product.company.name}",
+                              Url:
+                              'companies/${widget.product.company.id}',
+                              Category: true,
+                              Category_id: widget.product.company.id,
+                            ));
+                      },
+                      child: Row(
+                        children: [
+                          Text("الشركة   : ",maxLines: 2,style: TextStyle(fontSize: 12),),
+                          Expanded(
+                              child: Text(" ${widget.product.company.name}",maxLines: 2,style: TextStyle(fontSize: 12,color: Colors.lightGreen),)),
+                          SizedBox(width: 5,),
+                          CachedNetworkImage(imageUrl: widget.product.company.image,
+                            width: MediaQuery.of(context).size.width/4.1,
+                    height: 40,)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width/3.1,
+                      child: Text("المادة الفعالة     : ${widget.product.effectiveMaterial}",maxLines: 2,style: TextStyle(fontSize: 12))),
                 ],
               ),
             ),
@@ -220,7 +254,7 @@ class _ProductPageState extends State<ProductPage> {
               children: [
                 Text(
                   "السعر :",
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.orange),
                 ),
                 widget.product.salePrice=='null' ? Container(
                   width: ScreenUtil.getWidth(context) / 5,

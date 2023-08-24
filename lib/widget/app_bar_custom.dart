@@ -8,11 +8,12 @@ import 'package:flutter_pos/screens/homepage.dart';
 import 'package:flutter_pos/screens/order/cart.dart';
 import 'package:flutter_pos/screens/product/products_page.dart';
 import 'package:flutter_pos/screens/splash_screen.dart';
+import 'package:flutter_pos/utils/Provider/ServiceData.dart';
 import 'package:flutter_pos/utils/Provider/provider.dart';
 import 'package:flutter_pos/utils/local/LanguageTranslated.dart';
 import 'package:flutter_pos/utils/navigator.dart';
 import 'package:flutter_pos/utils/screen_size.dart';
-import 'package:flutter_pos/widget/SearchOverlay.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,8 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) {
     final themeColor = Provider.of<Provider_control>(context);
+    final _cart_model = Provider.of<Provider_Data>(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -102,9 +105,15 @@ class _AppBarCustomState extends State<AppBarCustom> {
               onPressed: () {
                 Nav.route(context, CartScreen());
               },
-              icon: Icon(
-                Icons.shopping_cart,
-                size: 40,
+              icon:  badges.Badge(
+                badgeContent:_cart_model.cart_model==null?Container(): Center(child: Text('${_cart_model.cart_model?.items?.length}',style: TextStyle(color: Colors.white))),
+                badgeStyle: badges.BadgeStyle(badgeColor: Colors.lightGreen),
+                badgeAnimation: badges.BadgeAnimation.rotation(),
+                showBadge: _cart_model.cart_model!=null,
+                child: Icon(
+                  Icons.shopping_cart,
+                  size: 40,
+                ),
               ),
               color: Colors.black,
             ),

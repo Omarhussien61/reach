@@ -160,7 +160,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       ),
                       child: CachedNetworkImage(
                         imageUrl:
-                        '${GlobalConfiguration().getString('base_url')}${e.photo != null ? e.photo : ''}',
+                        '${e.photo}',
                         errorWidget: (context, url, error) =>
                             Image.asset(
                               'assets/images/alt_img_category.png',

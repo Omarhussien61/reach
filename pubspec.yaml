@@ -38,7 +38,6 @@ dependencies:
   jiffy: ^4.1.0
   file_picker: ^3.0.3
   device_preview: ^0.7.3
-  onesignal_flutter: ^3.2.3
   responsive_grid_list: ^1.2.3
 
 dev_dependencies:

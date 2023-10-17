@@ -305,7 +305,7 @@ class _HomeState extends State<Home> {
                                               description: getTransrlate(
                                                   context, 'showAll'),
                                               url:
-                                                  'discount',
+                                                  'meddiscounts',
                                             ),
                                   list_product(
                                       themeColor, provider_data.product),
@@ -323,7 +323,7 @@ class _HomeState extends State<Home> {
                                             description: getTransrlate(
                                                 context, 'showAll'),
                                             url:
-                                                'meddiscounts',
+                                                'samples_meddiscount',
                                           ),
                                           list_product(themeColor,
                                               provider_data.productMostSale),

@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_pos/model/Categories_model.dart';
 import 'package:flutter_pos/model/category_model.dart';
@@ -30,7 +31,11 @@ class CompaniesScreen extends StatefulWidget {
 class _CompaniesScreenState extends State<CompaniesScreen> {
   int checkboxType = 0;
   int checkboxPart = 0;
+  bool gettingData=false;
+  bool reachedEnd=false;
+  int currentPage=0;
   List<Categories_item> categories;
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -41,6 +46,15 @@ setState(() {
   categories = Categories_model.fromJson(value).data;
 
 });      }
+    });
+    _scrollController.addListener(() {
+
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 100) {
+        loadNextPage();
+      print("objectobjectobjectobject");
+      }
+
     });
     super.initState();
   }
@@ -65,6 +79,8 @@ setState(() {
                     ? Center(child: Custom_Loading())
                     : Container(
                   child: SingleChildScrollView(
+                    controller: _scrollController,
+
                     child: getList(categories),
                   ),
                 ),
@@ -82,7 +98,7 @@ setState(() {
     return Categories == null
         ? Container()
         : ResponsiveGridList(
-            desiredItemWidth: ScreenUtil.getWidth(context) / 2.2,
+            desiredItemWidth: ScreenUtil.getWidth(context) / 4.6,
             minSpacing: 10,
             //rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
             scroll: false,
@@ -108,7 +124,7 @@ setState(() {
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      width: ScreenUtil.getWidth(context) / 2.5,
+                      width: ScreenUtil.getWidth(context) /  4.6,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         color: Colors.white,
@@ -134,13 +150,13 @@ setState(() {
                                   Image.asset(
                                     'assets/images/alt_img_category.png',
                                   ),
-                              height: ScreenUtil.getWidth(context) / 2.5,
-                              width: ScreenUtil.getWidth(context) / 2.5,
+                              height: ScreenUtil.getWidth(context) /  4.6,
+                              width: ScreenUtil.getWidth(context) /  4.6,
                               fit: BoxFit.contain,
                             ),
                           ),
                           Container(
-                            width: ScreenUtil.getWidth(context) / 2.5,
+                            width: ScreenUtil.getWidth(context) /  4.6,
                             child: Text(
                               "${themeColor.getlocal() == 'ar' ? e.name ??
                                   e.nameEn : e.nameEn ?? e.name}",
@@ -267,4 +283,28 @@ setState(() {
       ),
     );
   }
+
+  loadNextPage() async {
+    if (!reachedEnd) {
+      setState(() {
+        gettingData=true;
+
+      });
+
+      currentPage=currentPage+20;
+
+      API(context).get('store/companies?offset=$currentPage').then((value) {
+        if (value != null) {
+          if (categories.length>=Categories_model.fromJson(value).total) {
+            reachedEnd = true;
+          }
+          setState(() {
+            gettingData = false;
+            categories.addAll(Categories_model.fromJson(value).data);
+          });
+        }
+      });
+
+  }}
+
 }

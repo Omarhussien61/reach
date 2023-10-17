@@ -12,7 +12,7 @@ class Categories_model {
 
   Categories_model.fromJson(Map<String, dynamic> json) {
    // statusCode = json['status_code'];
-    //message = json['message'];
+    total = json['count'];
     if (json['results'] != null) {
       data = new List<Categories_item>();
       json['results'].forEach((v) {
@@ -23,6 +23,7 @@ class Categories_model {
       json['data'].forEach((v) {
         data.add(new Categories_item.fromJson(v));
       });
+
     }
   }
 
